@@ -10,6 +10,8 @@ import os
 import snap7
 from snap7.util import *
 from snap7.snap7types import *
+#Eigene Klassen
+import Value
 konpath = ''
 
 class Hardware:
@@ -36,7 +38,7 @@ class Hardware:
             return self.readFromDB(plc, dbblock, start, length, datatype)
         else:
             return 0
-    
+
     def readFromDB(self, plc, dbblock, start, length, datatype):
         if not plc.get_connected():
             return 0
@@ -64,7 +66,6 @@ class Konfiguration:
 
         mydoc = minidom.parse(path)
         connection = mydoc.getElementsByTagName('connection')
-        user = mydoc.getElementsByTagName('user')
         extra = mydoc.getElementsByTagName('extra')
         #Connectionproberties
         self.IPAdress = connection[0].attributes['ipAdress'].value
@@ -81,15 +82,15 @@ class Konfiguration:
             name = elem.attributes['name'].value
             typ = elem.attributes['typ'].value
             channel = int(elem.attributes['channel'].value)
-            
+
             unit = elem.attributes['unit'].value
             val = ''
             #For Siemnes SPS
             dbblock = None
             start = None
-            length = None 
+            length = None
             datatype = None
-            
+
             if typ == 'static':
                 val = elem.attributes['values'].value
             elif typ == 'analog':
@@ -105,7 +106,7 @@ class Konfiguration:
 		zahl = 0
                 if ip==lastIP:
                     pass
-                else: 
+                else:
                     s7.connect(ip, 0, 1)
                     plc = s7
                     lastIP = ip
@@ -113,7 +114,7 @@ class Konfiguration:
                 start = elem.attributes['start'].value
                 length = elem.attributes['length'].value
                 datatype = elem.attributes['datatype'].value
-                
+
             if typ=='S7':
                 wert = Value(name, typ, channel, multiplier, unit, val, plc, dbblock, start, length, datatype)
                 self.Values.append(wert)
@@ -132,21 +133,8 @@ class Konfiguration:
                     with open(konpath, "w") as xml_file:
                         mydoc.writexml(xml_file)
 
-            
-class Value:
-    def __init__(self, name, typ, channel, multiplier, unit, val, plc = None, dbblock = None, start = None, length = None, datatype = None):
-        self.name = name
-        self.typ = typ
-        self.channel = channel
-        self.multiplier = multiplier
-        self.unit = unit
-        self.val = val
-        #Siemensmaschine
-        self.plc = plc
-        self.dbblock = dbblock
-        self.start = start
-        self.length = length
-        self.datatype = datatype
+
+
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #Main Script
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -183,10 +171,10 @@ while 1:
  #           with open('/home/pi/Documents/Python/konfig.xml', 'w') as fw:
   #              fw.write(data)
    #             fw.close
-	    
+
 
     finally:
         tcp.close()
-    
+
     print('idle')
     time.sleep(konfig.Intervall)

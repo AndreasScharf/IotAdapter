@@ -3,8 +3,22 @@
     <values>
         <connection ipAdress="85.214.215.187" port="12000"/>
         <extra intervall="300" table="Data"/>
-        <value channel="0" name="MAD" typ="static" unit="" values="Nexed"/>
+        <value channel="0" name="MAD" typ="static" unit="" values="nexed"/>
         <value channel="0" name="time" typ="time" unit=""/>
-        <value channel="0" name="" typ="S7" unit="" IP="192.168.10.200" DB="100" start="" length="" datatype=""/>
+        <value channel="0" name="AO_Strom" typ="S7" unit="A" IP="192.168.10.200" DB="100" start="2050" length="4" datatype="real"/>
+        <value channel="0" name="AO_PU_Zirk" typ="S7" unit="%" IP="192.168.10.200" DB="100" start="2090" length="4" datatype="real"/>
+        <value channel="0" name="AO_PU_Zul" typ="S7" unit="%" IP="192.168.10.200" DB="100" start="2130" length="4" datatype="real"/>
+        <value channel="0" name="AO_Dos_FM" typ="S7" unit="%" IP="192.168.10.200" DB="100" start="2170" length="4" datatype="real"/>
+        <value channel="0" name="AI_Q_Elektrode" typ="S7" unit="l/h" IP="192.168.10.200" DB="100" start="2210" length="4" datatype="real"/>
+        <value channel="0" name="AI_Temp" typ="S7" unit="°C" IP="192.168.10.200" DB="100" start="2250" length="4" datatype="real"/>
+        <value channel="0" name="AI_Q_Konzentrat" typ="S7" unit="l/h" IP="192.168.10.200" DB="100" start="2290" length="4" datatype="real"/>
+        <value channel="0" name="AI_Q_Filtrat" typ="S7" unit="l/h" IP="192.168.10.200" DB="100" start="2330" length="4" datatype="real"/>
+        <value channel="0" name="AI_Q_Zirk" typ="S7" unit="l/h" IP="192.168.10.200" DB="100" start="2370" length="4" datatype="real"/>
+        <value channel="0" name="AI_LF" typ="S7" unit="uS" IP="192.168.10.200" DB="100" start="2410" length="4" datatype="real"/>
+        <value channel="0" name="AI_Strom" typ="S7" unit="A" IP="192.168.10.200" DB="100" start="2450" length="4" datatype="real"/>
+        <value channel="0" name="AI_Spannung" typ="S7" unit="V" IP="192.168.10.200" DB="100" start="2490" length="4" datatype="real"/>
+        <value channel="0" name="AI_P_Zul" typ="S7" unit="bar" IP="192.168.10.200" DB="100" start="2530" length="4" datatype="real"/>
+        <value channel="0" name="AI_P_Abl" typ="S7" unit="bar" IP="192.168.10.200" DB="100" start="2570" length="4" datatype="real"/>
+        <value channel="0" name="AI_P_Kreislauf" typ="S7" unit="bar" IP="192.168.10.200" DB="100" start="2610" length="4" datatype="real"/>
     </values>
 </data>
