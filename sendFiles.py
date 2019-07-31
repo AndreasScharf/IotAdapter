@@ -42,7 +42,8 @@ class Hardware:
     def readFromDB(self, plc, dbblock, start, length, datatype):
         if not plc.get_connected():
             return 0
-
+	print(plc)
+	print('DB' + dbblock + ' Offset' + start + ' lenge' + length)
         result = plc.db_read(int(dbblock), int(start), int(length))
 
         if datatype=='bit':
@@ -116,10 +117,10 @@ class Konfiguration:
                 datatype = elem.attributes['datatype'].value
 
             if typ=='S7':
-                wert = Value(name, typ, channel, multiplier, unit, val, plc, dbblock, start, length, datatype)
+                wert = Value.Value(name, typ, channel, multiplier, unit, val, plc, dbblock, start, length, datatype)
                 self.Values.append(wert)
             else:
-                wert = Value(name, typ, channel, multiplier, unit, val)
+                wert = Value.Value(name, typ, channel, multiplier, unit, val)
                 self.Values.append(wert)
 
         def setcounter(channel, increase):
@@ -139,7 +140,7 @@ class Konfiguration:
 #Main Script
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-konfig = Konfiguration('/home/pi/Documents/Python/konfig.xml')
+konfig = Konfiguration('/home/pi/Documents/IotAdapter/konfig.xml')
 hw = Hardware()
 
 def builddata():
@@ -153,11 +154,14 @@ def builddata():
 
 time.sleep(3)
 while 1:
-    print('sending...')
-    try:
-        tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        tcp.connect((konfig.IPAdress, konfig.Port))
-        tcp.send(bytes(json.dumps(builddata(), 'utf-8')))
+    gesendet = False
+    while not gesendet:
+    	print('sending...')
+    	try:
+        	tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        	tcp.connect((konfig.IPAdress, konfig.Port))
+        	tcp.send(bytes(json.dumps(builddata(), 'utf-8')))
+		gesendet = True
         #data = tcp.recv(1024)
         #if not data:
         #    pass
@@ -170,11 +174,9 @@ while 1:
 #			elem.attributes['values'].value = datetime.today()
  #           with open('/home/pi/Documents/Python/konfig.xml', 'w') as fw:
   #              fw.write(data)
-   #             fw.close
-
-
-    finally:
-        tcp.close()
+   #             fw.close 
+    	finally:
+        	tcp.close()
 
     print('idle')
     time.sleep(konfig.Intervall)
