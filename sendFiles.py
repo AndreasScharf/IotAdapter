@@ -174,9 +174,14 @@ while 1:
 #			elem.attributes['values'].value = datetime.today()
  #           with open('/home/pi/Documents/Python/konfig.xml', 'w') as fw:
   #              fw.write(data)
-   #             fw.close 
+   #             fw.close
+        except:
+            tcp.close()
     	finally:
         	tcp.close()
 
     print('idle')
     time.sleep(konfig.Intervall)
+
+f = open('/home/pi/Documents/IotAdapter/ichBeendeIrgenwiedieSchleife', 'w')
+f.write('bin dumm')
