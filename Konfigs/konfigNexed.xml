@@ -20,5 +20,8 @@
         <value channel="0" name="AI_P_Zul" typ="S7" unit="bar" IP="192.168.10.200" DB="100" start="2530" length="4" datatype="real"/>
         <value channel="0" name="AI_P_Abl" typ="S7" unit="bar" IP="192.168.10.200" DB="100" start="2570" length="4" datatype="real"/>
         <value channel="0" name="AI_P_Kreislauf" typ="S7" unit="bar" IP="192.168.10.200" DB="100" start="2610" length="4" datatype="real"/>
+        <value channel="0" name="Menge Filtrat" typ="S7" unit="l" IP="192.168.10.200" DB="101" start="20" length="4" datatype="real"/>
+        <value channel="0" name="Menge Konzentrat" typ="S7" unit="l" IP="192.168.10.200" DB="101" start="70" length="4" datatype="real"/>
+        <value channel="0" name="Menge Elektrode" typ="S7" unit="l" IP="192.168.10.200" DB="101" start="120" length="4" datatype="real"/>        
     </values>
 </data>
