@@ -23,5 +23,24 @@
         <value channel="0" name="NiveauHB" typ="S7" unit="%" IP="192.168.10.200" DB="101" start="202" length="4" datatype="real"/>
         <value channel="0" name="WZZulauf" typ="S7" unit="m³" IP="192.168.10.200" DB="101" start="206" length="4" datatype="real"/>
         <value channel="0" name="WZOrtsnetz" typ="S7" unit="m³" IP="192.168.10.200" DB="101" start="210" length="4" datatype="real"/>
+
+        <value channel="0" name="Quit_2" typ="S7" unit="" IP="192.168.10.202" DB="101" start="0" length="1" datatype="byte"/>
+        <value channel="0" name="ANF_2" typ="S7" unit="" IP="192.168.10.202" DB="101" start="1" length="1" datatype="byte"/>
+        <value channel="0" name="Aufbereitung_2" typ="S7" unit="" IP="192.168.10.202" DB="101" start="110" length="1" datatype="byte"/>
+        <value channel="0" name="Spuelung_2" typ="S7" unit="" IP="192.168.10.202" DB="101" start="111" length="1" datatype="byte"/>
+        <value channel="0" name="Stoerung_2" typ="S7" unit="" IP="192.168.10.202" DB="101" start="112" length="1" datatype="byte"/>
+        <value channel="0" name="RohwasserDurchfluss_2" typ="S7" unit="l/s" IP="192.168.10.202" DB="101" start="162" length="4" datatype="real"/>
+        <value channel="0" name="RohwasserMenge_2" typ="S7" unit="m³" IP="192.168.10.202" DB="101" start="166" length="4" datatype="word"/>
+        <value channel="0" name="RohwasserDruch_2" typ="S7" unit="bar" IP="192.168.10.202" DB="101" start="170" length="4" datatype="real"/>
+        <value channel="0" name="FiltratDruck_2" typ="S7" unit="bar" IP="192.168.10.202" DB="101" start="174" length="4" datatype="real"/>
+        <value channel="0" name="DifferenzDruck_2" typ="S7" unit="bar" IP="192.168.10.202" DB="101" start="178" length="4" datatype="real"/>
+        <value channel="0" name="Flux_2" typ="S7" unit="l/(m²*h*bar)" IP="192.168.10.202" DB="101" start="182" length="4" datatype="real"/>
+        <value channel="0" name="Permeabilitaet_2" typ="S7" unit="l/(m²*h*bar)" IP="192.168.10.202" DB="101" start="186" length="4" datatype="real"/>
+        <value channel="0" name="Regelventil_2" typ="S7" unit="%" IP="192.168.10.202" DB="101" start="190" length="4" datatype="real"/>
+        <value channel="0" name="UVIntensitaet_2" typ="S7" unit="W/m²" IP="192.168.10.202" DB="101" start="194" length="4" datatype="real"/>
+        <value channel="0" name="Truebung_2" typ="S7" unit="NTU" IP="192.168.10.202" DB="101" start="198" length="4" datatype="real"/>
+        <value channel="0" name="NiveauHB_2" typ="S7" unit="%" IP="192.168.10.202" DB="101" start="202" length="4" datatype="real"/>
+        <value channel="0" name="WZZulauf_2" typ="S7" unit="m³" IP="192.168.10.202" DB="101" start="206" length="4" datatype="real"/>
+        <value channel="0" name="WZOrtsnetz_2" typ="S7" unit="m³" IP="192.168.10.202" DB="101" start="210" length="4" datatype="real"/>
     </values>
 </data>
