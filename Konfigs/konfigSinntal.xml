@@ -2,7 +2,7 @@
 <data>
     <values>
         <connection ipAdress="85.214.215.187" port="12000"/>
-        <extra intervall="300" table="Data"/>
+        <extra intervall="900" table="Data"/>
         <value channel="0" name="MAD" typ="static" unit="" values="sinntal"/>
         <value channel="0" name="time" typ="time" unit=""/>
         <value channel="0" name="Höhenstand Brunnen" typ="S7" unit="m" IP="192.168.10.101" DB="200" start="1100" length="4" datatype="real"/>
