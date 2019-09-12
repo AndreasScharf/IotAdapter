@@ -13,7 +13,7 @@
         <value channel="0" name="Stoerung" typ="S7" unit="" IP="192.168.10.200" DB="101" start="112" length="1" datatype="byte"/>
         <value channel="0" name="RohwasserDurchfluss" typ="S7" unit="l/s" IP="192.168.10.200" DB="101" start="162" length="4" datatype="real"/>
         <value channel="0" name="RohwasserMenge" typ="S7" unit="m³" IP="192.168.10.200" DB="101" start="166" length="4" datatype="word"/>
-        <value channel="0" name="RohwasserDruch" typ="S7" unit="bar" IP="192.168.10.200" DB="101" start="170" length="4" datatype="real"/>
+        <value channel="0" name="RohwasserDruck" typ="S7" unit="bar" IP="192.168.10.200" DB="101" start="170" length="4" datatype="real"/>
         <value channel="0" name="FiltratDruck" typ="S7" unit="bar" IP="192.168.10.200" DB="101" start="174" length="4" datatype="real"/>
         <value channel="0" name="DifferenzDruck" typ="S7" unit="bar" IP="192.168.10.200" DB="101" start="178" length="4" datatype="real"/>
         <value channel="0" name="Flux" typ="S7" unit="l/(m²*h*bar)" IP="192.168.10.200" DB="101" start="182" length="4" datatype="real"/>
