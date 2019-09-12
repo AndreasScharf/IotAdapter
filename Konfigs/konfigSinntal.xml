@@ -5,59 +5,59 @@
         <extra intervall="600" table="Data"/>
         <value channel="0" name="MAD" typ="static" unit="" values="sinntal"/>
         <value channel="0" name="time" typ="time" unit=""/>
-        <value channel="0" name="Höhenstand Brunnen" typ="S7" unit="m" IP="192.168.10.101" DB="200" start="1100" length="4" datatype="real"/>
-        <value channel="0" name="Durchfluss Brunnen" typ="S7" unit="m³/h" IP="192.168.10.101" DB="200" start="1104" length="4" datatype="real"/>
-        <value channel="0" name="Menge Brunnen" typ="S7" unit="m" IP="192.168.10.101" DB="200" start="1144" length="4" datatype="real"/>
+        <value channel="0" name="Höhenstand Brunnen" typ="S7" unit="m" IP="192.168.10.100" DB="200" start="1100" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Brunnen" typ="S7" unit="m³/h" IP="192.168.10.100" DB="200" start="1104" length="4" datatype="real"/>
+        <value channel="0" name="Menge Brunnen" typ="S7" unit="m" IP="192.168.10.100" DB="200" start="1144" length="4" datatype="real"/>
 
-        <value channel="0" name="Durchfluss UF1" typ="S7" unit="m³/h" IP="192.168.10.101" DB="200" start="154" length="4" datatype="real"/>
-        <value channel="0" name="Menge UF1" typ="S7" unit="m³" IP="192.168.10.101" DB="200" start="158" length="4" datatype="byte"/>
-        <value channel="0" name="RohwasserDruck UF1" typ="S7" unit="bar" IP="192.168.10.101" DB="200" start="162" length="4" datatype="real"/>
-        <value channel="0" name="FiltratDruck UF1" typ="S7" unit="bar" IP="192.168.10.101" DB="200" start="166" length="4" datatype="real"/>
-        <value channel="0" name="DifferenzDruck UF1" typ="S7" unit="bar" IP="192.168.10.101" DB="200" start="170" length="4" datatype="real"/>
-        <value channel="0" name="Flux UF1" typ="S7" unit="l/m²h" IP="192.168.10.101" DB="200" start="174" length="4" datatype="real"/>
-        <value channel="0" name="Permeabilitaet UF1" typ="S7" unit="l/m³hbar" IP="192.168.10.101" DB="200" start="178" length="4" datatype="real"/>
-        <value channel="0" name="Regelventil UF1" typ="S7" unit="%" IP="192.168.10.101" DB="200" start="182" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss UF1" typ="S7" unit="m³/h" IP="192.168.10.100" DB="200" start="154" length="4" datatype="real"/>
+        <value channel="0" name="Menge UF1" typ="S7" unit="m³" IP="192.168.10.100" DB="200" start="158" length="4" datatype="byte"/>
+        <value channel="0" name="RohwasserDruck UF1" typ="S7" unit="bar" IP="192.168.10.100" DB="200" start="162" length="4" datatype="real"/>
+        <value channel="0" name="FiltratDruck UF1" typ="S7" unit="bar" IP="192.168.10.100" DB="200" start="166" length="4" datatype="real"/>
+        <value channel="0" name="DifferenzDruck UF1" typ="S7" unit="bar" IP="192.168.10.100" DB="200" start="170" length="4" datatype="real"/>
+        <value channel="0" name="Flux UF1" typ="S7" unit="l/m²h" IP="192.168.10.100" DB="200" start="174" length="4" datatype="real"/>
+        <value channel="0" name="Permeabilitaet UF1" typ="S7" unit="l/m³hbar" IP="192.168.10.100" DB="200" start="178" length="4" datatype="real"/>
+        <value channel="0" name="Regelventil UF1" typ="S7" unit="%" IP="192.168.10.100" DB="200" start="182" length="4" datatype="real"/>
 
-        <value channel="0" name="Durchfluss UF2" typ="S7" unit="m³/h" IP="192.168.10.101" DB="210" start="154" length="4" datatype="real"/>
-        <value channel="0" name="Menge UF2" typ="S7" unit="m³" IP="192.168.10.101" DB="210" start="158" length="4" datatype="byte"/>
-        <value channel="0" name="RohwasserDruck UF2" typ="S7" unit="bar" IP="192.168.10.101" DB="210" start="162" length="4" datatype="real"/>
-        <value channel="0" name="FiltratDruck UF2" typ="S7" unit="bar" IP="192.168.10.101" DB="210" start="166" length="4" datatype="real"/>
-        <value channel="0" name="DifferenzDruck UF2" typ="S7" unit="bar" IP="192.168.10.101" DB="210" start="170" length="4" datatype="real"/>
-        <value channel="0" name="Flux UF2" typ="S7" unit="l/m²h" IP="192.168.10.101" DB="210" start="174" length="4" datatype="real"/>
-        <value channel="0" name="Permeabilitaet UF2" typ="S7" unit="l/m²hbar" IP="192.168.10.101" DB="210" start="178" length="4" datatype="real"/>
-        <value channel="0" name="Regelventil UF2" typ="S7" unit="%" IP="192.168.10.101" DB="210" start="182" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss UF2" typ="S7" unit="m³/h" IP="192.168.10.100" DB="210" start="154" length="4" datatype="real"/>
+        <value channel="0" name="Menge UF2" typ="S7" unit="m³" IP="192.168.10.100" DB="210" start="158" length="4" datatype="byte"/>
+        <value channel="0" name="RohwasserDruck UF2" typ="S7" unit="bar" IP="192.168.10.100" DB="210" start="162" length="4" datatype="real"/>
+        <value channel="0" name="FiltratDruck UF2" typ="S7" unit="bar" IP="192.168.10.100" DB="210" start="166" length="4" datatype="real"/>
+        <value channel="0" name="DifferenzDruck UF2" typ="S7" unit="bar" IP="192.168.10.100" DB="210" start="170" length="4" datatype="real"/>
+        <value channel="0" name="Flux UF2" typ="S7" unit="l/m²h" IP="192.168.10.100" DB="210" start="174" length="4" datatype="real"/>
+        <value channel="0" name="Permeabilitaet UF2" typ="S7" unit="l/m²hbar" IP="192.168.10.100" DB="210" start="178" length="4" datatype="real"/>
+        <value channel="0" name="Regelventil UF2" typ="S7" unit="%" IP="192.168.10.100" DB="210" start="182" length="4" datatype="real"/>
 
-        <value channel="0" name="Menge Quelle" typ="S7" unit="m³" IP="192.168.10.101" DB="101" start="20" length="4" datatype="real"/>
-        <value channel="0" name="Menge Brunnen" typ="S7" unit="m³" IP="192.168.10.101" DB="101" start="70" length="4" datatype="real"/>
-        <value channel="0" name="Menge Zulauf Hochbehälter" typ="S7" unit="m³" IP="192.168.10.101" DB="101" start="120" length="4" datatype="real"/>
-        <value channel="0" name="Menge Rückspülwasser" typ="S7" unit="m³" IP="192.168.10.101" DB="101" start="170" length="4" datatype="real"/>
-        <value channel="0" name="Menge Ablauf Hochbehälter" typ="S7" unit="m³" IP="192.168.10.101" DB="101" start="220" length="4" datatype="real"/>
+        <value channel="0" name="Menge Quelle" typ="S7" unit="m³" IP="192.168.10.100" DB="101" start="20" length="4" datatype="real"/>
+        <value channel="0" name="Menge Brunnen" typ="S7" unit="m³" IP="192.168.10.100" DB="101" start="70" length="4" datatype="real"/>
+        <value channel="0" name="Menge Zulauf Hochbehälter" typ="S7" unit="m³" IP="192.168.10.100" DB="101" start="120" length="4" datatype="real"/>
+        <value channel="0" name="Menge Rückspülwasser" typ="S7" unit="m³" IP="192.168.10.100" DB="101" start="170" length="4" datatype="real"/>
+        <value channel="0" name="Menge Ablauf Hochbehälter" typ="S7" unit="m³" IP="192.168.10.100" DB="101" start="220" length="4" datatype="real"/>
 
-        <value channel="0" name="Druchmessung Rohwasser" typ="S7" unit="bar" IP="192.168.10.101" DB="100" start="2018" length="4" datatype="real"/>
-        <value channel="0" name="Wasserstandsmessung HB Sterbfritz Reinwasser" typ="S7" unit="m" IP="192.168.10.101" DB="100" start="2058" length="4" datatype="real"/>
-        <value channel="0" name="Druchflussmessung Zulauf-Quelle-Rommer" typ="S7" unit="m³/h" IP="192.168.10.101" DB="100" start="2098" length="4" datatype="real"/>
-        <value channel="0" name="Durchflussmessung Zulauf-Tiefbrunnen ||" typ="S7" unit="m³/h" IP="192.168.10.101" DB="100" start="2138" length="4" datatype="real"/>
-        <value channel="0" name="Druchflussmessung Einlauf-Höchbehälter" typ="S7" unit="m³/h" IP="192.168.10.101" DB="100" start="2178" length="4" datatype="real"/>
-        <value channel="0" name="Druchflussmessung Druchfluss-Rückspülwasser" typ="S7" unit="m³/h" IP="192.168.10.101" DB="100" start="2218" length="4" datatype="real"/>
-        <value channel="0" name="Durchflussmessung Ablauf - Hochbehälter" typ="S7" unit="m³/h" IP="192.168.10.101" DB="100" start="2258" length="4" datatype="real"/>
-        <value channel="0" name="Intensität UV-Anlage" typ="S7" unit="%" IP="192.168.10.101" DB="100" start="2298" length="4" datatype="real"/>
-        <value channel="0" name="Trübungsmessung" typ="S7" unit="NTU" IP="192.168.10.101" DB="100" start="2338" length="4" datatype="real"/>
-        <value channel="0" name="Leitfähigkeitsmessung" typ="S7" unit="uS" IP="192.168.10.101" DB="100" start="2378" length="4" datatype="real"/>
-        <value channel="0" name="Temperaturmessung Innen" typ="S7" unit="°C" IP="192.168.10.101" DB="100" start="2418" length="4" datatype="real"/>
-        <value channel="0" name="Feuchtmessung Innen" typ="S7" unit="%rel" IP="192.168.10.101" DB="100" start="2458" length="4" datatype="real"/>
-        <value channel="0" name="Temperaturmessung Außen" typ="S7" unit="°C" IP="192.168.10.101" DB="100" start="2498" length="4" datatype="real"/>
-        <value channel="0" name="Feuchtmessung Außen" typ="S7" unit="%rel" IP="192.168.10.101" DB="100" start="2538" length="4" datatype="real"/>
+        <value channel="0" name="Druchmessung Rohwasser" typ="S7" unit="bar" IP="192.168.10.100" DB="100" start="2018" length="4" datatype="real"/>
+        <value channel="0" name="Wasserstandsmessung HB Sterbfritz Reinwasser" typ="S7" unit="m" IP="192.168.10.100" DB="100" start="2058" length="4" datatype="real"/>
+        <value channel="0" name="Druchflussmessung Zulauf-Quelle-Rommer" typ="S7" unit="m³/h" IP="192.168.10.100" DB="100" start="2098" length="4" datatype="real"/>
+        <value channel="0" name="Durchflussmessung Zulauf-Tiefbrunnen ||" typ="S7" unit="m³/h" IP="192.168.10.100" DB="100" start="2138" length="4" datatype="real"/>
+        <value channel="0" name="Druchflussmessung Einlauf-Höchbehälter" typ="S7" unit="m³/h" IP="192.168.10.100" DB="100" start="2178" length="4" datatype="real"/>
+        <value channel="0" name="Druchflussmessung Druchfluss-Rückspülwasser" typ="S7" unit="m³/h" IP="192.168.10.100" DB="100" start="2218" length="4" datatype="real"/>
+        <value channel="0" name="Durchflussmessung Ablauf - Hochbehälter" typ="S7" unit="m³/h" IP="192.168.10.100" DB="100" start="2258" length="4" datatype="real"/>
+        <value channel="0" name="Intensität UV-Anlage" typ="S7" unit="%" IP="192.168.10.100" DB="100" start="2298" length="4" datatype="real"/>
+        <value channel="0" name="Trübungsmessung" typ="S7" unit="NTU" IP="192.168.10.100" DB="100" start="2338" length="4" datatype="real"/>
+        <value channel="0" name="Leitfähigkeitsmessung" typ="S7" unit="uS" IP="192.168.10.100" DB="100" start="2378" length="4" datatype="real"/>
+        <value channel="0" name="Temperaturmessung Innen" typ="S7" unit="°C" IP="192.168.10.100" DB="100" start="2418" length="4" datatype="real"/>
+        <value channel="0" name="Feuchtmessung Innen" typ="S7" unit="%rel" IP="192.168.10.100" DB="100" start="2458" length="4" datatype="real"/>
+        <value channel="0" name="Temperaturmessung Außen" typ="S7" unit="°C" IP="192.168.10.100" DB="100" start="2498" length="4" datatype="real"/>
+        <value channel="0" name="Feuchtmessung Außen" typ="S7" unit="%rel" IP="192.168.10.100" DB="100" start="2538" length="4" datatype="real"/>
 
-        <value channel="0" name="IL1" typ="S7" unit="A" IP="192.168.10.101" DB="21" start="34" length="4" datatype="real"/>
-        <value channel="0" name="IL2" typ="S7" unit="A" IP="192.168.10.101" DB="21" start="38" length="4" datatype="real"/>
-        <value channel="0" name="IL3" typ="S7" unit="A" IP="192.168.10.101" DB="21" start="42" length="4" datatype="real"/>
-        <value channel="0" name="KW" typ="S7" unit="" IP="192.168.10.101" DB="21" start="46" length="4" datatype="real"/>
-        <value channel="0" name="KVAr" typ="S7" unit="" IP="192.168.10.101" DB="21" start="50" length="4" datatype="real"/>
-        <value channel="0" name="KVA" typ="S7" unit="" IP="192.168.10.101" DB="21" start="54" length="4" datatype="real"/>
-        <value channel="0" name="f" typ="S7" unit="" IP="192.168.10.101" DB="21" start="58" length="4" datatype="real"/>
-        <value channel="0" name="CosPhi" typ="S7" unit="" IP="192.168.10.101" DB="21" start="62" length="4" datatype="real"/>
-        <value channel="0" name="kWh" typ="S7" unit="" IP="192.168.10.101" DB="21" start="66" length="4" datatype="real"/>
-        <value channel="0" name="kVAh" typ="S7" unit="" IP="192.168.10.101" DB="21" start="70" length="4" datatype="real"/>
-        <value channel="0" name="ZW_kWh" typ="S7" unit="" IP="192.168.10.101" DB="21" start="74" length="4" datatype="real"/>
+        <value channel="0" name="IL1" typ="S7" unit="A" IP="192.168.10.100" DB="21" start="34" length="4" datatype="real"/>
+        <value channel="0" name="IL2" typ="S7" unit="A" IP="192.168.10.100" DB="21" start="38" length="4" datatype="real"/>
+        <value channel="0" name="IL3" typ="S7" unit="A" IP="192.168.10.100" DB="21" start="42" length="4" datatype="real"/>
+        <value channel="0" name="KW" typ="S7" unit="" IP="192.168.10.100" DB="21" start="46" length="4" datatype="real"/>
+        <value channel="0" name="KVAr" typ="S7" unit="" IP="192.168.10.100" DB="21" start="50" length="4" datatype="real"/>
+        <value channel="0" name="KVA" typ="S7" unit="" IP="192.168.10.100" DB="21" start="54" length="4" datatype="real"/>
+        <value channel="0" name="f" typ="S7" unit="" IP="192.168.10.100" DB="21" start="58" length="4" datatype="real"/>
+        <value channel="0" name="CosPhi" typ="S7" unit="" IP="192.168.10.100" DB="21" start="62" length="4" datatype="real"/>
+        <value channel="0" name="kWh" typ="S7" unit="" IP="192.168.10.100" DB="21" start="66" length="4" datatype="real"/>
+        <value channel="0" name="kVAh" typ="S7" unit="" IP="192.168.10.100" DB="21" start="70" length="4" datatype="real"/>
+        <value channel="0" name="ZW_kWh" typ="S7" unit="" IP="192.168.10.100" DB="21" start="74" length="4" datatype="real"/>
     </values>
 </data>
