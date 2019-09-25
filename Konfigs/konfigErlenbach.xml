@@ -4,7 +4,7 @@
         <connection ipAdress="85.214.215.187" port="12000"/>
         <user name="TestUS1" password="Enwat2007"/>
         <extra intervall="300" table="Data"/>
-        <value channel="0" name="MAD" typ="static" unit="" values="Rattelsdorf"/>
+        <value channel="0" name="MAD" typ="static" unit="" values="Erlenbach"/>
         <value channel="0" name="time" typ="time" unit=""/>
         <value channel="0" name="Quit" typ="S7" unit="" IP="192.168.10.200" DB="101" start="0" length="1" datatype="byte"/>
         <value channel="0" name="ANF" typ="S7" unit="" IP="192.168.10.200" DB="101" start="1" length="1" datatype="byte"/>
