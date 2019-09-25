@@ -24,5 +24,5 @@
         <value channel="0" name="NiveauHB" typ="S7" unit="%" IP="192.168.10.200" DB="101" start="202" length="4" datatype="real"/>
         <value channel="0" name="WZZulauf" typ="S7" unit="m³" IP="192.168.10.200" DB="101" start="206" length="4" datatype="real"/>
         <value channel="0" name="WZOrtsnetz" typ="S7" unit="m³" IP="192.168.10.200" DB="101" start="210" length="4" datatype="real"/>
-    <values/>
+    </values>
 </data>
