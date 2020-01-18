@@ -6,7 +6,8 @@
         <value channel="0" name="MAD" typ="static" unit="" values=""/>
         <value channel="0" name="time" typ="time" unit=""/>
         <value channel="0" name="Niveau" typ="S7" unit="%" IP="192.168.10.200" DB="100" start="0" length="4" datatype="real"/>
-        <value channel="0" name="" typ="S7" unit="" IP="192.168.10.200" DB="100" start="8" length="4" datatype="byte"/>
-        <value channel="0" name="" typ="S7" unit="" IP="192.168.10.200" DB="100" start="12" length="4" datatype="byte"/>
+        <value channel="0" name="Z_Zulauf" typ="S7" unit="m³" IP="192.168.10.200" DB="100" start="4" length="4" datatype="real"/>
+        <value channel="0" name="Z_Ablauf" typ="S7" unit="m³" IP="192.168.10.200" DB="100" start="8" length="4" datatype="real"/>
+        <value channel="0" name="Stoerung" typ="S7" unit="" IP="192.168.10.200" DB="100" start="34" length="2" datatype="byte"/>
     </values>
 </data>
