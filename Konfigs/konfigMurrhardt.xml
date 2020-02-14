@@ -38,7 +38,5 @@
         <value channel="0" name="Mengenzaehler Ortsnetz" typ="S7" unit="m³" IP="192.168.10.200" DB="100" start="88" length="4" datatype="dint"/>
         <value channel="0" name="Mengenzaehler Zulauf NF" typ="S7" unit="m³" IP="192.168.10.200" DB="100" start="92" length="4" datatype="dint"/>
 
-
-
     </values>
 </data>
