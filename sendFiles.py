@@ -39,6 +39,10 @@ class Hardware:
         else:
             return 0
 
+    def get_dint(_bytearray, byte_index):
+        data = _bytearray[byte_index:byte_index + 4]
+        dint = struct.unpack('>i', struct.pack('4B', *data))[0]
+        return dint
     def readFromDB(self, plc, dbblock, start, length, datatype):
         if not plc.get_connected():
             return 0
@@ -50,6 +54,8 @@ class Hardware:
             return get_bool(result, 0)
         elif datatype=='word' or datatype=='byte':
             return get_int(result, 0)
+        elif datatype=='dint':
+            return get_dint(result, 0)
         elif datatype=='real':
             return get_real(result, 0)
         else:
