@@ -36,7 +36,7 @@ def rauschen(a, b):
 def builddata():
     data = []
 
-    data.append({"name": "MAD", "unit" : "", "value": "Huppendorf"})
+    data.append({"name": "MAD", "unit" : "", "value": "pfzsup"})
     data.append({"name": "time", "unit" : "", "value": str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))})
     data.append({"name": "Ph_wert", "unit" : "ph", "value": str(rauschen(6.5, 8.5))})
 
