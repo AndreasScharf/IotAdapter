@@ -14,6 +14,12 @@ from snap7.snap7types import *
 import Value
 konpath = ''
 
+def get_dint(_bytearray, byte_index):
+    data = _bytearray[byte_index:byte_index + 4]
+    dint = struct.unpack('>i', struct.pack('4B', *data))[0]
+    return dint
+
+
 class Hardware:
     def read(self, channelNumber=0, typ='analog', multiplier=1.0, val=''):
         read(channelNumber, typ, multiplier, val, None, None, None, None, None)
@@ -39,10 +45,6 @@ class Hardware:
         else:
             return 0
 
-    def get_dint(_bytearray, byte_index):
-        data = _bytearray[byte_index:byte_index + 4]
-        dint = struct.unpack('>i', struct.pack('4B', *data))[0]
-        return dint
 
     def readFromDB(self, plc, dbblock, start, length, datatype):
         if not plc.get_connected():
