@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<data>
+    <values>
+        <connection ipAdress="85.214.215.187" port="12000"/>
+        <extra intervall="300" table="Data"/>
+        <value channel="0" name="MAD" typ="static" unit="" values="ABC123"/>
+        <value channel="0" name="time" typ="time" unit=""/>
+        <value channel="0" name="Hallentemperatur" typ="S7" unit="°C" IP="192.168.14.61" DB="100" start="0" length="4" datatype="real"/>
+        <value channel="0" name="Puffertemperatur_oben" typ="S7" unit="°C" IP="192.168.14.61" DB="100" start="4" length="4" datatype="real"/>
+        <value channel="0" name="Aussentemperatur" typ="S7" unit="°C" IP="192.168.14.61" DB="100" start="8" length="4" datatype="real"/>
+        <value channel="0" name="Sollwert" typ="S7" unit="°C" IP="192.168.14.61" DB="100" start="12" length="4" datatype="real"/>
+        <value channel="0" name="Bewegungsmelder Halle" typ="S7" unit="°C" IP="192.168.14.61" DB="100" start="16" length="4" datatype="bit"/>
+        <value channel="0" name="Kesselleistung" typ="S7" unit="kWh" IP="192.168.14.61" DB="100" start="0" length="4" datatype="dint"/>
+        <value channel="0" name="Energieverbrauch" typ="S7" unit="kW" IP="192.168.14.61" DB="100" start="0" length="4" datatype="dint"/>
+
+
+    </values>
+</data>
