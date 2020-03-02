@@ -43,15 +43,16 @@ class Hardware:
         data = _bytearray[byte_index:byte_index + 4]
         dint = struct.unpack('>i', struct.pack('4B', *data))[0]
         return dint
+
     def readFromDB(self, plc, dbblock, start, length, datatype):
         if not plc.get_connected():
             return 0
-	print(plc)
-	print('DB' + dbblock + ' Offset' + start + ' lenge' + length)
+
+        print('DB' + dbblock + ' Offset' + start + ' lenge' + length)
         result = plc.db_read(int(dbblock), int(start), int(length))
 
         if datatype=='bit':
-            return get_bool(result, 0)
+            return get_bool(result, 0, 0)
         elif datatype=='word' or datatype=='byte':
             return get_int(result, 0)
         elif datatype=='dint':
@@ -108,9 +109,11 @@ class Konfiguration:
                 GPIO.setup(channel, GPIO.IN, GPIO.PUD_DOWN)
                 GPIO.add_event_detect(channel, GPIO.RISING, lambda x: setcounter(channel, increase), 300)
             elif typ=='S7':
+
+
                 s7 = snap7.client.Client()
-		ip = str(elem.attributes['IP'].value)
-		zahl = 0
+                ip = str(elem.attributes['IP'].value)
+                zahl = 0
                 if ip==lastIP:
                     pass
                 else:
@@ -162,29 +165,18 @@ time.sleep(3)
 while 1:
     gesendet = False
     while not gesendet:
-    	print('sending...')
-    	try:
-        	tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        	tcp.connect((konfig.IPAdress, konfig.Port))
-        	tcp.send(bytes(json.dumps(builddata(), 'utf-8')))
-		gesendet = True
-        #data = tcp.recv(1024)
-        #if not data:
-        #    pass
-        #else:
+        print('sending...')
+        try:
+            tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            tcp.connect((konfig.IPAdress, konfig.Port))
+            tcp.send(bytes(json.dumps(builddata(), 'utf-8')))
+            gesendet = True
 
-#	    mydoc = minidom.parse(data)
-#	    values = mydoc.getElementsByTagName('values')
-#	    for elem in values:
-#		if elem.attributes['name'].values == 'lastKonfig':
-#			elem.attributes['values'].value = datetime.today()
- #           with open('/home/pi/Documents/Python/konfig.xml', 'w') as fw:
-  #              fw.write(data)
-   #             fw.close
-        except:
+        except Exception as e:
+            print(e)
             tcp.close()
-    	finally:
-        	tcp.close()
+        finally:
+            tcp.close()
 
     print('idle')
     time.sleep(konfig.Intervall)
