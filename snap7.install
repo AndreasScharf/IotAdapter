@@ -1,0 +1,7 @@
+download latest version of snap7
+unzip the pagckage
+cd build/arm_v7...
+make -f arm_v7...
+cd bin
+cp ...so /usr/lib/...so
+pip install python-snap7
