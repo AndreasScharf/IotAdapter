@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<data>
+    <values>
+        <connection ipAdress="85.214.215.187" port="12000"/>
+        <extra intervall="300" table="Data"/>
+        <value channel="0" name="MAD" typ="static" unit="" values="std-01"/>
+        <value channel="0" name="time" typ="time" unit=""/>
+        <value channel="0" name="Niveau Vorlagebehaelter" typ="S7" unit="%" IP="192.168.10.100" DB="300" start="4" length="4" datatype="real"/>
+        <value channel="0" name="Niveau Hochbehaelter" typ="S7" unit="%" IP="192.168.10.100" DB="300" start="8" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Ultrafilter" typ="S7" unit="m³/h" IP="192.168.10.100" DB="300" start="12" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Permeate" typ="S7" unit="m³/h" IP="192.168.10.100" DB="300" start="16" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Konzentrat" typ="S7" unit="m³/h" IP="192.168.10.100" DB="300" start="20" length="4" datatype="real"/>
+        <value channel="0" name="UV Intensitaet" typ="S7" unit="W/m²" IP="192.168.10.100" DB="300" start="24" length="4" datatype="real"/>
+        <value channel="0" name="Leitfaehigkeit Permeate" typ="S7" unit="uS" IP="192.168.10.100" DB="300" start="28" length="4" datatype="real"/>
+        <value channel="0" name="Truebung" typ="S7" unit="NTU" IP="192.168.10.100" DB="300" start="32" length="4" datatype="real"/>
+        <value channel="0" name="Quelldruck" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="36" length="4" datatype="real"/>
+        <value channel="0" name="Zulauf UF" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="40" length="4" datatype="real"/>
+        <value channel="0" name="Filtrat UF" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="44" length="4" datatype="real"/>
+        <value channel="0" name="Zulauf NF" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="48" length="4" datatype="real"/>
+        <value channel="0" name="Vordruck Hochdruckpumpe" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="52" length="4" datatype="real"/>
+        <value channel="0" name="Konzentrat" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="56" length="4" datatype="real"/>
+        <value channel="0" name="Stoerung Anlage" typ="S7" unit="" IP="192.168.10.100" DB="300" start="60" length="4" datatype="real"/>
+        <value channel="0" name="Betrieb Anlage" typ="S7" unit="" IP="192.168.10.100" DB="300" start="61" length="4" datatype="bit"/>
+        <value channel="0" name="Rückspuelen Ultrafiltration" typ="S7" unit="" IP="192.168.10.100" DB="300" start="62" length="1" datatype="bit"/>
+        <value channel="0" name="Objekt_Begangen" typ="S7" unit="" IP="192.168.10.100" DB="300" start="63" length="1" datatype="bit"/>
+        <value channel="0" name="Einbruch" typ="S7" unit="" IP="192.168.10.100" DB="300" start="64" length="1" datatype="bit"/>
+        <value channel="0" name="Spülen Nanofilter" typ="S7" unit="" IP="192.168.10.100" DB="300" start="65" length="1" datatype="bit"/>
+        <value channel="0" name="Stoerung UV Anlage" typ="S7" unit="" IP="192.168.10.100" DB="300" start="66" length="1" datatype="bit"/>
+        <value channel="0" name="Betrieb UV Anlage" typ="S7" unit="" IP="192.168.10.100" DB="300" start="67" length="1" datatype="bit"/>
+        <value channel="0" name="Zulaufpumpe Betrieb" typ="S7" unit="" IP="192.168.10.100" DB="300" start="68" length="1" datatype="bit"/>
+        <value channel="0" name="Zulaufpumpe Stoerung" typ="S7" unit="" IP="192.168.10.100" DB="300" start="69" length="1" datatype="bit"/>
+        <value channel="0" name="Hochdruckpumpe NF Betrieb" typ="S7" unit="" IP="192.168.10.100" DB="300" start="70" length="1" datatype="bit"/>
+        <value channel="0" name="Hochdruckpumpe NF Stoerung" typ="S7" unit="" IP="192.168.10.100" DB="300" start="71" length="1" datatype="bit"/>
+        <value channel="0" name="Mengenzaehler Zulauf UF" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="72" length="1" datatype="bit"/>
+        <value channel="0" name="Mengenzaehler Rueckspuelwasser" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="76" length="1" datatype="bit"/>
+        <value channel="0" name="Mengenzaehler Konzentrat" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="80" length="4" datatype="int"/>
+        <value channel="0" name="Mengenzaehler Permeate" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="84" length="4" datatype="dint"/>
+        <value channel="0" name="Mengenzaehler Ortsnetz" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="88" length="4" datatype="dint"/>
+        <value channel="0" name="Mengenzaehler Zulauf NF" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="92" length="4" datatype="dint"/>
+
+
+        <value channel="0" name="Niveau Vorlagebehaelter" typ="S7" unit="%" IP="192.168.10.200" DB="300" start="4" length="4" datatype="real"/>
+        <value channel="0" name="Niveau Hochbehaelter" typ="S7" unit="%" IP="192.168.10.200" DB="300" start="8" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Ultrafilter" typ="S7" unit="m³/h" IP="192.168.10.200" DB="300" start="12" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Permeate" typ="S7" unit="m³/h" IP="192.168.10.200" DB="300" start="16" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss Konzentrat" typ="S7" unit="m³/h" IP="192.168.10.200" DB="300" start="20" length="4" datatype="real"/>
+        <value channel="0" name="UV Intensitaet" typ="S7" unit="W/m²" IP="192.168.10.200" DB="300" start="24" length="4" datatype="real"/>
+        <value channel="0" name="Leitfaehigkeit Permeate" typ="S7" unit="uS" IP="192.168.10.200" DB="300" start="28" length="4" datatype="real"/>
+        <value channel="0" name="Truebung" typ="S7" unit="NTU" IP="192.168.10.200" DB="300" start="32" length="4" datatype="real"/>
+        <value channel="0" name="Quelldruck" typ="S7" unit="bar" IP="192.168.10.200" DB="300" start="36" length="4" datatype="real"/>
+        <value channel="0" name="Zulauf UF" typ="S7" unit="bar" IP="192.168.10.200" DB="300" start="40" length="4" datatype="real"/>
+        <value channel="0" name="Filtrat UF" typ="S7" unit="bar" IP="192.168.10.200" DB="300" start="44" length="4" datatype="real"/>
+        <value channel="0" name="Zulauf NF" typ="S7" unit="bar" IP="192.168.10.200" DB="300" start="48" length="4" datatype="real"/>
+        <value channel="0" name="Vordruck Hochdruckpumpe" typ="S7" unit="bar" IP="192.168.10.200" DB="300" start="52" length="4" datatype="real"/>
+        <value channel="0" name="Konzentrat" typ="S7" unit="bar" IP="192.168.10.200" DB="300" start="56" length="4" datatype="real"/>
+        <value channel="0" name="Stoerung Anlage" typ="S7" unit="" IP="192.168.10.200" DB="300" start="60" length="4" datatype="real"/>
+        <value channel="0" name="Betrieb Anlage" typ="S7" unit="" IP="192.168.10.200" DB="300" start="61" length="4" datatype="bit"/>
+        <value channel="0" name="Rückspuelen Ultrafiltration" typ="S7" unit="" IP="192.168.10.200" DB="300" start="62" length="1" datatype="bit"/>
+        <value channel="0" name="Objekt_Begangen" typ="S7" unit="" IP="192.168.10.200" DB="300" start="63" length="1" datatype="bit"/>
+        <value channel="0" name="Einbruch" typ="S7" unit="" IP="192.168.10.200" DB="300" start="64" length="1" datatype="bit"/>
+        <value channel="0" name="Spülen Nanofilter" typ="S7" unit="" IP="192.168.10.200" DB="300" start="65" length="1" datatype="bit"/>
+        <value channel="0" name="Stoerung UV Anlage" typ="S7" unit="" IP="192.168.10.200" DB="300" start="66" length="1" datatype="bit"/>
+        <value channel="0" name="Betrieb UV Anlage" typ="S7" unit="" IP="192.168.10.200" DB="300" start="67" length="1" datatype="bit"/>
+        <value channel="0" name="Zulaufpumpe Betrieb" typ="S7" unit="" IP="192.168.10.200" DB="300" start="68" length="1" datatype="bit"/>
+        <value channel="0" name="Zulaufpumpe Stoerung" typ="S7" unit="" IP="192.168.10.200" DB="300" start="69" length="1" datatype="bit"/>
+        <value channel="0" name="Hochdruckpumpe NF Betrieb" typ="S7" unit="" IP="192.168.10.200" DB="300" start="70" length="1" datatype="bit"/>
+        <value channel="0" name="Hochdruckpumpe NF Stoerung" typ="S7" unit="" IP="192.168.10.200" DB="300" start="71" length="1" datatype="bit"/>
+        <value channel="0" name="Mengenzaehler Zulauf UF" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="72" length="1" datatype="bit"/>
+        <value channel="0" name="Mengenzaehler Rueckspuelwasser" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="76" length="1" datatype="bit"/>
+        <value channel="0" name="Mengenzaehler Konzentrat" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="80" length="4" datatype="int"/>
+        <value channel="0" name="Mengenzaehler Permeate" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="84" length="4" datatype="dint"/>
+        <value channel="0" name="Mengenzaehler Ortsnetz" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="88" length="4" datatype="dint"/>
+        <value channel="0" name="Mengenzaehler Zulauf NF" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="92" length="4" datatype="dint"/>
+    </values>
+</data>
