@@ -10,7 +10,7 @@
         <value channel="0" name="Durchfluss Ultrafilter" typ="S7" unit="m³/h" IP="192.168.10.100" DB="300" start="12" length="4" datatype="real"/>
         <value channel="0" name="Durchfluss Permeate" typ="S7" unit="m³/h" IP="192.168.10.100" DB="300" start="16" length="4" datatype="real"/>
         <value channel="0" name="Durchfluss Konzentrat" typ="S7" unit="m³/h" IP="192.168.10.100" DB="300" start="20" length="4" datatype="real"/>
-        <value channel="0" name="UV Intensitaet" typ="S7" unit="W/m²" IP="192.168.10.100" DB="300" start="24" length="4" datatype="real"/>
+        <value channel="0" name="UV Intensitaet" typ="S7" unit="W/m²" IP="192.168.10.100" DB="300" 4start="24" length="4" datatype="real"/>
         <value channel="0" name="Leitfaehigkeit Permeate" typ="S7" unit="uS" IP="192.168.10.100" DB="300" start="28" length="4" datatype="real"/>
         <value channel="0" name="Truebung" typ="S7" unit="NTU" IP="192.168.10.100" DB="300" start="32" length="4" datatype="real"/>
         <value channel="0" name="Quelldruck" typ="S7" unit="bar" IP="192.168.10.100" DB="300" start="36" length="4" datatype="real"/>
