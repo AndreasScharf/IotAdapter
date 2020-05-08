@@ -1,12 +1,20 @@
-from gpiozero import MCP3008
+import time
+import serial
 
-multiplier = 1
-adc = MCP3008(channel=0)
-vol = 3.3 * adc.value * multiplier
 
-print('Temperatur: ' +  vol + '°C')
+ser = serial.Serial(
 
-adc = MCP3008(channel=1)
-vol = 3.3 * adc.value * multiplier
+   port='/dev/ttyAMA0',
+   baudrate = 4800,
+   parity=serial.PARITY_NONE,
+   stopbits=serial.STOPBITS_ONE,
+   bytesize=serial.EIGHTBITS,
+   timeout=1
+)
 
-print('Pressure: ' +  vol + 'bar')
+
+
+
+while 1:
+   x = ser.read()
+   print(x)
