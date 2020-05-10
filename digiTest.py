@@ -35,6 +35,6 @@ print(bytes_to_setup)
 
 while 1:
   if ser.inWaiting() > 0:
-    x = ser.read(size=1)
-    print(x.encode("hex"))
-    #print(data[-1])
+    data = ser.read(size=1)
+    print(data.encode("hex"))
+    print('checksum', data[-1])
