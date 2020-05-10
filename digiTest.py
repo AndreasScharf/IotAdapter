@@ -26,6 +26,8 @@ def checksum(bytes_to_send):
 
   return sum
 
+bytes_to_setup.append(checksum(bytes_to_setup))
+ser.write(bytes_to_setup)
 
 bytes_to_request.append(checksum(bytes_to_request))
 ser.write(bytes_to_request)
@@ -34,6 +36,6 @@ time.sleep(1)
 
 while 1:
   if ser.inWaiting() > 0:
-    data = ser.read(size=ser.inWaiting())
+    data = ser.read(size=64)
     print(data.encode("hex"))
     print(data[-1])
