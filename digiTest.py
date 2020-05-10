@@ -29,7 +29,7 @@ def checksum(bytes_to_send):
 
 bytes_to_request.append(checksum(bytes_to_request))
 ser.write(bytes_to_request)
-
+print('Sent to Sensor', bytes_to_request)
 time.sleep(1)
 
 while 1:
