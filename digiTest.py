@@ -48,10 +48,11 @@ while 1:
     for c in data:
       buffer.append(ord(c))
 
-    if isHeader and not buffer[0] == 0x72:
+
+    if isHeader and not ord(data[0]) == 0x72:
       # Fertig
-      print(buffer)
-      print(buffer[-1])
-      print(checksum(buffer[:-1]))
+      print('response', buffer)
+      print('Uebertragung OK:', buffer[-1] == checksum(buffer[:-1]))
+      buffer = []
 
     isHeader = buffer[0] == 0x72
