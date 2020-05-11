@@ -39,7 +39,7 @@ while 1:
     res_bytes = []
     for i in range(len(data)/2 - 1):
       index = i*2
-      res_bytes.append(int('0x' + data[index*2 : index*2 + 2]))
+      res_bytes.append(int('0x' + data[index : index + 2]))
 
     print(res_bytes)
     print(checksum(res_bytes[:-1]))
