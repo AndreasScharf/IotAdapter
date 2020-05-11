@@ -54,8 +54,7 @@ while 1:
     if isHeader and not ord(data[0]) == 0x72:
     #   Fertig
        print('Uebertragung OK:', buffer[-1] == checksum(buffer[:-1]))
-       if not callback:
-           callback(buffer)
+       callback(buffer)
        buffer = []
        isHeader = False
     else:
