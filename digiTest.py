@@ -46,8 +46,8 @@ while 1:
 
     if isHeader and not buffer[0] == 0x72:
       # Fertig
-      print(res_bytes)
-      print(res_bytes[-1])
-      print(checksum(res_bytes[:-1]))
+      print(buffer)
+      print(buffer[-1])
+      print(checksum(buffer[:-1]))
 
     isHeader = buffer[0] == 0x72
