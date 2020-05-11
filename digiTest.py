@@ -25,23 +25,25 @@ def checksum(bytes_to_send):
     sum = sum - 0x100
   return sum
 
-def data_res(res):
-  print('response', res)
+def callback(request, data):
+    if request=='setup':
+      print('setup done')
+      print(data)
+      waitingResponse = 'lol'
+      bytes_to_request.append(checksum(bytes_to_request))
+      ser.write(bytes_to_request)
+      print('send', bytes_to_request)
+    elif: request=='lol':
+      print(data)
+
+waitingResponse = 'setup'
 bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
 print('send',bytes_to_setup)
-def setup_res(res_data):
-    print('setup done')
-    print(res_data)
-    bytes_to_request.append(checksum(bytes_to_request))
-    ser.write(bytes_to_request)
-    print('send', bytes_to_request)
-    callback = data_res
-
-callback = setup_res
 
 buffer = []
 isHeader = False
+
 while 1:
   bytes_in_Waiting = ser.inWaiting()
   if bytes_in_Waiting > 0:
@@ -57,7 +59,7 @@ while 1:
     if isHeader and not ord(data[0]) == 0x72:
     #   Fertig
        print('Uebertragung OK:', buffer[-1] == checksum(buffer[:-1]))
-       callback(buffer)
+       callback(waitingResponse,buffer)
        buffer = []
        isHeader = False
     else:
