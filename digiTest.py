@@ -27,13 +27,15 @@ def checksum(bytes_to_send):
 
 bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
-print(bytes_to_setup)
+print('send',bytes_to_setup)
+def setup_res(res_data):
+    print('setup done')
 
-bytes_to_request.append(checksum(bytes_to_request))
-ser.write(bytes_to_request)
-print(bytes_to_request)
+    bytes_to_request.append(checksum(bytes_to_request))
+    ser.write(bytes_to_request)
+    print('send', bytes_to_request)
 
-
+callback = setup_res
 
 buffer = []
 isHeader = False
@@ -49,10 +51,12 @@ while 1:
       buffer.append(ord(c))
 
 
-#    if isHeader and not ord(data[0]) == 0x72:
-      # Fertig
-    print('response', buffer)
-    print('Uebertragung OK:', buffer[-1] == checksum(buffer[:-1]))
-    buffer = []
-
-#    isHeader = len(buffer) > 0 or buffer[0] == 0x72
+    if isHeader and not ord(data[0]) == 0x72:
+    #   Fertig
+       print('Uebertragung OK:', buffer[-1] == checksum(buffer[:-1]))
+       if not callback:
+           callback(buffer)
+       buffer = []
+       isHeader = False
+    else:
+      isHeader = buffer[0] == 0x72
