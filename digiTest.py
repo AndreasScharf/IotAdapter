@@ -29,21 +29,25 @@ bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
 print(bytes_to_setup)
 buffer = []
+isHeader = False
 inReading = False
 while 1:
   bytes_in_Waiting = ser.inWaiting()
 
-  if bytes_in_Waiting > 0:
-    inReading = True
-    data = ser.read(size=bytes_in_Waiting)
-    res_bytes = []
 
-#    for i in range(len(data)/2 - 1):
-#      index = i*2
-#      res_bytes.append(int(data[index : index + 2], 16))
+  if bytes_in_Waiting > 0:
+    if not isHeader:
+        buffer = []
+
+    data = ser.read(size=bytes_in_Waiting)
 
     for c in data:
-      res_bytes.append(ord(c))
+      buffer.append(ord(c))
 
-    print(res_bytes)
-    print(checksum(res_bytes[:-1]))
+    if isHeader and not buffer[0] == 0x72:
+      # Fertig
+      print(res_bytes)
+      print(res_bytes[-1])
+      print(checksum(res_bytes[:-1]))
+
+    isHeader = buffer[0] == 0x72
