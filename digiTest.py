@@ -36,6 +36,7 @@ while 1:
     print('Respond ', data)
 
     bytes_to_check = []
-    for c in data[:-1]:
-      bytes_to_check = ord(c)
-    print(type(bytes_to_check), type(bytes_to_check[0]))
+    index = 0
+    bytes_to_check = data[:-1].split(2)
+    print(bytes_to_check)
+    print(type(bytes_to_check))
