@@ -55,4 +55,4 @@ while 1:
       print('Uebertragung OK:', buffer[-1] == checksum(buffer[:-1]))
       buffer = []
 
-    isHeader = buffer[0] == 0x72
+    isHeader = len(buffer) > 0 or buffer[0] == 0x72
