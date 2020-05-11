@@ -31,20 +31,15 @@ print(bytes_to_setup)
 buffer = []
 inReading = False
 while 1:
-#  if inReading and ser.inWaiting() <= 0:
-#    org_checksum = buffer[-1]
-#    new_checksum = checksum(buffer[:-1])
-#    print(org_checksum, new_checksum)
-#    buffer = []
+  bytes_in_Waiting = ser.inWaiting()
 
-
-#  inReading = False
-  if ser.inWaiting() > 0:
+  if bytes_in_Waiting > 0:
     inReading = True
-    data = ser.read(size=64)
-    slice_object = slice(2)
-    print(data[slice_object])
+    data = ser.read(size=bytes_in_Waiting)
+    res_bytes = []
+    for i in range(len(data)/2 - 1):
+        index = i*2
+        res_bytes.append(int('0x' + data.slice(index*2, index*2 + 2)))
 
-#    buffer.append(hex(ord(data)))
-#    data = data.encode("hex")
-#    print('Respondline ', data)
+   print(res_bytes)
+   print(checksum(res_bytes[:-1]))
