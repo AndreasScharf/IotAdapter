@@ -28,15 +28,20 @@ def checksum(bytes_to_send):
 bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
 print(bytes_to_setup)
-
+buffer = []
+inReading = False
 while 1:
-  if ser.inWaiting() > 0:
-    data = ser.read(size=12)
-    data = data.encode("hex")
-    print('Respond ', data)
+  if inReading and ser.inWaiting() <= 0:
+    org_checksum = buffer[-1]
+    new_checksum = checksum(buffer[:-1])
+    print(org_checksum, new_checksum)
+    buffer = []
 
-    bytes_to_check = []
-    index = 0
-    bytes_to_check = data[:-1].split(2)
-    print(bytes_to_check)
-    print(type(bytes_to_check))
+
+  inReading = False
+  if ser.inWaiting() > 0:
+    inReading = True
+    data = ser.read(size=2)
+    buffer.append(hex(ord(data)))
+    data = data.encode("hex")
+    print('Respondline ', data)
