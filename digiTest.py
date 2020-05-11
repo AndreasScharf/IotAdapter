@@ -32,7 +32,7 @@ ser.write(bytes_to_setup)
 print('send',bytes_to_setup)
 def setup_res(res_data):
     print('setup done')
-
+    print(res_data)
     bytes_to_request.append(checksum(bytes_to_request))
     ser.write(bytes_to_request)
     print('send', bytes_to_request)
