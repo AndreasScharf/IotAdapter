@@ -28,14 +28,14 @@ def checksum(bytes_to_send):
 bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
 print(bytes_to_setup)
-#bytes_to_request.append(checksum(bytes_to_request))
-#ser.write(bytes_to_request)
-#print('Sent to Sensor', bytes_to_request)
-#time.sleep(1)
 
 while 1:
   if ser.inWaiting() > 0:
     data = ser.read(size=12)
-    print('Fehlerfrei ', data[-1] == checksum(bytes(data[:-1], 'utf-8')))
     data = data.encode("hex")
     print('Respond ', data)
+
+    bytes_to_check = []
+    for c in data[:-1]:
+      bytes_to_check = ord(c)
+    print(type(bytes_to_check), type(bytes_to_check[0]))
