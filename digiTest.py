@@ -28,13 +28,17 @@ def checksum(bytes_to_send):
 bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
 print(bytes_to_setup)
+
+bytes_to_request.append(checksum(bytes_to_request))
+ser.write(bytes_to_request)
+print(bytes_to_request)
+
+
+
 buffer = []
 isHeader = False
-inReading = False
 while 1:
   bytes_in_Waiting = ser.inWaiting()
-
-
   if bytes_in_Waiting > 0:
     if not isHeader:
         buffer = []
