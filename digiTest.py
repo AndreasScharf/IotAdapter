@@ -37,9 +37,13 @@ while 1:
     inReading = True
     data = ser.read(size=bytes_in_Waiting)
     res_bytes = []
-    for i in range(len(data)/2 - 1):
-      index = i*2
-      res_bytes.append(int('0x' + data[index : index + 2]))
+
+#    for i in range(len(data)/2 - 1):
+#      index = i*2
+#      res_bytes.append(int(data[index : index + 2], 16))
+
+    for c in data:
+      res_bytes.append(ord(c))
 
     print(res_bytes)
     print(checksum(res_bytes[:-1]))
