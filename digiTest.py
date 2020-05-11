@@ -25,6 +25,8 @@ def checksum(bytes_to_send):
     sum = sum - 0x100
   return sum
 
+def data_res(res):
+  print('response', res)
 bytes_to_setup.append(checksum(bytes_to_setup))
 ser.write(bytes_to_setup)
 print('send',bytes_to_setup)
@@ -34,8 +36,6 @@ def setup_res(res_data):
     bytes_to_request.append(checksum(bytes_to_request))
     ser.write(bytes_to_request)
     print('send', bytes_to_request)
-    def data_res(res):
-      print('response', res)
     callback = data_res
 
 callback = setup_res
