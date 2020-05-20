@@ -9,6 +9,6 @@
         <value channel="0" name="Z_Zulauf" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="4" length="4" datatype="real"/>
         <value channel="0" name="Z_Ablauf" typ="S7" unit="m³" IP="192.168.10.200" DB="300" start="8" length="4" datatype="real"/>
         <value channel="0" name="Stoerung" typ="S7" unit="" IP="192.168.10.200" DB="300" start="34" length="1" datatype="bit"/>
-        <value channel="0" name="Durchfluss_Ablauf" typ="S7" unit="" IP="192.168.10.200" DB="300" start="54" length="4" datatype="real"/>
+        <value channel="0" name="Durchfluss_Ablauf" typ="S7" unit="m³/h" IP="192.168.10.200" DB="300" start="54" length="4" datatype="real"/>
     </values>
 </data>
