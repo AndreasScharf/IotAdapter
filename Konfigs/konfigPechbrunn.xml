@@ -3,7 +3,7 @@
     <values>
         <connection ipAdress="85.214.215.187" port="12000"/>
         <extra intervall="300" table="Data"/>
-        <value channel="0" name="MAD" typ="static" unit="" values="pechbrunn"/>
+        <value channel="0" name="MAD" typ="static" unit="" values="pechbrunn2"/>
         <value channel="0" name="time" typ="time" unit=""/>
         <value channel="0" name="Niveau" typ="S7" unit="%" IP="192.168.10.100" DB="300" start="0" length="4" datatype="real"/>
         <value channel="0" name="Z_Zulauf" typ="S7" unit="m³" IP="192.168.10.100" DB="300" start="4" length="4" datatype="real"/>
