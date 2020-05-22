@@ -1,7 +1,7 @@
 #from gpiozero import MCP3008
 from datetime import datetime
 #import RPi.GPIO as GPIO
-import commands
+import subprocess
 import socketio
 import time
 import json
@@ -77,7 +77,7 @@ def main():
 def has_network(config):
   return True
 
-  myip = commands.getoutput('hostname -I').split('.')
+  myip = subprocess.getoutput('hostname -I').split('.')
   next_test_ip = config.split('.')
   if int(next_test_ip[3]) == 0xFF:
     return False
