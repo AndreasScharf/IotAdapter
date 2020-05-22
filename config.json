@@ -1,4 +1,7 @@
 {
-  "ip":"85.214.215.187",
-  "port": 12001
+  "ip":"10.0.0.23",
+  "port": 5000,
+  "data":[
+    { "name":"mad", "type":"static", "value":"test" }
+  ]
 }

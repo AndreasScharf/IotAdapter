@@ -17,7 +17,6 @@ sio = socketio.Client()
 config_path = '/home/pi/Documents/IotAdapter/config.json'
 config_path = './config.json'
 router = '192.168.10.1'
-socket_connected = False
 def main():
   with open(config_path, 'r') as myfile:
     config = myfile.read()
@@ -30,19 +29,24 @@ def main():
 #
 #  Connections aufbauen
 #
+  socket_connected = False
   @sio.event
   def connect():
     print("I'm connected!")
+    global socket_connected
     socket_connected = True
+    print('socket,', socket_connected)
 
   @sio.event
   def connect_error():
     print("The connection failed!")
+    global socket_connected
     socket_connected = False
 
   @sio.event
   def disconnect():
     print("I'm disconnected!")
+    global socket_connected
     socket_connected = False
 
   while 1:
@@ -54,9 +58,13 @@ def main():
 
     if not socket_connected:
       try:
-        sio.connect('http://localhost:5000')
+        sio.connect('http://' + config['ip'] + ':' + str(config['port']))
+        socket_connected = True
         sio.emit('alive', {'mad': 'lel'})
+      except KeyboardInterrupt:
+        raise
       except:
+        print('socket not connected')
         pass
 
     message = []
@@ -70,8 +78,11 @@ def main():
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'])
 
+      unit = ''
+      if 'unit' in row:
+        unit = row['unit']
 
-      message.append({'name':row['name'], 'unit': row['unit'], 'value': value})
+      message.append({'name':row['name'], 'unit': unit, 'value': value})
 
 
 def has_network(config):
