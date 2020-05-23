@@ -36,6 +36,7 @@ def main():
     global socket_connected
     socket_connected = True
     print('socket,', socket_connected)
+    sio.emit('alive', {'mad': 'lel'})
 
   @sio.event
   def connect_error():
@@ -49,6 +50,28 @@ def main():
     global socket_connected
     socket_connected = False
 
+  @sio.on('set_value')
+  def set_value(data):
+    for row in config['data']:
+      if 'output' in row and data['valuename'] == row['name']:
+        output = row['output']
+        if 'min' in output and output['min'] > float(data['value']):
+          #Value out of range
+          error_code = 0x0F
+          sio.emit('set_value_back', error_code)
+          return
+        elif 'max' in output and output['max'] < float(data['value']):
+          #Value out of range
+         error_code = 0x0F
+         sio.emit('set_value_back', error_code)
+         return
+        else:
+          pass
+        ip = row['ip']
+        db = row['db']
+        offset = row['offset']
+
+
   while 1:
     if not has_network(config):
       print('no network')
@@ -60,7 +83,6 @@ def main():
       try:
         sio.connect('http://' + config['ip'] + ':' + str(config['port']))
         socket_connected = True
-        sio.emit('alive', {'mad': 'lel'})
       except KeyboardInterrupt:
         raise
       except:
