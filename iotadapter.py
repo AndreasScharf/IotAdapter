@@ -9,11 +9,13 @@ import os
 
 
 #Snap7
-#import snap7
-#from snap7.util import *
-#from snap7.snap7types import *
+import snap7
+from snap7.util import *
+from snap7.snap7types import *
 
 sio = socketio.Client()
+s7 = snap7.client.Client()
+cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
 config_path = './config.json'
 router = '192.168.10.1'
@@ -70,6 +72,8 @@ def main():
         ip = row['ip']
         db = row['db']
         offset = row['offset']
+        datatype = row['datatype']
+
 
 
   while 1:
@@ -130,6 +134,28 @@ def has_network(config):
 
 def get_from_s7_db(ip, db, offset, length, datatype):
   pass
+
+def set_s7_db(ip, db, offset, length,datatype, value):
+  if not cur_ip == ip:
+    if s7.get_connected():
+      s7.close()
+    try:
+      s7.connect(ip, 0, 1)
+      cur_ip = ip
+    except:
+      error_code = 0x50
+      sio.emit('set_value_back', error_code)
+      print('CPU not avalible')
+      return
+
+  data = _bytearray(length)
+  byte_index = int((offset - int(offset)) * 10)
+  if datatype == 'bit':
+      set_bool(data, byte_index, value, value)
+
+
+  s7.db_write(db, offset, data)
+
 
 def get_from_analog(channel, multi):
   return 0
