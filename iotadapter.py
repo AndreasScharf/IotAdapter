@@ -90,6 +90,7 @@ def main():
       os.system('sudo reboot')
       return
 
+    print('has Network, has socket', socket_connected)
     message = []
     if not socket_connected:
       try:
@@ -103,7 +104,7 @@ def main():
         if (current_milli_time - last_send_time) < 300:
             continue
     else:
-      f = open(offline_data_path, 'r')
+      f = open(offline_data_path, 'w+')
       lines = f.readlines()
       if len(lines) > 0:
        for line in lines:
@@ -137,7 +138,7 @@ def main():
     last_send_time = current_milli_time
     if socket_connected:
       sio.emit('recv_data', message)
-      time.sleep(300)
+      time.sleep(30)
     else:
       f = open(offline_data_path, 'a')
       for row in message:
