@@ -1,7 +1,8 @@
 {
-  "ip":"10.0.0.23",
+  "ip":"85.214.215.187",
   "port": 5000,
   "data":[
-    { "name":"mad", "type":"static", "value":"test" }
+    { "name":"mad", "type":"static", "value":"test" },
+    { "name":"Niveau Vorlagebehaelter", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"4", "datatype":"real", "length":"4" }
   ]
 }
