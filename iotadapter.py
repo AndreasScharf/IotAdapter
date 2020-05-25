@@ -73,8 +73,8 @@ def main():
         db = row['db']
         offset = row['offset']
         datatype = row['datatype']
-
-
+        length = row['length']
+        set_s7_db(ip, db, offset, length, datatype, float(data['value']))
 
   while 1:
     if not has_network(config):
@@ -133,9 +133,35 @@ def has_network(config):
     return True
 
 def get_from_s7_db(ip, db, offset, length, datatype):
-  pass
+  if not cur_ip == ip:
+    if s7.get_connected():
+      s7.close()
+    try:
+      s7.connect(ip, 0, 1)
+      cur_ip = ip
+    except:
+      error_code = 0x50
+      sio.emit('set_value_back', error_code)
+      print('CPU not avalible')
+      return
 
-def set_s7_db(ip, db, offset, length,datatype, value):
+  data = db.db_read(db, int(offset), length)
+  byte_index = int((offset - int(offset)) * 10)
+  value = 0.0
+
+  if datatype=='bit':
+    return get_bool(data, byte_index, 0)
+  elif datatype=='word' or datatype=='byte':
+    return get_int(data, 0)
+  elif datatype=='dint':
+    return get_dint(data, 0)
+  elif datatype=='real':
+    return get_real(data, 0)
+  else:
+    return -1
+
+
+def set_s7_db(ip, db, offset, length, datatype, value):
   if not cur_ip == ip:
     if s7.get_connected():
       s7.close()
@@ -152,7 +178,8 @@ def set_s7_db(ip, db, offset, length,datatype, value):
   byte_index = int((offset - int(offset)) * 10)
   if datatype == 'bit':
       set_bool(data, byte_index, value, value)
-
+  elif datatype == 'real':
+      set_real(data, 0, value)
 
   s7.db_write(db, offset, data)
 
@@ -160,6 +187,9 @@ def set_s7_db(ip, db, offset, length,datatype, value):
 def get_from_analog(channel, multi):
   return 0
 
-
+def get_dint(_bytearray, byte_index):
+    data = _bytearray[byte_index:byte_index + 4]
+    dint = struct.unpack('>i', struct.pack('4B', *data))[0]
+    return dint
 if __name__ == '__main__':
     main()
