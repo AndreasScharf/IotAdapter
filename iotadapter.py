@@ -27,7 +27,7 @@ offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
 offline_data_path = './offlinedata.json'
 router = '192.168.10.1'
 def main():
-  with open(config_path, 'r') as myfile:
+    f = open(config_path, 'r')
     config = myfile.read()
   try:
     config = json.loads(config)
