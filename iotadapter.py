@@ -180,8 +180,8 @@ def get_from_s7_db(ip, db, offset, length, datatype):
       print('CPU not avalible')
       return
 
-  data = db.db_read(db, int(offset), length)
-  byte_index = int((offset - int(offset)) * 10)
+  data = s7.db_read(int(db), int(offset), int(length))
+  byte_index = int((float(offset) - int(offset)) * 10)
   value = 0.0
 
   if datatype=='bit':
