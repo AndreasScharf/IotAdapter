@@ -3,6 +3,7 @@
   "port": 5000,
   "data":[
     { "name":"mad", "type":"static", "value":"test" },
+    { "name":"time", "type":"time"},
     { "name":"Niveau Vorlagebehaelter", "unit":"%", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"4", "datatype":"real", "length":"4" }
   ]
 }

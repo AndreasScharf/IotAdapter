@@ -13,11 +13,18 @@ import snap7
 from snap7.util import *
 from snap7.snap7types import *
 
+current_milli_time = lambda: int(round(time.time() * 1000))
+last_send_time = 0
+
+
 sio = socketio.Client()
 s7 = snap7.client.Client()
 cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
 config_path = './config.json'
+
+offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
+offline_data_path = './offlinedata.json'
 router = '192.168.10.1'
 def main():
   with open(config_path, 'r') as myfile:
@@ -83,6 +90,7 @@ def main():
       os.system('sudo reboot')
       return
 
+    message = []
     if not socket_connected:
       try:
         sio.connect('http://' + config['ip'] + ':' + str(config['port']))
@@ -91,9 +99,16 @@ def main():
         raise
       except:
         print('socket not connected')
-        pass
+        global last_send_time
+        if (current_milli_time - last_send_time) < 300:
+            continue
+    else:
+      f = open(offline_data_path, 'r')
+      lines = f.readlines()
+      if len(lines) > 0:
+       for line in lines:
+         message.append(JSON.parse(line))
 
-    message = []
     for row in config['data']:
       if row['type'] == 'static':
         value = row['value']
@@ -108,9 +123,26 @@ def main():
       if 'unit' in row:
         unit = row['unit']
 
+      if not row['type'] == 'static':
+        if 'lastdata' in row and row['lastdata'] == value:
+          continue
+        else:
+          row['lastdata'] = value
+
+
       message.append({'name':row['name'], 'unit': unit, 'value': value})
       print(message[-1])
-    time.sleep(300)
+
+    global last_send_time
+    last_send_time = current_milli_time
+    if socket_connected:
+      sio.emit('recv_data', message)
+      time.sleep(300)
+    else:
+      f = open(offline_data_path, 'a')
+      for row in message:
+        f.write(JSON.dumps(row) + '\n')
+      f.close()
 
 def has_network(config):
   return True
@@ -135,7 +167,7 @@ def has_network(config):
 
 def get_from_s7_db(ip, db, offset, length, datatype):
   global cur_ip
-    
+
   if not cur_ip == ip:
     if s7.get_connected():
       s7.close()
@@ -162,8 +194,6 @@ def get_from_s7_db(ip, db, offset, length, datatype):
     return get_real(data, 0)
   else:
     return -1
-
-
 def set_s7_db(ip, db, offset, length, datatype, value):
   global cur_ip
 
@@ -187,8 +217,6 @@ def set_s7_db(ip, db, offset, length, datatype, value):
       set_real(data, 0, value)
 
   s7.db_write(db, offset, data)
-
-
 def get_from_analog(channel, multi):
   return 0
 
