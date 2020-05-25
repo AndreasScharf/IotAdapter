@@ -109,7 +109,7 @@ def main():
         unit = row['unit']
 
       message.append({'name':row['name'], 'unit': unit, 'value': value})
-
+      print(message[-1])
 
 def has_network(config):
   return True
