@@ -164,7 +164,7 @@ def get_from_s7_db(ip, db, offset, length, datatype):
 
 def set_s7_db(ip, db, offset, length, datatype, value):
   global cur_ip
-  if not cur_ip == ip:
+  if not cur_ip or not cur_ip == ip:
     if s7.get_connected():
       s7.close()
     try:
