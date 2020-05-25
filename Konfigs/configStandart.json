@@ -3,7 +3,7 @@
   "port": 5000,
   "data": [
    { "name": "MAD", "typ": "static", "unit": "", "values": "" },
-   { "name": "time", "typ": "time",  },
+   { "name": "time", "typ": "time"  },
    {      "name": "Niveau Vorlagebehaelter",      "typ": "S7",      "unit": "%",      "ip": "192.168.10.100",      "db": "300",      "offset": "4",      "length": "4",      "datatype": "real"   },
    {    "name": "Niveau Hochbehaelter",      "typ": "S7",      "unit": "%",      "ip": "192.168.10.100",      "db": "300",      "offset": "8",      "length": "4",      "datatype": "real"   },
    {    "name": "Durchfluss Ultrafilter",      "typ": "S7",      "unit": "m³/h",      "ip": "192.168.10.100",      "db": "300",      "offset": "12",      "length": "4",      "datatype": "real"   },
