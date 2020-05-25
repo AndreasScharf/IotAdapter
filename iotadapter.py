@@ -28,7 +28,8 @@ offline_data_path = './offlinedata.json'
 router = '192.168.10.1'
 def main():
     f = open(config_path, 'r')
-    config = myfile.read()
+    config = f.read()
+
   try:
     config = json.loads(config)
     print('File correct')
