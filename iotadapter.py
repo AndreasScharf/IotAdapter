@@ -111,6 +111,9 @@ def main():
          message.append(JSON.parse(line))
 
     for row in config['data']:
+      if 'not_active' in row:
+          continue
+
       if row['type'] == 'static':
         value = row['value']
       elif row['type'] == 'time':

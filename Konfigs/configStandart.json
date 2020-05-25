@@ -7,3 +7,371 @@
     { "name":"Niveau Vorlagebehaelter", "unit":"%", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"4", "datatype":"real", "length":"4" }
   ]
 }
+{
+   "values": {
+      "connection": {
+         "ipAdress": "85.214.215.187",
+         "port": "12000"
+      },
+      "extra": {
+         "intervall": "300",
+         "table": "Data"
+      },
+      "data": [
+         { "name": "MAD", "typ": "static", "unit": "", "values": "" },
+         { "name": "time", "typ": "time", "unit": "" },
+         {
+
+            "name": "Niveau Vorlagebehaelter",
+            "typ": "S7",
+            "unit": "%",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "4",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Niveau Hochbehaelter",
+            "typ": "S7",
+            "unit": "%",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "8",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Durchfluss Ultrafilter",
+            "typ": "S7",
+            "unit": "m³/h",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "12",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Durchfluss Permeate",
+            "typ": "S7",
+            "unit": "m³/h",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "16",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Durchfluss Konzentrat",
+            "typ": "S7",
+            "unit": "m³/h",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "20",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "UV Intensitaet",
+            "typ": "S7",
+            "unit": "W/m²",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "24",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Leitfaehigkeit Permeate",
+            "typ": "S7",
+            "unit": "uS",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "28",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Truebung",
+            "typ": "S7",
+            "unit": "NTU",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "32",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Quelldruck",
+            "typ": "S7",
+            "unit": "bar",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "36",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Zulauf UF",
+            "typ": "S7",
+            "unit": "bar",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "40",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Filtrat UF",
+            "typ": "S7",
+            "unit": "bar",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "44",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Zulauf NF",
+            "typ": "S7",
+            "unit": "bar",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "48",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Vordruck Hochdruckpumpe",
+            "typ": "S7",
+            "unit": "bar",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "52",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Konzentrat",
+            "typ": "S7",
+            "unit": "bar",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "56",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Stoerung Anlage",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "60",
+            "length": "4",
+            "datatype": "real"
+         },
+         {
+
+            "name": "Betrieb Anlage",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "61",
+            "length": "4",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Rückspuelen Ultrafiltration",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "62",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Objekt_Begangen",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "63",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Einbruch",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "64",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Spülen Nanofilter",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "65",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Stoerung UV Anlage",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "66",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Betrieb UV Anlage",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "67",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Zulaufpumpe Betrieb",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "68",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Zulaufpumpe Stoerung",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "69",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Hochdruckpumpe NF Betrieb",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "70",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Hochdruckpumpe NF Stoerung",
+            "typ": "S7",
+            "unit": "",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "71",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Mengenzaehler Zulauf UF",
+            "typ": "S7",
+            "unit": "m³",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "72",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Mengenzaehler Rueckspuelwasser",
+            "typ": "S7",
+            "unit": "m³",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "76",
+            "length": "1",
+            "datatype": "bit"
+         },
+         {
+
+            "name": "Mengenzaehler Konzentrat",
+            "typ": "S7",
+            "unit": "m³",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "80",
+            "length": "4",
+            "datatype": "int"
+         },
+         {
+
+            "name": "Mengenzaehler Permeate",
+            "typ": "S7",
+            "unit": "m³",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "84",
+            "length": "4",
+            "datatype": "dint"
+         },
+         {
+
+            "name": "Mengenzaehler Ortsnetz",
+            "typ": "S7",
+            "unit": "m³",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "88",
+            "length": "4",
+            "datatype": "dint"
+         },
+         {
+
+            "name": "Mengenzaehler Zulauf NF",
+            "typ": "S7",
+            "unit": "m³",
+            "ip": "192.168.10.100",
+            "db": "300",
+            "offset": "92",
+            "length": "4",
+            "datatype": "dint"
+         }
+      ]
+   }
+}
