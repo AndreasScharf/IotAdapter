@@ -99,7 +99,7 @@ def main():
         value = row['value']
       elif row['type'] == 'time':
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-      elif row['type'] == 'S7':
+      elif row['type'] == 's7':
         value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'])
@@ -110,6 +110,7 @@ def main():
 
       message.append({'name':row['name'], 'unit': unit, 'value': value})
       print(message[-1])
+      time.sleep(300)
 
 def has_network(config):
   return True
