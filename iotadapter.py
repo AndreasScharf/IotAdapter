@@ -110,7 +110,7 @@ def main():
 
       message.append({'name':row['name'], 'unit': unit, 'value': value})
       print(message[-1])
-      time.sleep(300)
+    time.sleep(300)
 
 def has_network(config):
   return True
