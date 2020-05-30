@@ -11,7 +11,7 @@
         <value channel="0" name="Abwassermenge" typ="S7" unit="m³" IP="192.168.10.200" DB="100" start="50" length="4" datatype="real"/>
         <value channel="0" name="Abwassertemperatur" typ="S7" unit="°C" IP="192.168.10.200" DB="100" start="54" length="4" datatype="real"/>
         <value channel="0" name="Durchfluss_Abwasser" typ="S7" unit="m³/h" IP="192.168.10.200" DB="100" start="58" length="4" datatype="real"/>
-        <value channel="0" name="Heizung" typ="S7" unit="" IP="192.168.10.200" DB="100" start="62" length="1" datatype="byte"/>
+        <value channel="0" name="Niveau_puffer" typ="S7" unit="" IP="192.168.10.200" DB="100" start="16" length="1" datatype="byte"/>
 
     </values>
 </data>

@@ -102,7 +102,7 @@ def main():
       except:
         print('socket not connected')
         global last_send_time
-        if (current_milli_time - last_send_time) < 300:
+        if (current_milli_time() - last_send_time) < 300:
             continue
     else:
       f = open(offline_data_path, 'w+')
@@ -119,7 +119,7 @@ def main():
         value = row['value']
       elif row['type'] == 'time':
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-      elif row['type'] == 's7':
+      elif row['type'] == 's7' or row['type'] == 'S7':
         value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'])
@@ -139,7 +139,7 @@ def main():
       print(message[-1])
 
     global last_send_time
-    last_send_time = current_milli_time
+    last_send_time = current_milli_time()
     if socket_connected:
       sio.emit('recv_data', message)
       time.sleep(30)
