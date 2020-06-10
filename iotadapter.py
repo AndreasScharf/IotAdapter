@@ -109,7 +109,7 @@ def main():
       lines = f.readlines()
       if len(lines) > 0:
        for line in lines:
-         message.append(JSON.parse(line))
+         message.append(json.parse(line))
 
     for row in config['data']:
       if 'not_active' in row:
@@ -146,7 +146,7 @@ def main():
     else:
       f = open(offline_data_path, 'a')
       for row in message:
-        f.write(JSON.dumps(row) + '\n')
+        f.write(json.dumps(row) + '\n')
       f.close()
 
 def has_network(config):
