@@ -142,7 +142,7 @@ def main():
     last_send_time = current_milli_time()
     if socket_connected:
       sio.emit('recv_data', message)
-      time.sleep(30)
+      sio.sleep(30)
     else:
       f = open(offline_data_path, 'a')
       for row in message:
