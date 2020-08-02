@@ -16,7 +16,7 @@ def main():
     for file in os.listdir(path):
         if file == 'IotAdapter':
             check_folder = True
-            
+
     if not check_folder:
         print('need to move')
         move_updater()
@@ -25,8 +25,12 @@ def main():
 
 
     print('checking for updates...')
+    need_to_update = False
 
-    need_to_update = check_version() or sys.argv[1] == '-force' or sys.argv[1] == '-f'
+    if sys.argv[1] == '-force' or sys.argv[1] == '-f':
+        need_to_update = True
+    else:
+        need_to_update = check_version()
 
     if need_to_update == 2:
         print('no network')
