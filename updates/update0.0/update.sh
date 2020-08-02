@@ -9,8 +9,8 @@ pip3 install json
 sudo pip3 install python-snap7
 sudo pip3 install "python-socketio[client]"
 sudo pip3 install json
-sudo cp IotAdapter/updates/update0.0/c.local /etc/rc.local
-sudo cp IotAdapter/updates/update0.0/update.json /home/pi/Documents/update.json
+sudo cp IotAdapter/updates/update0.0/rc.local /etc/rc.local
+sudo cp IotAdapter/updates/update0.0/update.json /home/pi/Documents/updater.json
 
 
 sudo npm install pm2 -g

@@ -25,9 +25,9 @@ def main():
 
 
     print('checking for updates...')
-    need_to_update = False
+    need_to_update = sys.argv.length == 2
 
-    if sys.argv[1] == '-force' or sys.argv[1] == '-f':
+    if not need_to_update and (sys.argv[1] == '-force' or sys.argv[1] == '-f'):
         need_to_update = True
     else:
         need_to_update = check_version()
@@ -78,7 +78,7 @@ def check_version():
     return x.text == 'new version available'
 def update():
     #git pull muss config auslassen bzw in gitignore schreiben
-    g = git.cmd.Git(path)
+    g = git.cmd.Git(path + '/IotAdapter')
     g.stash()
     g.pull()
 
