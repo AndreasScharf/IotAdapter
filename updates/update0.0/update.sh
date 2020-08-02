@@ -14,12 +14,14 @@ sudo cp IotAdapter/updates/update0.0/update.json /home/pi/Documents/updater.json
 
 
 sudo npm install pm2 -g
-sudo npm install express -g
-sudo npm install socket.io -g
-sudo npm install axios -g
-sudo npm install bcryptjs -g
-sudo npm install assert -g
-sudo npm install python-bridge -g
+cd /home/pi/Documents/IotAdapter/webserver
+
+sudo npm install express
+sudo npm install socket.io
+sudo npm install axios
+sudo npm install bcryptjs
+sudo npm install assert
+sudo npm install python-bridge
 
 sudo pm2 start IotAdapter/webserver/index.js --name WebConfig
 sudo pm2 startup
