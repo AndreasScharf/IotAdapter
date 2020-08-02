@@ -3,6 +3,7 @@
 import os
 import git
 import sys
+import requests
 
 path = ''
 seperator = '/'
@@ -15,6 +16,7 @@ def main():
     for file in os.listdir(path):
         if file == 'IotAdapter':
             check_folder = True
+            
     if not check_folder:
         print('need to move')
         move_updater()
