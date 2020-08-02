@@ -1,10 +1,10 @@
 #im gleichen verzeichnis muss die updater.json liegen um
-#regelmaesige updates zu ermöglichen
+#regelmaesige updates zu ermoeglichen
 import os
 import git
 
 path = ''
-seperator = '\\'
+seperator = '/'
 update_folder = ''
 
 def main():
@@ -19,7 +19,7 @@ def main():
         return
 
     need_to_update = check_version()
-    
+
     if need_to_update == 2:
         pass #no network
     elif need_to_update:
@@ -47,7 +47,7 @@ def check_version():
         if version > lastest_version:
             lastest_version = version
 
-    #send https request an license.enwatmon.de für version vergleich
+    #send https request an license.enwatmon.de fuer version vergleich
     url = 'https://license.enwatmon.de/version'
     myobj = {'version': int(lastest_version)}
     try:
