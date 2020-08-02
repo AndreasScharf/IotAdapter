@@ -4,6 +4,7 @@ import os
 import git
 import sys
 import requests
+from colorama import init, Fore, Style
 
 path = ''
 seperator = '/'
