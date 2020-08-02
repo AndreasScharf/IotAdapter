@@ -15,16 +15,23 @@ def main():
         if file == 'IotAdapter':
             check_folder = True
     if not check_folder:
+        print('need to move')
         move_updater()
+        print('execute again')
         return
+
+
+    print('checking for updates...')
 
     need_to_update = check_version()
 
     if need_to_update == 2:
-        pass #no network
+        print('no network')
     elif need_to_update:
+        print('update...')
         update()
-
+    else:
+        print('up to date')
     #wait 24hours
 
 def move_updater():
@@ -58,6 +65,8 @@ def check_version():
     if not x:
         return 2
 
+        
+    print(x.text)
     return x.text == 'new version available'
 def update():
     #git pull muss config auslassen bzw in gitignore schreiben
