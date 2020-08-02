@@ -27,8 +27,8 @@ def main():
     print('checking for updates...')
     need_to_update = len(sys.argv) == 2
 
-    if not need_to_update and (sys.argv[1] == '-force' or sys.argv[1] == '-f'):
-        need_to_update = True
+    if not need_to_update :
+        need_to_update = (sys.argv[1] == '-force' or sys.argv[1] == '-f')
     else:
         need_to_update = check_version()
 
@@ -84,7 +84,7 @@ def update():
 
     lastest_version = '0'
 
-    for file in os.listdir(path):
+    for file in os.listdir(path + '/IotAdapter/updates'):
         version = file.replace('update', '')
         if version > lastest_version:
             lastest_version = version
