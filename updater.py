@@ -82,7 +82,7 @@ def update():
     g.stash()
     g.pull()
 
-    lastest_version = '0'
+    lastest_version = ''
 
     for file in os.listdir(path + '/IotAdapter/updates'):
         version = file.replace('update', '')
@@ -91,7 +91,7 @@ def update():
             global update_folder
             update_folder = file
 
-    if not update_folder:
+    if not update_folder and update_folder == '':
         print('no updates available')
         return
     f = open(update_folder + '/update.sh')
