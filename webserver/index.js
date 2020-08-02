@@ -18,7 +18,7 @@ const VORGEGEBENE_JSON = {
   "data": []
 }
 
-app.use('/client', express.static('/client'));
+app.use('/client', express.static(__dirname +  '/client'));
 app.get('*', (req, res)=>{
     res.sendFile(__dirname + '/client/index.html');
 });
