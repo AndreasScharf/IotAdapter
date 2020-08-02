@@ -89,7 +89,7 @@ def update():
         if version > lastest_version:
             lastest_version = version
             global update_folder
-            update_folder = file
+            update_folder = path + '/IotAdapter/updates/' + file
 
     if not update_folder or update_folder == '':
         print('no updates available')
