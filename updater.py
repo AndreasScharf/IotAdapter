@@ -25,7 +25,7 @@ def main():
 
 
     print('checking for updates...')
-    need_to_update = sys.argv.length == 2
+    need_to_update = len(sys.argv) == 2
 
     if not need_to_update and (sys.argv[1] == '-force' or sys.argv[1] == '-f'):
         need_to_update = True
@@ -34,7 +34,7 @@ def main():
 
     if need_to_update == 2:
         print('no network')
-    elif need_to_update:
+    if need_to_update:
         print('update...')
         update()
     else:
