@@ -18,7 +18,7 @@ def main():
         print('need to move')
         move_updater()
         print('execute again')
-        return
+        exit()
 
 
     print('checking for updates...')
@@ -47,9 +47,9 @@ def move_updater():
 
 
 def check_version():
-    path_of_updates = path + '/IotAdapter/updates'
+    path_of_updates = path + '/IotAdapter/updates/'
     lastest_version = '0'
-    for file in os.listdir(path):
+    for file in os.listdir(path_of_updates):
         version = file.replace('update', '')
         if version > lastest_version:
             lastest_version = version
@@ -65,7 +65,7 @@ def check_version():
     if not x:
         return 2
 
-        
+
     print(x.text)
     return x.text == 'new version available'
 def update():
