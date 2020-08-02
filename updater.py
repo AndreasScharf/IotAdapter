@@ -2,6 +2,7 @@
 #regelmaesige updates zu ermoeglichen
 import os
 import git
+import sys
 
 path = ''
 seperator = '/'
@@ -23,7 +24,7 @@ def main():
 
     print('checking for updates...')
 
-    need_to_update = check_version()
+    need_to_update = check_version() or sys.argv[1] == '-force' or sys.argv[1] == '-f'
 
     if need_to_update == 2:
         print('no network')
