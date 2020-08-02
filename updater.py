@@ -58,6 +58,7 @@ def check_version():
     #send https request an license.enwatmon.de fuer version vergleich
     url = 'https://license.enwatmon.de/version'
     myobj = {'version': (lastest_version)}
+    x = {}
     try:
         x = requests.post(url, data = myobj)
     except Exception as e:
