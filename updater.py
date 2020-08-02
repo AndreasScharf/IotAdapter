@@ -91,9 +91,10 @@ def update():
             global update_folder
             update_folder = file
 
-    if not update_folder and update_folder == '':
+    if not update_folder or update_folder == '':
         print('no updates available')
         return
+    print(update_folder + '/update.sh')
     f = open(update_folder + '/update.sh')
     orders = f.readlines()
 
