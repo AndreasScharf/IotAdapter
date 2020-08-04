@@ -111,7 +111,6 @@ io.on('connection', function(socket){
         return -1
 
     `
-    python.end();
     const data_table = [];
     let menge = data.table.filter(item => !(item.type != 's7' || item.ip == '' || item.db == '' || item.datatype == '' || !item.active)).length;
     let res_index = 0;
@@ -120,22 +119,24 @@ io.on('connection', function(socket){
         continue
       python`checkRequest(${line.ip},${line.db} , ${line.offset} , 4, ${line.datatype})`.then(x => {
 
-        console.log(x)
+        console.log(  data.table[res_index] , x)
         if (x == 'NoConnect' || x == 'OutofRange') {
           socket.emit('s7Error', {Error: 'NoConnect'})
           data.table[res_index].active = false;
           data.table[res_index].not_active = true
           data_table.push(data.table[res_index])
-
+          console.log('push');
         }
         else {
           data.table[res_index].active = true;
           data_table.push(data.table[res_index])
+          console.log('push');
         }
 
         res_index++;
         console.log(res_index, menge);
         if(menge <= res_index){
+          console.log('write');
           VORGEGEBENE_JSON.data = data_table;
           let mad_item = data_table.find(elem => elem.name == 'MAD')
           VORGEGEBENE_JSON.mad = mad_item? mad_item.value: '';
@@ -147,6 +148,7 @@ io.on('connection', function(socket){
       });
 
     }
+    python.end();
     if (menge == 0) {
       VORGEGEBENE_JSON.data = data_table;
       let mad_item = data_table.find(elem => elem.name == 'MAD')
