@@ -112,14 +112,18 @@ io.on('connection', function(socket){
 
     `
     const data_table = [];
-    let menge = data.table.filter(item => !(item.type != 's7' || item.ip == '' || item.db == '' || item.datatype == '' || !item.active)).length;
+    let menge = data.table.length;
     let res_index = 0;
     for (var line of data.table) {
-      if (line.type != 's7' || line.ip == '' || line.db == '' || line.datatype == '' || !line.active)
-        continue
+      if(line.type == 'static' || line.type == 'time'){
+        line.ip = ''
+        line.db = 0
+        line.offset = 0
+        line.datatype = 0
+      }
+
       python`checkRequest(${line.ip},${line.db} , ${line.offset} , 4, ${line.datatype})`.then(x => {
 
-        console.log(  data.table[res_index] , x)
         if (x == 'NoConnect' || x == 'OutofRange') {
           socket.emit('s7Error', {Error: 'NoConnect'})
           data.table[res_index].active = false;
