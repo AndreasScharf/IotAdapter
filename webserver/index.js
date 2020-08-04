@@ -120,14 +120,16 @@ io.on('connection', function(socket){
         line.db = 0
         line.offset = 0
         line.datatype = 0
+
+      //  data_table.push(line)
       }
 
       python`checkRequest(${line.ip},${line.db} , ${line.offset} , 4, ${line.datatype})`.then(x => {
 
         if (x == 'NoConnect' || x == 'OutofRange') {
           socket.emit('s7Error', {Error: 'NoConnect'})
-          data.table[res_index].active = line.type == 'static' || line.type == 'time';
-          if (!(line.type == 'static' || line.type == 'time')) {
+          data.table[res_index].active =   data.table[res_index].type == 'static' ||   data.table[res_index].type == 'time';
+          if (!(  data.table[res_index].type == 'static' ||   data.table[res_index].type == 'time')) {
             data.table[res_index].not_active = true
           }
           data_table.push(data.table[res_index])
