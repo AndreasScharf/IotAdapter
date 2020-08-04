@@ -8,8 +8,8 @@ const bcrypt = require('bcryptjs');
 
 let assert = require('assert');
 let pythonBridge = require('python-bridge');
-const USERS_PATH = './users.json';
-const CONFIG_PATH = '../config.json'
+const USERS_PATH = __dirname + '/users.json';
+const CONFIG_PATH = __dirname +  '/../config.json'
 
 
 const VORGEGEBENE_JSON = {
