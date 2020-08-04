@@ -138,6 +138,14 @@ io.on('connection', function(socket){
 
     }
     python.end();
+    if (menge == 0) {
+      VORGEGEBENE_JSON.data = data_table;
+      let mad_item = data_table.find(elem => elem.name == 'MAD')
+      VORGEGEBENE_JSON.mad = mad_item? mad_item.value: '';
+      let data = JSON.stringify(VORGEGEBENE_JSON);
+      fs.writeFileSync(CONFIG_PATH, data);
+      console.log('table_change success');
+    }
   });
   socket.on('get_Table', ()=>{
     fs.readFile(CONFIG_PATH, (err, data) => {
