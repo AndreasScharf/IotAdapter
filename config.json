@@ -17,7 +17,7 @@
     { "name":"Filtrat UF", "unit":"bar", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"44", "datatype":"real", "length":"4" },
     { "name":"Vordruck Hochdruckpumpe", "unit":"bar", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"48", "datatype":"real", "length":"4" },
     { "name":"Störung Anlage", "unit":"NTU", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"52", "datatype":"real", "length":"4" },
-    { "name":"Truebung", "unit":"NTU", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"56", "datatype":"real", "length":"4" },
+    { "name":"Truebung", "unit":"NTU", "type":"s7", "ip":"192.168.10.100", "db":"300", "offset":"56", "datatype":"real", "length":"4" }
 
   ]
 }
