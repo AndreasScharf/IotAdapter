@@ -12,11 +12,12 @@ values = mydoc.getElementsByTagName('value')
 
 for elem in values:
     row = {}
+    row['active'] = 'true'
     typ = elem.attributes['typ'].value
     name = elem.attributes['name'].value
     unit = elem.attributes['unit'].value
-    row['name'] = name
     row['type'] = typ
+    row['name'] = name
     row['unit'] = unit
 
     if name == 'MAD':
