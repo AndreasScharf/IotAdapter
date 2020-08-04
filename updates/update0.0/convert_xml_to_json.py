@@ -1,4 +1,5 @@
 from xml.dom import minidom
+from collections import OrderedDict
 import json
 json_file = {
   "ip":"85.214.215.187",
@@ -37,5 +38,5 @@ for elem in values:
         row['datatype'] = elem.attributes['datatype'].value
     json_file['data'].append(row)
 f = open('/home/pi/Documents/IotAdapter/config.json', 'w+')
-f.write(json.dumps(json_file))
+f.write(json.dumps(OrderedDict(json_file)))
 f.close()
