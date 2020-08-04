@@ -21,15 +21,15 @@ sio = socketio.Client()
 s7 = snap7.client.Client()
 cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
-config_path = './config.json'
+#config_path = './config.json'
 
 offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
-offline_data_path = './offlinedata.json'
+#offline_data_path = './offlinedata.json'
 router = '192.168.10.1'
 def main():
   f = open(config_path, 'r')
   config = f.read()
-
+  f.close()
   try:
     config = json.loads(config)
     print('File correct')

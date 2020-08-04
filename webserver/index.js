@@ -145,6 +145,7 @@ io.on('connection', function(socket){
         socket.emit('get_Table_back',{table: [] });
         return
       }
+
       let config = JSON.parse(data);
       console.log(config);
       socket.emit('get_Table_back',{table: config.data });
