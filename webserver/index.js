@@ -123,7 +123,9 @@ io.on('connection', function(socket){
         if (x == 'NoConnect' || x == 'OutofRange') {
           socket.emit('s7Error', {Error: 'NoConnect'})
           data.table[res_index].active = false;
-
+          data.table[res_index].not_active = true
+          data_table.push(data.table[res_index])
+          
         }
         else {
           data.table[res_index].active = true;
