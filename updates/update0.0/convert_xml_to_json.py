@@ -35,10 +35,14 @@ for elem in values:
         row['offset'] = elem.attributes['start'].value
         row['length'] = elem.attributes['length'].value
         row['datatype'] = elem.attributes['datatype'].value
-    json_file['data'].append(row)
+
+    print('row', row)
+    print('\n')
+    json_file['data'].append(row, sort_keys=False)
 f = open('/home/pi/Documents/IotAdapter/config.json', 'w+')
 print(json_file)
-text = json.dumps(json_file)
+print('\n')
+text = json.dumps(json_file, sort_keys=False)
 print(text)
 f.write(text)
 f.close()
