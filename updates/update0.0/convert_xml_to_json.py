@@ -8,7 +8,7 @@ json_file = {
 }
 
 mydoc = minidom.parse('/home/pi/Documents/IotAdapter/konfig.xml')
-connection = mydoc.getElementsByTagName('connection')
+values = mydoc.getElementsByTagName('value')
 
 for elem in values:
     row = {}
