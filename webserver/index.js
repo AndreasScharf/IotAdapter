@@ -73,6 +73,10 @@ io.on('connection', function(socket){
     import snap7
     from snap7.util import *
     from snap7.snap7types import *
+    def get_dint(_bytearray, byte_index):
+        data = _bytearray[byte_index:byte_index + 4]
+        dint = struct.unpack('>i', struct.pack('4B', *data))[0]
+        return dint
 
     def checkRequest(ip, db, offset, length, datatype):
 
