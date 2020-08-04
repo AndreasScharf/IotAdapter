@@ -20,10 +20,10 @@ for elem in values:
     row['unit'] = unit
 
     if name == 'MAD':
-        json['mad'] = elem.attributes['value'].value
+        json['mad'] = elem.attributes['values'].value
 
     if typ == 'static':
-        val = elem.attributes['value'].value
+        val = elem.attributes['values'].value
         row['value'] = val
 
     elif typ=='S7':
