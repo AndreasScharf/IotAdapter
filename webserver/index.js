@@ -67,6 +67,7 @@ io.on('connection', function(socket){
 
   });
   socket.on('set_Table', (data)=>{
+    console.log('change table to', data);
     let python = pythonBridge()
     python.ex`
     import snap7
@@ -125,12 +126,13 @@ io.on('connection', function(socket){
           data_table.push(data.table[res_index])
         }
         res_index++;
-        if(menge == res_index){
+        if(menge <= res_index){
           VORGEGEBENE_JSON.data = data_table;
           let mad_item = data_table.find(elem => elem.name == 'MAD')
           VORGEGEBENE_JSON.mad = mad_item? mad_item.value: '';
           let data = JSON.stringify(VORGEGEBENE_JSON);
           fs.writeFileSync(CONFIG_PATH, data);
+          console.log('table_change success');
         }
       });
 
