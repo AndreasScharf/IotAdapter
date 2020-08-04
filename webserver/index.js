@@ -125,13 +125,14 @@ io.on('connection', function(socket){
           data.table[res_index].active = false;
           data.table[res_index].not_active = true
           data_table.push(data.table[res_index])
-          
+
         }
         else {
           data.table[res_index].active = true;
           data_table.push(data.table[res_index])
         }
         res_index++;
+        console.log(res_index, menge);
         if(menge <= res_index){
           VORGEGEBENE_JSON.data = data_table;
           let mad_item = data_table.find(elem => elem.name == 'MAD')
