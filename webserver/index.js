@@ -126,8 +126,10 @@ io.on('connection', function(socket){
 
         if (x == 'NoConnect' || x == 'OutofRange') {
           socket.emit('s7Error', {Error: 'NoConnect'})
-          data.table[res_index].active = false;
-          data.table[res_index].not_active = true
+          data.table[res_index].active = line.type == 'static' || line.type == 'time';
+          if (!(line.type == 'static' || line.type == 'time')) {
+            data.table[res_index].not_active = true
+          }
           data_table.push(data.table[res_index])
           console.log('push');
         }
