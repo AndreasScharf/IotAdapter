@@ -38,11 +38,11 @@ for elem in values:
 
     print('row', row)
     print('\n')
-    json_file['data'].append(row, sort_keys=False)
+    json_file['data'].append(row)
 f = open('/home/pi/Documents/IotAdapter/config.json', 'w+')
 print(json_file)
 print('\n')
-text = json.dumps(json_file, sort_keys=False)
+text = json.dumps(json_file)
 print(text)
 f.write(text)
 f.close()
