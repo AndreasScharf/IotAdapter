@@ -46,7 +46,7 @@ def main():
     global socket_connected
     socket_connected = True
     print('socket,', socket_connected)
-    sio.emit('alive', {'mad': 'lel'})
+    sio.emit('alive', {'mad': config['mad']})
 
   @sio.event
   def connect_error():
