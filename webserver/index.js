@@ -111,6 +111,7 @@ io.on('connection', function(socket){
         return -1
 
     `
+    python.end();
     const data_table = [];
     let menge = data.table.filter(item => !(item.type != 's7' || item.ip == '' || item.db == '' || item.datatype == '' || !item.active)).length;
     let res_index = 0;
@@ -131,6 +132,7 @@ io.on('connection', function(socket){
           data.table[res_index].active = true;
           data_table.push(data.table[res_index])
         }
+
         res_index++;
         console.log(res_index, menge);
         if(menge <= res_index){
@@ -145,7 +147,6 @@ io.on('connection', function(socket){
       });
 
     }
-    python.end();
     if (menge == 0) {
       VORGEGEBENE_JSON.data = data_table;
       let mad_item = data_table.find(elem => elem.name == 'MAD')
