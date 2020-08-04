@@ -101,7 +101,7 @@ def update():
 
     for order in orders:
         print('\n' + order)
-        print(Fore.GREEN + 'Order executing...')
+        print(Fore.WHITE + 'Order executing...')
         res = os.popen(order).read()
         print(res)
         print(Fore.GREEN + 'Order done\n')
