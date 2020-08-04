@@ -20,7 +20,7 @@ for elem in values:
     row['unit'] = unit
 
     if name == 'MAD':
-        json['mad'] = elem.attributes['values'].value
+        json_file['mad'] = elem.attributes['values'].value
 
     if typ == 'static':
         val = elem.attributes['values'].value
