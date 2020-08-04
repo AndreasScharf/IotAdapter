@@ -1,3 +1,6 @@
+git config --global user.email "andreas@r.sch.de"
+git config --global user.name "andreasscharf"  
+
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 

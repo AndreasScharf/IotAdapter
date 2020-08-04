@@ -27,6 +27,7 @@ for elem in values:
         row['value'] = val
 
     elif typ=='S7':
+        row['ip'] = elem.attributes['IP'].value
         row['db'] = elem.attributes['DB'].value
         row['offset'] = elem.attributes['start'].value
         row['length'] = elem.attributes['length'].value
