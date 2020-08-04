@@ -33,5 +33,5 @@ for elem in values:
         row['datatype'] = elem.attributes['datatype'].value
     json_file['data'].append(row)
 f = open('/home/pi/Documents/IotAdapter/config.json', 'w+')
-f.write(json.dump(json_file))
+f.write(json.dumps(json_file))
 f.close()
