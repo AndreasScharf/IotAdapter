@@ -13,7 +13,7 @@ values = mydoc.getElementsByTagName('value')
 
 for elem in values:
     row = {}
-    row['active'] = 'true'
+    row['active'] = True
     typ = elem.attributes['typ'].value
     name = elem.attributes['name'].value
     unit = elem.attributes['unit'].value
