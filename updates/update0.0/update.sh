@@ -27,4 +27,5 @@ sudo pm2 start IotAdapter/webserver/index.js --name WebConfig
 sudo pm2 startup
 sudo pm2 save
 
+sudo pip install python-crontab
 sudo python /home/pi/Documents/IotAdapter/updates/update0.0/cronjob_init.py
