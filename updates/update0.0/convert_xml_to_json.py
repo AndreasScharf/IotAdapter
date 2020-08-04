@@ -23,7 +23,7 @@ for elem in values:
         json['mad'] = elem.attributes['value'].value
 
     if typ == 'static':
-        val = elem.attributes['values'].value
+        val = elem.attributes['value'].value
         row['value'] = val
 
     elif typ=='S7':
