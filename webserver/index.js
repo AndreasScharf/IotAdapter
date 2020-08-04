@@ -127,6 +127,8 @@ io.on('connection', function(socket){
         res_index++;
         if(menge == res_index){
           VORGEGEBENE_JSON.data = data_table;
+          let mad_item = data_table.find(elem => elem.name == 'MAD')
+          VORGEGEBENE_JSON.mad = mad_item? mad_item.value: '';
           let data = JSON.stringify(VORGEGEBENE_JSON);
           fs.writeFileSync(CONFIG_PATH, data);
         }
@@ -137,9 +139,12 @@ io.on('connection', function(socket){
   });
   socket.on('get_Table', ()=>{
     fs.readFile(CONFIG_PATH, (err, data) => {
-      if(err)
+      if(err){
+        let data = JSON.stringify(VORGEGEBENE_JSON);
+        fs.writeFileSync(CONFIG_PATH, data);
+        socket.emit('get_Table_back',{table: [] });
         return
-
+      }
       let config = JSON.parse(data);
       console.log(config);
       socket.emit('get_Table_back',{table: config.data });
