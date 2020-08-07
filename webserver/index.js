@@ -70,8 +70,8 @@ io.on('connection', function(socket){
   socket.on('set_Table', (data)=>{
     console.log('save with out test');
     VORGEGEBENE_JSON.data = data_table;
-    let data = JSON.stringify(VORGEGEBENE_JSON);
-    fs.writeFileSync(CONFIG_PATH, data);
+    let data_to_write = JSON.stringify(VORGEGEBENE_JSON);
+    fs.writeFileSync(CONFIG_PATH, data_to_write);
 
     /*
     let python = pythonBridge()
