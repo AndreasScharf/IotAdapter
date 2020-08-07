@@ -70,6 +70,12 @@ io.on('connection', function(socket){
   socket.on('set_Table', (data)=>{
     console.log('save with out test');
     VORGEGEBENE_JSON.data = data_table;
+    for (var line of data_table) {
+      if (line.type == 'static' & &( line.type == 'MAD' ||  line.type == 'mad')) {
+          VORGEGEBENE_JSON.mad = line.value;
+      }
+    }
+
     let data_to_write = JSON.stringify(VORGEGEBENE_JSON);
     fs.writeFileSync(CONFIG_PATH, data_to_write);
 
