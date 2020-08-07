@@ -14,7 +14,7 @@ sudo cp IotAdapter/updates/update0.0/update.json /home/pi/Documents/updater.json
 
 
 sudo npm install pm2 -g
-cd /home/pi/Documents/IotAdapter/webserver
+sudo cd /home/pi/Documents/IotAdapter/webserver
 
 sudo npm install express
 sudo npm install socket.io
