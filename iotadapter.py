@@ -225,7 +225,7 @@ def set_s7_db(ip, db, offset, length, datatype, value):
   s7.db_write(db, offset, data)
 def get_from_analog(channel, multi, offset):
     adc = MCP3008(channel=channel)
-    vol = adc.value * multi
+    vol = adc.value * 3.3 * multi
     return  vol + offset
 
 def get_dint(_bytearray, byte_index):
