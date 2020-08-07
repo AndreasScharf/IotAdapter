@@ -7,8 +7,8 @@ const axios = require('axios');
 const bcrypt = require('bcryptjs');
 
 let pythonBridge = require('python-bridge');
-const USERS_PATH = './users.json';
-const CONFIG_PATH = '../config.json'
+const USERS_PATH = __dirname +  '/users.json';
+const CONFIG_PATH = __dirname + '/../config.json'
 
 
 const VORGEGEBENE_JSON = {
@@ -19,7 +19,6 @@ const VORGEGEBENE_JSON = {
 
 app.use(express.static(__dirname + '/client/'));
 app.get('*', (req, res)=>{
-    console.log(req);
     res.sendFile(__dirname + '/client/index.html');
 });
 io.on('connection', function(socket){
@@ -70,7 +69,7 @@ io.on('connection', function(socket){
   });
   socket.on('set_Table', (data)=>{
     console.log('save with out test');
-    VORGEGEBENE_JSON.data = data_table;
+    VORGEGEBENE_JSON.data = data.table;
     for (var line of data_table) {
       if (line.type == 'static' && ( line.type == 'MAD' ||  line.type == 'mad')) {
           VORGEGEBENE_JSON.mad = line.value;
