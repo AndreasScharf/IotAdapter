@@ -1,5 +1,6 @@
 #from gpiozero import MCP3008
 from datetime import datetime
+from gpiozero import MCP3008
 import RPi.GPIO as GPIO
 import subprocess
 import socketio
