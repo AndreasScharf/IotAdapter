@@ -19,6 +19,7 @@ const VORGEGEBENE_JSON = {
 
 app.use(express.static(__dirname + '/client/'));
 app.get('*', (req, res)=>{
+    console.log(req);
     res.sendFile(__dirname + '/client/index.html');
 });
 io.on('connection', function(socket){
