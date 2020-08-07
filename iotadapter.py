@@ -1,6 +1,6 @@
 #from gpiozero import MCP3008
 from datetime import datetime
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import subprocess
 import socketio
 import time
@@ -122,7 +122,7 @@ def main():
       elif row['type'] == 's7' or row['type'] == 'S7':
         value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
       elif row['type'] == 'analog':
-        value = get_from_analog(row['channel'], row['multi'])
+        value = get_from_analog(row['channel'], row['multi'], row['offset'])
 
       unit = ''
       if 'unit' in row:
@@ -222,8 +222,10 @@ def set_s7_db(ip, db, offset, length, datatype, value):
       set_real(data, 0, value)
 
   s7.db_write(db, offset, data)
-def get_from_analog(channel, multi):
-  return 0
+def get_from_analog(channel, multi, offset):
+    adc = MCP3008(channel=channel)
+    vol = adc.value * multiplier
+    return  vol + offset
 
 def get_dint(_bytearray, byte_index):
     data = _bytearray[byte_index:byte_index + 4]
