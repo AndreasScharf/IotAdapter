@@ -71,7 +71,7 @@ io.on('connection', function(socket){
     console.log('save with out test');
     VORGEGEBENE_JSON.data = data_table;
     for (var line of data_table) {
-      if (line.type == 'static' & &( line.type == 'MAD' ||  line.type == 'mad')) {
+      if (line.type == 'static' && ( line.type == 'MAD' ||  line.type == 'mad')) {
           VORGEGEBENE_JSON.mad = line.value;
       }
     }
