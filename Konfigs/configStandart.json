@@ -4,7 +4,7 @@
   "data": [
    { "name": "MAD", "type": "static", "unit": "", "value": "Tröstau" },
    { "name": "time", "type": "time"  },
-   {      "name": "Niveau Vorlagebehaelter", "type": "s7", "unit": "%", "ip": "192.168.10.100", "db": "300", "offset": "4", "length": "4", "datatype": "real"   },
+   {    "name": "Niveau Vorlagebehaelter", "type": "s7", "unit": "%", "ip": "192.168.10.100", "db": "300", "offset": "4", "length": "4", "datatype": "real"   },
    {    "name": "Niveau Hochbehaelter", "type": "s7", "unit": "%", "ip": "192.168.10.100", "db": "300", "offset": "8", "length": "4", "datatype": "real"   },
    {    "name": "Durchfluss Ultrafilter", "type": "s7", "unit": "m³/h", "ip": "192.168.10.100", "db": "300", "offset": "12", "length": "4", "datatype": "real"   },
    {    "name": "Durchfluss Permeate", "type": "s7", "unit": "m³/h", "ip": "192.168.10.100", "db": "300", "offset": "16", "length": "4", "datatype": "real"   },
