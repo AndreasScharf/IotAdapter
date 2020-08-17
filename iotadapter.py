@@ -50,7 +50,7 @@ def main():
     sio.emit('alive', {'mad': config['mad']})
 
   @sio.event
-  def connect_error():
+  def connect_error(self):
     print("The connection failed!")
     global socket_connected
     socket_connected = False
@@ -139,8 +139,10 @@ def main():
       message.append({'name':row['name'], 'unit': unit, 'value': value})
       print(message[-1])
 
+
     global last_send_time
-    last_send_time = current_milli_time()
+    last_send_time = current_milli_time();
+
     if socket_connected:
       sio.emit('recv_data', message)
       sio.sleep(300)
