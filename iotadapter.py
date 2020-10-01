@@ -8,6 +8,8 @@ import time
 import json
 import os
 
+import grundfossensor as gfs
+
 
 #Snap7
 import snap7
@@ -27,6 +29,15 @@ config_path = '/home/pi/Documents/IotAdapter/config.json'
 offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
 #offline_data_path = './offlinedata.json'
 router = '192.168.10.1'
+grundfossensors = []
+
+waiting_intervall = 300
+sending_intervall = 1
+
+req_name_intervall = 'recv_data'
+req_name_realtime = 'recv_data_mon3'
+
+sending_realtime = False
 def main():
   f = open(config_path, 'r')
   config = f.read()
@@ -47,8 +58,22 @@ def main():
     global socket_connected
     socket_connected = True
     print('socket,', socket_connected)
-    sio.emit('alive', {'mad': config['mad']})
+    mad = ''
+    for line in config['data']:
+        if(line['name'] == 'mad' or line['name'] == 'MAD'):
+            mad = line['value']
+            break;
 
+    sio.emit('alive', {'mad': mad})
+
+    inputs = [];
+
+    for line in config['data']:
+        if line['type'] == 's7set' and line['from'] == 'cloud':
+            input.append(line)
+
+
+    sio.emit('setup_inputs', {'inputs':inputs})
   @sio.event
   def connect_error(self):
     print("The connection failed!")
@@ -63,27 +88,28 @@ def main():
 
   @sio.on('set_value')
   def set_value(data):
-    for row in config['data']:
-      if 'output' in row and data['valuename'] == row['name']:
-        output = row['output']
-        if 'min' in output and output['min'] > float(data['value']):
-          #Value out of range
-          error_code = 0x0F
-          sio.emit('set_value_back', error_code)
-          return
-        elif 'max' in output and output['max'] < float(data['value']):
-          #Value out of range
-         error_code = 0x0F
-         sio.emit('set_value_back', error_code)
-         return
-        else:
-          pass
-        ip = row['ip']
-        db = row['db']
-        offset = row['offset']
-        datatype = row['datatype']
-        length = row['length']
-        set_s7_db(ip, db, offset, length, datatype, float(data['value']))
+
+    ip = data['ip']
+    db = data['db']
+    offset = data['offset']
+    datatype = data['datatype']
+    length = data['length']
+    set_s7_db(ip, db, offset, length, datatype, float(data['value']))
+
+  @sio.on('alive_realtime')
+  def alive_realtime(data):
+      sending_realtime = data['send_realtime']
+
+  #grunfossensor setup
+  global grundfossensors
+  for row in config['data']:
+      if row['type'] == 'gfs':
+          sensor = gfs.grundfossensor(
+            barcode=row['barcode'],
+            sensor_id=int(row['sensor_id']),
+            type=row['sensor_type']
+          )
+          grundfossensors.append(sensor)
 
   while 1:
     if not has_network(config):
@@ -103,7 +129,7 @@ def main():
       except:
         print('socket not connected')
         global last_send_time
-        if (current_milli_time() - last_send_time) < 300:
+        if (current_milli_time() - last_send_time) < waiting_intervall:
             continue
     else:
       f = open(offline_data_path, 'w+')
@@ -120,11 +146,12 @@ def main():
         value = row['value']
       elif row['type'] == 'time':
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-      elif row['type'] == 's7' or row['type'] == 'S7':
+      elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
         value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
-
+      elif row['type'] == 'gfs':
+        value = get_from_gfs(row['sensor_id'], row['value_type'])
       unit = ''
       if 'unit' in row:
         unit = row['unit']
@@ -144,8 +171,12 @@ def main():
     last_send_time = current_milli_time();
 
     if socket_connected:
-      sio.emit('recv_data', message)
-      sio.sleep(300)
+      if sending_realtime:
+          sio.emit('recv_data_mon3', message)
+          sio.sleep(sending_intervall)
+      else:
+          sio.emit('recv_data', message)
+          sio.sleep(waiting_intervall)
     else:
       f = open(offline_data_path, 'a')
       for row in message:
@@ -229,6 +260,19 @@ def get_from_analog(channel, multi, offset):
     adc = MCP3008(channel=channel)
     vol = adc.value * 3.3 * multi
     return  vol + offset
+def get_from_mysql(id):
+    pass
+def get_from_gfs(sensor_id, value_type):
+    global grundfossensors
+    sensor = [elem for elem in grundfossensors if elem.sensor_id == int(sensor_id)][0]
+
+    if value_type=='temp':
+        return sensor.get_tempratur()
+    elif value_type=='press':
+        return sensor.get_pessure()
+    elif value_type=='flow':
+        return sensor.get_flow()
+
 
 def get_dint(_bytearray, byte_index):
     data = _bytearray[byte_index:byte_index + 4]
