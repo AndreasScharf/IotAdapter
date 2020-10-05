@@ -31,8 +31,7 @@ offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
 router = '192.168.10.1'
 grundfossensors = []
 
-waiting_intervall = 300
-sending_intervall = 1
+sending_intervall = 300
 
 req_name_intervall = 'recv_data'
 req_name_realtime = 'recv_data_mon3'
@@ -62,15 +61,15 @@ def main():
     for line in config['data']:
         if(line['name'] == 'mad' or line['name'] == 'MAD'):
             mad = line['value']
-            break;
+            break
 
     sio.emit('alive', {'mad': mad})
 
-    inputs = [];
+    inputs = []
 
     for line in config['data']:
         if line['type'] == 's7set' and line['from'] == 'cloud':
-            input.append(line)
+            inputs.append(line)
 
 
     sio.emit('setup_inputs', {'inputs':inputs})
@@ -94,11 +93,19 @@ def main():
     offset = data['offset']
     datatype = data['datatype']
     length = data['length']
+    print('set_s7_db',ip, db, offset, length, datatype, float(data['value']) )
     set_s7_db(ip, db, offset, length, datatype, float(data['value']))
 
   @sio.on('alive_realtime')
   def alive_realtime(data):
+      print('setup realtime')
+      global sending_realtime
+
       sending_realtime = data['send_realtime']
+      if sending_realtime :
+        sending_intervall = 1
+      else:
+        sending_intervall = 300
 
   #grunfossensor setup
   global grundfossensors
@@ -118,25 +125,36 @@ def main():
       os.system('sudo reboot')
       return
 
-    print('has Network, has socket', socket_connected)
     message = []
     if not socket_connected:
       try:
-        sio.connect('http://' + config['ip'] + ':' + str(config['port']))
-        socket_connected = True
+        if('ip' in config and 'port' in config):
+            sio.connect('http://' + config['ip'] + ':' + str(config['port']))
+            socket_connected = True
+        elif 'domain' in config:
+            sio.connect(config['domain'])
+            socket_connected = True
+
       except KeyboardInterrupt:
         raise
       except:
         print('socket not connected')
         global last_send_time
-        if (current_milli_time() - last_send_time) < waiting_intervall:
+        if (current_milli_time() - last_send_time) < sending_intervall * 1:
             continue
     else:
-      f = open(offline_data_path, 'w+')
-      lines = f.readlines()
-      if len(lines) > 0:
-       for line in lines:
-         message.append(json.parse(line))
+      pass
+      #f = open(offline_data_path, 'w+')
+      #lines = f.readlines()
+      #if len(lines) > 0:
+      # for line in lines:
+        # message.append(json.parse(line))
+
+    global last_send_time
+    if (current_milli_time() - last_send_time) < sending_intervall * 1:
+        continue
+
+    print('has Network, has socket', socket_connected, ', is realtime', sending_realtime)
 
     for row in config['data']:
       if 'not_active' in row:
@@ -168,15 +186,14 @@ def main():
 
 
     global last_send_time
-    last_send_time = current_milli_time();
+    last_send_time = current_milli_time()
 
     if socket_connected:
+      global sending_realtime
       if sending_realtime:
           sio.emit('recv_data_mon3', message)
-          sio.sleep(sending_intervall)
       else:
           sio.emit('recv_data', message)
-          sio.sleep(waiting_intervall)
     else:
       f = open(offline_data_path, 'a')
       for row in message:
@@ -248,14 +265,19 @@ def set_s7_db(ip, db, offset, length, datatype, value):
       print('CPU not avalible')
       return
 
-  data = _bytearray(length)
-  byte_index = int((offset - int(offset)) * 10)
-  if datatype == 'bit':
-      set_bool(data, byte_index, value, value)
-  elif datatype == 'real':
-      set_real(data, 0, value)
 
-  s7.db_write(db, offset, data)
+  data = bytearray(int(length) + 1)
+
+  if datatype == 'bit':
+      byte_index = int((offset - int(offset)) * 10)
+      set_bool(data, byte_index, value, value)
+      data = data[:-1]
+  elif datatype == 'real':
+      set_real(data, 0, float(value))
+      data = (data[:-1])
+
+  s7.db_write(int(db), int(offset), data)
+
 def get_from_analog(channel, multi, offset):
     adc = MCP3008(channel=channel)
     vol = adc.value * 3.3 * multi

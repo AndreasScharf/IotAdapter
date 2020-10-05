@@ -1,0 +1,20 @@
+{
+  "domain":"https://cloud.enwatmon.de",
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    { "type":"time","name":"time","active":true},
+    {
+      "active":true,
+      "type":"s7set",
+      "ip": "192.168.14.45",
+      "db": "1",
+      "offset":"0",
+      "datatype": "real",
+      "length": "4",
+
+      "from":"cloud",
+      "remote_mad":"gfs_test",
+      "remote_VN":"gfs0_pressure",
+      "remote_unit":"bar" }
+  ]
+}

@@ -1,6 +1,5 @@
 {
-  "ip":"85.214.215.187",
-  "port":5000,
+  "domain":"https://cloud.enwatmon.de",
   "data":[
     { "type" : "static", "name" : "MAD", "value":"gfs_test"},
     {"type":"time","name":"time","active":true},
