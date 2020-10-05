@@ -170,7 +170,10 @@ def main():
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
       elif row['type'] == 'gfs':
         value = get_from_gfs(row['sensor_id'], row['value_type'])
+      elif row['type'] == 's7set':
+        continue
       unit = ''
+
       if 'unit' in row:
         unit = row['unit']
 
@@ -182,13 +185,16 @@ def main():
 
 
       message.append({'name':row['name'], 'unit': unit, 'value': value})
-      print(message[-1])
 
 
     global last_send_time
     last_send_time = current_milli_time()
 
+
     if socket_connected:
+      if(len(message) <= 2): #nicht sendend net genug daten
+          continue
+      print(message)
       global sending_realtime
       if sending_realtime:
           sio.emit('recv_data_mon3', message)
