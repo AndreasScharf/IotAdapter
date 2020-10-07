@@ -184,8 +184,8 @@ def main():
         else:
           row['lastdata'] = value
 
-
-      message.append({'name':row['name'], 'unit': unit, 'value': value})
+      if not value == 'Error':
+        message.append({'name':row['name'], 'unit': unit, 'value': value})
 
     if socket_connected:
       if(len(message) <= 2): #nicht sendend net genug daten
@@ -237,8 +237,11 @@ def get_from_s7_db(ip, db, offset, length, datatype):
       sio.emit('set_value_back', error_code)
       print('CPU not avalible')
       return
-
-  data = s7.db_read(int(db), int(offset), int(length))
+  try:
+      data = s7.db_read(int(db), int(offset), int(length))
+  except:
+      print('DB Error, Offset Error, Security Error')
+      return 'Error'
   byte_index = int((float(offset) - int(offset)) * 10)
   value = 0.0
 
