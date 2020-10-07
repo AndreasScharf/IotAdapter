@@ -140,7 +140,7 @@ def main():
       except:
         print('socket not connected')
         global last_send_time
-        if (current_milli_time() - last_send_time) < sending_intervall * 1:
+        if (current_milli_time() - last_send_time) < sending_intervall * 1000:
             continue
     else:
       pass
@@ -151,8 +151,9 @@ def main():
         # message.append(json.parse(line))
 
     global last_send_time
-    if (current_milli_time() - last_send_time) < sending_intervall * 1:
+    if (current_milli_time() - last_send_time) < sending_intervall * 1000:
         continue
+    last_send_time = current_milli_time()
 
     print('has Network, has socket', socket_connected, ', is realtime', sending_realtime)
 
@@ -185,11 +186,6 @@ def main():
 
 
       message.append({'name':row['name'], 'unit': unit, 'value': value})
-
-
-    global last_send_time
-    last_send_time = current_milli_time()
-
 
     if socket_connected:
       if(len(message) <= 2): #nicht sendend net genug daten
