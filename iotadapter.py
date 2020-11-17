@@ -102,6 +102,7 @@ def main():
       global sending_realtime
 
       sending_realtime = data['send_realtime']
+      global sending_intervall
       if sending_realtime :
         sending_intervall = 1
       else:
@@ -228,7 +229,7 @@ def get_from_s7_db(ip, db, offset, length, datatype):
 
   if not cur_ip == ip:
     if s7.get_connected():
-      s7.close()
+      pass
     try:
       s7.connect(ip, 0, 1)
       cur_ip = ip
@@ -259,8 +260,7 @@ def set_s7_db(ip, db, offset, length, datatype, value):
   global cur_ip
 
   if not cur_ip or not cur_ip == ip:
-    if s7.get_connected():
-      s7.close()
+    
     try:
       s7.connect(ip, 0, 1)
       cur_ip = ip
