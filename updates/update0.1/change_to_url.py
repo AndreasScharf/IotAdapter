@@ -1,7 +1,7 @@
 import json
 path = '/home/pi/Documents/IotAdapter/config.json'
 rf = open(path, 'r')
-config = json.load(rf.read())
+config = json.loads(rf.read())
 config['domain'] = 'https://cloud.enwatmon.de'
 
 if 'ip' in config and 'port' in config:
