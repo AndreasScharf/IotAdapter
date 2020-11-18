@@ -98,7 +98,6 @@ def main():
 
   @sio.on('alive_realtime')
   def alive_realtime(data):
-      print('setup realtime')
       global sending_realtime
 
       sending_realtime = data['send_realtime']
@@ -107,6 +106,11 @@ def main():
         sending_intervall = 1
       else:
         sending_intervall = 300
+
+
+  @sio.on('reboot_rpi')
+  def reboot_rpi():
+      os.system('sudo reboot')
 
   #grunfossensor setup
   global grundfossensors
@@ -145,11 +149,6 @@ def main():
             continue
     else:
       pass
-      #f = open(offline_data_path, 'w+')
-      #lines = f.readlines()
-      #if len(lines) > 0:
-      # for line in lines:
-        # message.append(json.parse(line))
 
     global last_send_time
     if (current_milli_time() - last_send_time) < sending_intervall * 1000:
@@ -223,7 +222,6 @@ def has_network(config):
     has_network({'ip': ''.join(next_test_ip, '.')[:-1] })
   else:
     return True
-
 def get_from_s7_db(ip, db, offset, length, datatype):
   global cur_ip
 
@@ -260,7 +258,6 @@ def set_s7_db(ip, db, offset, length, datatype, value):
   global cur_ip
 
   if not cur_ip or not cur_ip == ip:
-    
     try:
       s7.connect(ip, 0, 1)
       cur_ip = ip
