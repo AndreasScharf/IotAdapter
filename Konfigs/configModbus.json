@@ -1,0 +1,12 @@
+{
+  "domain":"https://testcloud.enwatmon.de",
+  "data": [
+   { "name": "MAD", "type": "static", "unit": "", "value": "gfs_test" },
+   { "name": "time", "type": "time"  },
+   {
+        "active": true,
+        "type": "rs485get",
+        /*deine Parameter hier*/
+  }
+  ]
+}

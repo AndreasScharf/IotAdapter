@@ -13,6 +13,7 @@
       "length": "4",
 
       "from":"cloud",
+      "remote_source":"control_number",
       "remote_mad":"gfs_test",
       "remote_VN":"gfs0_pressure",
       "remote_unit":"bar" }

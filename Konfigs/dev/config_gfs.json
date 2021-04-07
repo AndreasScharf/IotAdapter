@@ -1,0 +1,8 @@
+{
+  "domain":"https://cloud.enwatmon.de",
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    {"type":"time","name":"time","active":true},
+    {"active":true, "type":"gfs", "name":"gfs0_pressure", "unit":"bar", "barcode":"99387817-01-943-00013", "sensor_type":"RPS", "sensor_id":"1", "value_type":"press"}
+  ]
+}

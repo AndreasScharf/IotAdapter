@@ -51,7 +51,7 @@ class grundfossensor(object):
                 continue
             else:
                 self.error = False
-                break;
+                break
 
         self.try_again = True
 
@@ -118,6 +118,8 @@ class grundfossensor(object):
                        return 'Error'
                else:
                    return 'Error'
+
+
 
     def request_fullscale(self, data_id):
         self.message = [ 0x72, 0x06, self.sensor_id, 0x02, data_id ]
@@ -194,9 +196,9 @@ class grundfossensor(object):
         self.message = [0x72, 0x07, self.sensor_id, 0x00, 0x10, 0x00]
         self.message.append(self.checksum(self.message))
 
-        self.ser.write(self.message)
+        self.ser.write(self.message)#senden
 
-        data = self.listen()
+        data = self.listen()#empfangen
 
         if data == 'Error':
           self.error = True

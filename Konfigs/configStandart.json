@@ -18,7 +18,7 @@
    { "active":true, "name": "Zulauf NF", "type": "s7", "unit": "bar", "ip": "192.168.10.100", "db": "300", "offset": "48", "length": "4", "datatype": "real"   },
    { "active":true, "name": "Vordruck Hochdruckpumpe", "type": "s7", "unit": "bar", "ip": "192.168.10.100", "db": "300", "offset": "52", "length": "4", "datatype": "real"   },
    { "active":true, "name": "Konzentrat", "type": "s7", "unit": "bar", "ip": "192.168.10.100", "db": "300", "offset": "56", "length": "4", "datatype": "real"   },
-   { "active":true, "name": "Stoerung Anlage", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "300", "offset": "60", "length": "4", "datatype": "real"   },
+   { "active":true, "name": "Stoerung Anlage", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "300", "offset": "60", "length": "4", "datatype": "bit"   },
    { "active":true, "name": "Betrieb Anlage", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "300", "offset": "61", "length": "1", "datatype": "bit"   },
    { "active":true, "name": "Rückspuelen Ultrafiltration", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "300", "offset": "62", "length": "1", "datatype": "bit"   },
    { "active":true, "name": "Objekt_Begangen", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "300", "offset": "63", "length": "1", "datatype": "bit"   },

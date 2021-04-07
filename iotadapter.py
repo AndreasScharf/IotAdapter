@@ -9,8 +9,10 @@ import json
 import os
 
 import grundfossensor as gfs
+import sys
 
-
+import andiDB
+import rs485 from modbus
 #Snap7
 import snap7
 from snap7.util import *
@@ -31,12 +33,17 @@ offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
 router = '192.168.10.1'
 grundfossensors = []
 
+andidb_objects = {}
+has_andidb_requests = False
+
 sending_intervall = 300
 
 req_name_intervall = 'recv_data'
 req_name_realtime = 'recv_data_mon3'
 
 sending_realtime = False
+debug = ('-d' in sys.argv or '-debug' in sys.argv)
+
 def main():
   f = open(config_path, 'r')
   config = f.read()
@@ -93,17 +100,29 @@ def main():
     offset = data['offset']
     datatype = data['datatype']
     length = data['length']
-    print('set_s7_db',ip, db, offset, length, datatype, float(data['value']) )
+    if debug:
+        print('set_s7_db', ip, db, offset, length, datatype, float(data['value']) )
+
     set_s7_db(ip, db, offset, length, datatype, float(data['value']))
+    if data['remote_source'] == 'control_button' and float(data['value']):
+      time.sleep(0.3)#set 300 miliseconds
+      set_s7_db(ip, db, offset, length, datatype, 0.0)
+      message = [
+        {"name":"mad", "unit":"", "value":data['remote_mad']},
+        {"name": "time", "unit":"", "value": datetime.now().strftime('%Y-%m-%d %H:%M:%S')},
+        {"name": data['remote_VN'], "unit": data['remote_unit'], "value":"0"}
+      ]
+      sio.emit('recv_data_mon3', message)
+
 
   @sio.on('alive_realtime')
   def alive_realtime(data):
       global sending_realtime
+      global sending_intervall
 
       sending_realtime = data['send_realtime']
-      global sending_intervall
       if sending_realtime :
-        sending_intervall = 1
+        sending_intervall = 0.03
       else:
         sending_intervall = 300
 
@@ -112,7 +131,8 @@ def main():
   def reboot_rpi():
       os.system('sudo reboot')
 
-  #grunfossensor setup
+  #setup
+  #grunfossensor/andidb setup
   global grundfossensors
   for row in config['data']:
       if row['type'] == 'gfs':
@@ -122,6 +142,19 @@ def main():
             type=row['sensor_type']
           )
           grundfossensors.append(sensor)
+      elif row['type'] == 'andidb':
+        if not 'client ' in andidb_objects:
+          if not 'ip' in row:
+            row['ip'] = '127.0.0.1'
+          if not 'port' in row:
+            row['port'] = 1337
+
+          andidb_objects['client'] = andiDB.client(row['ip'], row['port']) 
+          andidb_objects['values'] = []
+
+        andidb_objects[row['table'] + ' ' +  row['name']].append(
+            andiDB.value(andidb_objects['client'],  row['table'], row['name'], ))
+
 
   while 1:
     if not has_network(config):
@@ -142,8 +175,9 @@ def main():
 
       except KeyboardInterrupt:
         raise
-      except:
-        print('socket not connected')
+      except Exception as e:
+
+        print('socket not connected', e)
         global last_send_time
         if (current_milli_time() - last_send_time) < sending_intervall * 1000:
             continue
@@ -151,11 +185,11 @@ def main():
       pass
 
     global last_send_time
-    if (current_milli_time() - last_send_time) < sending_intervall * 1000:
+    if (current_milli_time() - last_send_time) < (sending_intervall * 1000):
         continue
     last_send_time = current_milli_time()
 
-    print('has Network, has socket', socket_connected, ', is realtime', sending_realtime)
+#    print('has Network, has socket', socket_connected, ', is realtime', sending_realtime)
 
     for row in config['data']:
       if 'not_active' in row:
@@ -173,24 +207,39 @@ def main():
         value = get_from_gfs(row['sensor_id'], row['value_type'])
       elif row['type'] == 's7set':
         continue
+      elif row['type'] == 'andiDB':
+        if row['table'] + ' ' +  row['name'] in andidb_objects:
+          value = andidb_objects[row['table'] + ' ' +  row['name']].get()
+        else:
+          print('Error', row['table'], row['name'])
+      elif row['type'] == 'rs485get':
+        value = rs485.get() #hier musst du noch deine parameter mit "row['parametername']" übergeben
+      
       unit = ''
 
       if 'unit' in row:
         unit = row['unit']
 
-      if not row['type'] == 'static':
+      if not (row['type'] == 'static' or row['type'] == 'time'):
         if 'lastdata' in row and row['lastdata'] == value:
           continue
         else:
           row['lastdata'] = value
+          if debug:
+            print(value)
 
       if not value == 'Error':
         message.append({'name':row['name'], 'unit': unit, 'value': value})
 
+   
+
     if socket_connected:
       if(len(message) <= 2): #nicht sendend net genug daten
+          if debug:
+            print('not sending')
           continue
-      print(message)
+      if debug:
+        print(message)
       global sending_realtime
       if sending_realtime:
           sio.emit('recv_data_mon3', message)
@@ -226,8 +275,6 @@ def get_from_s7_db(ip, db, offset, length, datatype):
   global cur_ip
 
   if not cur_ip == ip:
-    if s7.get_connected():
-      pass
     try:
       s7.connect(ip, 0, 1)
       cur_ip = ip
@@ -235,11 +282,11 @@ def get_from_s7_db(ip, db, offset, length, datatype):
       error_code = 0x50
       sio.emit('set_value_back', error_code)
       print('CPU not avalible')
-      return
+      return 'Error'
   try:
       data = s7.db_read(int(db), int(offset), int(length))
-  except:
-      print('DB Error, Offset Error, Security Error')
+  except Exception as e:
+      print('DB Error, Offset Error, Security Error', e)
       return 'Error'
   byte_index = int((float(offset) - int(offset)) * 10)
   value = 0.0
