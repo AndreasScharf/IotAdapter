@@ -7,23 +7,31 @@ import socketio
 import time
 import json
 import os
+import socket
+import struct
+from pythonping import ping
 
 import grundfossensor as gfs
+from modbus import rs485  # welches modbus?
+
 import sys
 
 import andiDB
-import rs485 from modbus
 #Snap7
 import snap7
 from snap7.util import *
 from snap7.snap7types import *
 
 current_milli_time = lambda: int(round(time.time() * 1000))
+
+
 last_send_time = 0
 
 
 sio = socketio.Client()
 s7 = snap7.client.Client()
+myrs485 = rs485()
+reconnectingS7 = False
 cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
 #config_path = './config.json'
@@ -157,12 +165,8 @@ def main():
 
 
   while 1:
-    if not has_network(config):
-      print('no network')
-      time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
-      os.system('sudo reboot')
-      return
-
+    check_network()
+      
     message = []
     if not socket_connected:
       try:
@@ -189,8 +193,6 @@ def main():
         continue
     last_send_time = current_milli_time()
 
-#    print('has Network, has socket', socket_connected, ', is realtime', sending_realtime)
-
     for row in config['data']:
       if 'not_active' in row:
           continue
@@ -213,8 +215,8 @@ def main():
         else:
           print('Error', row['table'], row['name'])
       elif row['type'] == 'rs485get':
-        value = rs485.get() #hier musst du noch deine parameter mit "row['parametername']" übergeben
-      
+        value = myrs485.get(port=row['port'], adress=row['adress'], baudrate=row['baudrate'], register=row['register'], code=row['code'],more=0) #hier musst du noch deine parameter mit "row['parametername']" übergeben
+
       unit = ''
 
       if 'unit' in row:
@@ -251,45 +253,77 @@ def main():
         f.write(json.dumps(row) + '\n')
       f.close()
 
-def has_network(config):
-  return True
+def check_network():
+  gateway = get_default_gateway_linux()
+  internet = False
+  network = False
+  for i in ping('cloud.enwatmon.de', verbose=False):
+    internet = internet or i.success
 
-  myip = subprocess.getoutput('hostname -I').split('.')
-  next_test_ip = config.split('.')
-  if int(next_test_ip[3]) == 0xFF:
-    return False
-  elif (next_test_ip[:-1] == myip[:-1]).all():
-    next_test_ip[3] = str(int(next_test_ip[3]) + 1)
-    if (next_test_ip == myip).all():
-        has_network({'ip': ''.join(next_test_ip, '.') })
-  else:
-    next_test_ip = myip[:-1].append('1')
+  for i in ping(str(gateway), verbose=False):
+    network = network or i.success  
 
-  hostname = config['ip']
-  response = os.system("ping -c 1 " + hostname)
-  if response == 0:
-    has_network({'ip': ''.join(next_test_ip, '.')[:-1] })
-  else:
-    return True
+  if not internet and network:
+    restart_router(gateway)
+  if not internet and not network:
+    restart_rpi()
+  
+  return internet and network
+ 
+
+def get_default_gateway_linux():
+    """Read the default gateway directly from /proc."""
+    with open("/proc/net/route") as fh:
+        for line in fh:
+            fields = line.strip().split()
+            if fields[1] != '00000000' or not int(fields[3], 16) & 2:
+                # If not default route or not RTF_GATEWAY, skip it
+                continue
+
+            return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
+def restart_router(router_ip):
+  print('router not accessable', router_ip)
+
+def restart_rpi():
+   print('no network in 300s')
+   time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
+   os.system('sudo reboot')
+
+
+
 def get_from_s7_db(ip, db, offset, length, datatype):
   global cur_ip
+  global reconnectingS7
+  global s7
 
-  if not cur_ip == ip:
+  if reconnectingS7 or not cur_ip == ip :
     try:
+      if s7:
+        s7.destroy()
+
+      s7 = snap7.client.Client()
       s7.connect(ip, 0, 1)
+      reconnectingS7 = False
       cur_ip = ip
     except:
       error_code = 0x50
-      sio.emit('set_value_back', error_code)
+      #sio.emit('set_value_back', error_code)
+      
+      reconnectingS7 = True
       print('CPU not avalible')
       return 'Error'
   try:
-      data = s7.db_read(int(db), int(offset), int(length))
+    data = s7.db_read(int(db), int(float(offset)), int(length) if not datatype=='bit' else 8)
   except Exception as e:
       print('DB Error, Offset Error, Security Error', e)
+      #s7 in error mode 
+      reconnectingS7 = True
       return 'Error'
-  byte_index = int((float(offset) - int(offset)) * 10)
+  byte_index = 0
+  if '.' in offset:
+    byte_index = int(offset.split('.')[1])
   value = 0.0
+  #print(offset, byte_index, len(data))
 
   if datatype=='bit':
     return get_bool(data, byte_index, 0)
