@@ -1,0 +1,15 @@
+{
+  "domain":"https://cloud.enwatmon.de",
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"mghassfurt"},
+    {"type":"time","name":"time","active":true},
+
+    
+    {"active":true, "type":"gfs", "name":"gfs0_flow", "unit":"l/min", "barcode":"98426074-12-915-00039", "sensor_type":"MFS", "sensor_id":"1", "value_type":"flow"},
+    {"active":true, "type":"gfs", "name":"gfs0_pressure", "unit":"bar", "barcode":"98426074-12-915-00039", "sensor_type":"MFS", "sensor_id":"1", "value_type":"press"},
+    {"active":true, "type":"gfs", "name":"gfs0_temp", "unit":"°C", "barcode":"98426074-12-915-00039", "sensor_type":"MFS", "sensor_id":"1", "value_type":"temp"},
+    {"active":true, "type":"gpio_in", "name":"overflow", "unit":"", "offset":24}
+
+
+  ]
+}

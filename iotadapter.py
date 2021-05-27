@@ -31,6 +31,7 @@ last_send_time = 0
 sio = socketio.Client()
 s7 = snap7.client.Client()
 myrs485 = rs485()
+GPIO.setmode(GPIO.BCM)
 reconnectingS7 = False
 cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
@@ -162,7 +163,8 @@ def main():
 
         andidb_objects[row['table'] + ' ' +  row['name']].append(
             andiDB.value(andidb_objects['client'],  row['table'], row['name'], ))
-
+      elif row['type'] == 'gpio_in':
+        GPIO.setup(int(row['offset']), GPIO.IN)
 
   while 1:
     check_network()
@@ -216,6 +218,8 @@ def main():
           print('Error', row['table'], row['name'])
       elif row['type'] == 'rs485get':
         value = myrs485.get(port=row['port'], adress=row['adress'], baudrate=row['baudrate'], register=row['register'], code=row['code'],more=0) #hier musst du noch deine parameter mit "row['parametername']" übergeben
+      elif row['type'] == 'gpio_in':
+        value = GPIO.input(int(row['offset']))
 
       unit = ''
 
@@ -256,9 +260,16 @@ def main():
 def check_network():
   gateway = get_default_gateway_linux()
   internet = False
+  dns = False
   network = False
-  for i in ping('cloud.enwatmon.de', verbose=False):
-    internet = internet or i.success
+  try:
+    for i in ping('cloud.enwatmon.de', verbose=False):
+      internet = internet or i.success
+      dns = dns or i.success
+  except:
+    dns = False
+    for i in ping('8.8.8.8', verbose=False):
+      internet = internet or i.success
 
   for i in ping(str(gateway), verbose=False):
     network = network or i.success  
@@ -268,7 +279,7 @@ def check_network():
   if not internet and not network:
     restart_rpi()
   
-  return internet and network
+  return dns or internet and network
  
 
 def get_default_gateway_linux():
