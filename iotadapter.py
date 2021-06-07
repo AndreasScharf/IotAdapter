@@ -207,9 +207,8 @@ def main():
       elif row['type'] == 'time':
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
-        if row['ip'] in config['channels']:
-          value = get_from_s7_db(row['ip'], row['db'], row['offset'],
-                                 row['length'], row['datatype'], config['channels'][row['ip']])
+        if 'channels' in config['channels']:
+          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
         else:
           value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
       elif row['type'] == 'analog':
