@@ -32,6 +32,8 @@ sio = socketio.Client()
 s7 = snap7.client.Client()
 myrs485 = rs485()
 GPIO.setmode(GPIO.BCM)
+
+
 reconnectingS7 = False
 cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
@@ -166,6 +168,7 @@ def main():
       elif row['type'] == 'gpio_in':
         GPIO.setup(int(row['offset']), GPIO.IN)
 
+
   while 1:
     check_network()
       
@@ -204,7 +207,11 @@ def main():
       elif row['type'] == 'time':
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
-        value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
+        if row['ip'] in config['channels']:
+          value = get_from_s7_db(row['ip'], row['db'], row['offset'],
+                                 row['length'], row['datatype'], config['channels'][row['ip']])
+        else:
+          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
       elif row['type'] == 'gfs':
@@ -302,7 +309,7 @@ def restart_rpi():
 
 
 
-def get_from_s7_db(ip, db, offset, length, datatype):
+def get_from_s7_db(ip, db, offset, length, datatype, channel=1):
   global cur_ip
   global reconnectingS7
   global s7
@@ -313,7 +320,9 @@ def get_from_s7_db(ip, db, offset, length, datatype):
         s7.destroy()
 
       s7 = snap7.client.Client()
-      s7.connect(ip, 0, 1)
+      if debug:
+        print('connecting to', ip, channel)
+      s7.connect(ip, 0, channel)
       reconnectingS7 = False
       cur_ip = ip
     except:
