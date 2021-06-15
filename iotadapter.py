@@ -22,6 +22,8 @@ import snap7
 from snap7.util import *
 from snap7.snap7types import *
 
+
+
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 
@@ -37,6 +39,7 @@ GPIO.setmode(GPIO.BCM)
 reconnectingS7 = False
 cur_ip = ''
 config_path = '/home/pi/Documents/IotAdapter/config.json'
+totalizers_path = '/home/pi/Documents/IotAdapter/totalizers.json'
 #config_path = './config.json'
 
 offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata.json'
@@ -54,6 +57,18 @@ req_name_realtime = 'recv_data_mon3'
 
 sending_realtime = False
 debug = ('-d' in sys.argv or '-debug' in sys.argv)
+
+totalizers = {}
+new_totalizers = True
+try:
+  f = open(totalizers_path, 'r')
+  totalizers = json.parse(f.read())
+  new_totalizers = False
+  f.close()
+except:
+  f = open(totalizers_path, 'w+')
+  f.write(json.dumps(totalizers))
+  f.close()
 
 def main():
   f = open(config_path, 'r')
@@ -167,8 +182,17 @@ def main():
             andiDB.value(andidb_objects['client'],  row['table'], row['name'], ))
       elif row['type'] == 'gpio_in':
         GPIO.setup(int(row['offset']), GPIO.IN)
+      elif row['type'] == 'totalizer':
+        if not row['name'] in totalizers:
+          totalizers[row['name']] = 0
+          print('new: ', row['name'])
+  
+  if len(totalizers):
+    f = open(totalizers_path, 'w+')
+    f.write(json.dumps(totalizers))
+    f.close()
 
-
+  last_round = current_milli_time()
   while 1:
     check_network()
       
@@ -192,11 +216,6 @@ def main():
             continue
     else:
       pass
-
-    global last_send_time
-    if (current_milli_time() - last_send_time) < (sending_intervall * 1000):
-        continue
-    last_send_time = current_milli_time()
 
     for row in config['data']:
       if 'not_active' in row:
@@ -226,7 +245,12 @@ def main():
         value = myrs485.get(port=row['port'], adress=row['adress'], baudrate=row['baudrate'], register=row['register'], code=row['code'],more=0) #hier musst du noch deine parameter mit "row['parametername']" übergeben
       elif row['type'] == 'gpio_in':
         value = GPIO.input(int(row['offset']))
-
+      elif row['type'] == 'totalizer':
+        my_value = next((x for x in config['data'] if x['name'] == row['source_name']), None)
+        if my_value and 'value' in my_value:
+          totalizers[row['name']] = totalizers[row['name']] +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
+          value = totalizers[row['name']]
+      row['value'] = value
       unit = ''
 
       if 'unit' in row:
@@ -244,6 +268,11 @@ def main():
         message.append({'name':row['name'], 'unit': unit, 'value': value})
 
    
+    last_round = current_milli_time()
+    global last_send_time
+    if (current_milli_time() - last_send_time) < (sending_intervall * 1000):
+        continue
+    last_send_time = current_milli_time()
 
     if socket_connected:
       if(len(message) <= 2): #nicht sendend net genug daten
@@ -262,6 +291,12 @@ def main():
       for row in message:
         f.write(json.dumps(row) + '\n')
       f.close()
+    
+    if len(totalizers):
+      f = open(totalizers_path, 'w+')
+      f.write(json.dumps(totalizers))
+      f.close()
+
 
 def check_network():
   gateway = get_default_gateway_linux()

@@ -5,11 +5,11 @@
     {"type":"time","name":"time","active":true},
 
     
-    {"active":true, "type":"gfs", "name":"gfs0_flow", "unit":"l/min", "barcode":"98426074-12-915-00039", "sensor_type":"MFS", "sensor_id":"1", "value_type":"flow"},
-    {"active":true, "type":"gfs", "name":"gfs0_pressure", "unit":"bar", "barcode":"98426074-12-915-00039", "sensor_type":"MFS", "sensor_id":"1", "value_type":"press"},
-    {"active":true, "type":"gfs", "name":"gfs0_temp", "unit":"°C", "barcode":"98426074-12-915-00039", "sensor_type":"MFS", "sensor_id":"1", "value_type":"temp"},
-    {"active":true, "type":"gpio_in", "name":"overflow", "unit":"", "offset":24}
-
+    {"active":true, "type":"gfs", "name":"gfs0_flow", "unit":"l/min", "barcode":"98770738-12-915-00097", "sensor_type":"MFS", "sensor_id":"1", "value_type":"flow"},
+    {"active":true, "type":"gfs", "name":"gfs0_pressure", "unit":"bar", "barcode":"98770738-12-915-00097", "sensor_type":"MFS", "sensor_id":"1", "value_type":"press"},
+    {"active":true, "type":"gfs", "name":"gfs0_temp", "unit":"°C", "barcode":"98770738-12-915-00097", "sensor_type":"MFS", "sensor_id":"1", "value_type":"temp"},
+    {"active":true, "type":"gpio_in", "name":"overflow", "unit":"", "offset":17},
+    {"active":true, "type":"totalizer", "name":"wasserverbrauch", "unit":"m³", "source_name":"gfs0_flow", "time_offset":60000000 }
 
   ]
 }
