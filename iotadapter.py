@@ -248,9 +248,8 @@ def main():
       elif row['type'] == 'totalizer':
         my_value = next((x for x in config['data'] if x['name'] == row['source_name']), None)
         if my_value and 'value' in my_value:
-          totalizers[row['name']] = totalizers[row['name']] +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
+          totalizers[row['name']] = float(totalizers[row['name']]) +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
           value = totalizers[row['name']]
-      row['value'] = value
       unit = ''
 
       if 'unit' in row:
@@ -266,6 +265,7 @@ def main():
 
       if not value == 'Error':
         message.append({'name':row['name'], 'unit': unit, 'value': value})
+        row['value'] = value
 
    
     last_round = current_milli_time()
