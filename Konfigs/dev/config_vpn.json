@@ -1,0 +1,8 @@
+{
+  "domain":"https://testcloud.enwatmon.de",
+  "router": {"ip":"192.168.10.1", "vpn_allowed":true, "user": "root", "pw":"Enwat2007!"},
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    { "type":"time","name":"time","active":true}
+  ]
+}

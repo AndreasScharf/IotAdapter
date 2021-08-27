@@ -1,0 +1,8 @@
+{
+  "domain":"https://testcloud.enwatmon.de",
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    { "type":"time","name":"time","active":true},
+    { "type":"rotator", "name":"ablauf_hb", "pin":18, "impulse": 20, "start":50000}
+  ]
+}

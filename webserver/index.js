@@ -5,6 +5,7 @@ const io = require('socket.io')(http);
 const fs = require('fs');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
+const { exec } = require('child_process');
 
 let pythonBridge = require('python-bridge');
 const USERS_PATH = __dirname +  '/users.json';
@@ -93,7 +94,10 @@ io.on('connection', function(socket){
 
       let data_to_write = JSON.stringify(config);
       fs.writeFileSync(CONFIG_PATH, data_to_write);
-
+      //restarting iotadapter
+      exec('sudo pm2 restart iot', function (err, stdout, stderr) {
+        // handle err, stdout, stderr
+      });
     });
 
   });
