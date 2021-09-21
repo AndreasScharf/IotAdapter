@@ -1,17 +1,1 @@
-{
-  "domain":"https://cloud.enwatmon.de",
-  "data": [
-   { "name": "MAD", "type": "static", "unit": "", "value": "gfs_test" },
-   { "name": "time", "type": "time"  },
-   {
-        "active":true,
-        "type":"current_senor",
-        "name": "test_takt",
-        "unit":"tick",
-        "offset":0,
-        "min": 0,
-        "max": 20,
-        "datatype":"float"
-  }
-  ]
-}
+{  "domain":"https://cloud.enwatmon.de",  "data": [   { "name": "MAD", "type": "static", "unit": "", "value": "gfs_test" },   { "name": "time", "type": "time"  },   {        "active":true,        "type":"current_sensor",        "name": "test_takt",        "unit":"tick",        "offset": 1,        "min": 4,        "max": 20,        "datatype":"float"  }  ]}
