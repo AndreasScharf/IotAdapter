@@ -12,30 +12,39 @@ import struct
 from pythonping import ping
 
 import grundfossensor as gfs
-from modbus import rs485  # welches modbus?
+
+#Hannes
+from modbus import rs485 
+from INA219 import current_sensor
+
 
 import sys
-
+import platform
 import andiDB
 #Snap7
 import snap7
 from snap7.util import *
-from snap7.snap7types import *
+
+if platform.python_version() <= '3.5':
+  from snap7.snap7types import *
 
 
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
-global last_send_time
-last_send_time = 0
-
 
 sio = socketio.Client()
 s7 = snap7.client.Client()
-myrs485 = rs485()
+
+
 vpn_client = None
 GPIO.setmode(GPIO.BCM)
 
+#Arbeiten Hannes (Modbus, INA219)
+myrs485 = rs485()
+mycurrentsensor = current_sensor()
+
+current_sensors = []
 
 reconnectingS7 = False
 cur_ip = ''
@@ -72,6 +81,9 @@ except:
   f.close()
 
 def main():
+  global last_send_time
+  last_send_time = 0
+
   f = open(config_path, 'r')
   config = f.read()
   f.close()
@@ -226,7 +238,12 @@ def main():
       elif row['type'] == 'rotator':
         if not row['name'] in totalizers:
           totalizers[row['name']] = float(row['start'])
-
+      elif row['type'] == 'current_sensor':
+        current_sensors.append(current_sensor(
+          min=float(row['min']) if 'min' in row else 4, 
+          max=float(row['max']) if 'max' in row else 20, 
+          offset=int(row['offset']) if 'offset' in row else 0 ))
+          
   if 'router' in config:
     
     from monvpn import vpnclient
@@ -269,10 +286,9 @@ def main():
     else:
       pass
     
-    global last_send_time
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
-    if debug and its_time_to_send:
-      print('time to send [s] ', sending_intervall)
+    #if debug and its_time_to_send:
+    #  print('time to send [s] ', sending_intervall)
 
     for row in config['data']:
       if 'not_active' in row:
@@ -307,6 +323,11 @@ def main():
         if my_value and 'value' in my_value:
           totalizers[row['name']] = float(totalizers[row['name']]) +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
           value = totalizers[row['name']]
+      elif row['type'] == 'current_sensor':
+          value = current_sensors[int(row['offset']) if 'offset' in row else 0].get()
+          if debug:
+              print('read ina value', value)
+      
       unit = ''
 
       if 'unit' in row:
