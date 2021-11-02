@@ -1,0 +1,10 @@
+{
+  "domain":"https://testcloud.enwatmon.de",
+  "router": {"ip":"192.168.10.1", "vpn_allowed":true, "user": "root", "pw":"Enwat2007!"},
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"hohenhausen_hb"},
+    {"type":"time","name":"time","active":true},
+    {"active":true, "type":"gfs", "name":"gfs1_pressure", "unit":"bar", "barcode":"99387817-01-943-00013", "sensor_type":"RPS", "sensor_id":"1", "value_type":"press"},
+    {"active":true, "type":"gfs", "name":"gfs0_temp", "unit":"°C", "barcode":"99387817-01-943-00013", "sensor_type":"RPS", "sensor_id":"1", "value_type":"temp"}
+  ]
+}

@@ -17,6 +17,7 @@ import grundfossensor as gfs
 from modbus import rs485 
 from INA219 import current_sensor
 
+from rotators import rotator
 
 import sys
 import platform
@@ -42,7 +43,7 @@ GPIO.setmode(GPIO.BCM)
 
 #Arbeiten Hannes (Modbus, INA219)
 myrs485 = rs485()
-mycurrentsensor = current_sensor()
+
 
 current_sensors = []
 
@@ -70,6 +71,9 @@ debug = ('-d' in sys.argv or '-debug' in sys.argv)
 
 totalizers = {}
 new_totalizers = True
+
+rotators = []
+
 try:
   f = open(totalizers_path, 'r')
   totalizers = json.loads(f.read())
@@ -93,10 +97,272 @@ def main():
   except:
     print('File not correct')
     return
+
 #
 #  Connections aufbauen
 #
+  socket_events()
+  
+  #setup
+  #grunfossensor/andidb setup
+  global grundfossensors
+
+  for row in config['data']:
+      if row['type'] == 'gfs':
+          sensor = gfs.grundfossensor(
+            barcode=row['barcode'],
+            sensor_id=int(row['sensor_id']),
+            type=row['sensor_type']
+          )
+          grundfossensors.append(sensor)
+      elif row['type'] == 'andiDB':
+        if not 'client' in andidb_objects:
+          if not 'ip' in row:
+            row['ip'] = '127.0.0.1'
+          if not 'port' in row:
+            row['port'] = 1337
+
+          print('connect client')
+          andidb_objects['client'] = andiDB.client(row['ip'], int(row['port']))
+
+        andidb_objects[row['table'] + ' ' +  row['name']] = andiDB.value(andidb_objects['client'],  row['table'], row['name'] )
+        
+      elif row['type'] == 'gpio_in':
+        GPIO.setup(int(row['out']), GPIO.IN)
+      elif row['type'] == 'totalizer':
+        if not row['name'] in totalizers:
+          totalizers[row['name']] = 0
+          print('new: ', row['name'])
+      elif row['type'] == 'rotator':
+        if not row['name'] in totalizers:
+          totalizers[row['name']] = float(row['start'])
+
+        rotor = rotator( 
+          pin=int(row['pin']),
+          value=float(row['impulse']),
+          start_totalizer=float(totalizers[row['name']]),
+          zero_time=float(row['zero_time'] if 'zero_time' in row else 50000),
+          name=row['name']
+        )
+        if debug:
+          print('new rotator')
+        rotators.append(rotor)
+        if debug:
+          print(rotators) 
+      elif row['type'] == 'current_sensor':
+        current_sensors.append(current_sensor(
+          min=float(row['min']) if 'min' in row else 4, 
+          max=float(row['max']) if 'max' in row else 20, 
+          offset=int(row['offset']) if 'offset' in row else 0 ))
+          
+  if 'router' in config:
+    
+    from monvpn import vpnclient
+    vpn_client = vpnclient()
+
+    router = config['router']
+    print('try register router')
+    if 'vpn_allowed' in router and router['vpn_allowed'] and 'ip' in router and 'user' in router and 'pw' in router:
+      vpn_client.register(router['ip'], router['user'], router['pw'])
+
+  if not os.path.isdir(offline_data_path):
+    os.makedirs(offline_data_path)
+
+
+  if len(totalizers):
+    f = open(totalizers_path, 'w+')
+    f.write(json.dumps(totalizers))
+    f.close()
+
+  last_round = current_milli_time()
+  while 1:
+      
+    message = []
+    
+    if not sio.socket_connected:
+      try:
+        if('ip' in config and 'port' in config):
+            sio.connect('http://' + config['ip'] + ':' + str(config['port']))
+            sio.socket_connected = True
+        elif 'domain' in config:
+            sio.connect(config['domain'])
+            sio.socket_connected = True
+
+      except KeyboardInterrupt:
+        raise
+      except Exception as e:
+        sio.socket_connected = False
+
+        print('socket not connected', e)
+    else:
+      pass
+    
+    its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
+    #if debug and its_time_to_send:
+    #  print('time to send [s] ', sending_intervall)
+
+    for row in config['data']:
+      if 'not_active' in row:
+          continue
+
+      if row['type'] == 'static':
+        value = row['value']
+      elif row['type'] == 'time':
+        value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+      elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
+        if 'channels' in config:
+          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
+        else:
+          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
+      elif row['type'] == 'analog':
+        value = get_from_analog(row['channel'], row['multi'], row['offset'])
+      elif row['type'] == 'gfs':
+        value = get_from_gfs(row['sensor_id'], row['value_type'])
+      elif row['type'] == 's7set':
+        continue
+      elif row['type'] == 'andiDB':
+        if row['table'] + ' ' +  row['name'] in andidb_objects:
+          value = andidb_objects[row['table'] + ' ' +  row['name']].get()
+        else:
+          print('Error', row['table'], row['name'])
+      elif row['type'] == 'rs485get':
+        value = myrs485.get(port=row['port'], adress=row['adress'], baudrate=row['baudrate'], register=row['register'], code=row['code'],more=0) 
+      elif row['type'] == 'gpio_in':
+        value = GPIO.input(int(row['offset']))
+      elif row['type'] == 'totalizer':
+        my_value = next((x for x in config['data'] if x['name'] == row['source_name']), None)
+        if my_value and 'value' in my_value:
+          totalizers[row['name']] = float(totalizers[row['name']]) +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
+          value = totalizers[row['name']]
+      elif row['type'] == 'current_sensor':
+          value = current_sensors[int(row['offset']) if 'offset' in row else 0].get()
+          if debug:
+              print('read ina value', value)
+      elif row['type'] == 'rotator':
+          r = [x for x in rotators if x.name == row['name']][0]
+          if not r:
+            print(r) 
+            return
+          value = r.get_flow(current_milli_time() - last_round)
+          last_total = r.totalizer
+          now_total = r.get_totalizer()
+          if not last_total == now_total:
+              message.append({'name':row['name'] + "_amount", 'unit': unit.split('/')[0] if '/' in unit else '', 'value': now_total})
+          if debug:
+            print(row['name'], value, now_total)
+            
+      unit = ''
+
+      if 'unit' in row:
+        unit = row['unit']
+
+      if not (row['type'] == 'static' or row['type'] == 'time'):
+        if 'lastdata' in row and (row['lastdata'] == value or not its_time_to_send): 
+          if debug:
+            print(value, row['name'], its_time_to_send)
+          continue
+        else:
+          row['lastdata'] = value
+          if debug:
+            print(value)
+
+      if not value == 'Error':
+        message.append({'name':row['name'], 'unit': unit, 'value': value})
+        row['value'] = value
+
+   
+    last_round = current_milli_time()
+
+    if (not its_time_to_send) and len(message) <= 2:
+        continue
+
+      
+
+    if sio.socket_connected:
+      if(len(message) <= 2): #nicht sendend net genug daten
+          if debug:
+            print('not sending')
+          continue
+      if debug:
+        print(message)
+      global sending_realtime
+      if sending_realtime:
+          sio.emit('recv_data_mon3', (message, 0))
+      else:
+          sio.emit('recv_data', (message, 0))
+      last_send_time = current_milli_time()
+      
+    else:
+      if debug:
+        print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
+      if(len(message) <= 2):  # nicht sendend net genug daten
+          if debug:
+            print('no need to save no relevace')
+          continue
+      f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
+      for row in message:
+        f.write(json.dumps(row) + '\n')
+
+      f.close()
+      last_send_time = current_milli_time()
+
+    
+    if len(totalizers):
+      f = open(totalizers_path, 'w+')
+      f.write(json.dumps(totalizers))
+      f.close()
+
+
+def check_network():
+  gateway = get_default_gateway_linux()
+  internet = False
+  dns = False
+  network = False
+  try:
+    for i in ping('cloud.enwatmon.de', verbose=False):
+      internet = internet or i.success
+      dns = dns or i.success
+
+    for i in ping('8.8.8.8', verbose=False):
+      internet = internet or i.success
+
+    for i in ping(str(gateway), verbose=False):
+      network = network or i.success  
+      
+  except:
+    dns = False
+    internet = False
+
+
+  if not internet and network:
+    restart_router(gateway)
+  if not internet and not network:
+    restart_rpi()
+  
+  return dns or internet and network
+ 
+
+def get_default_gateway_linux():
+    """Read the default gateway directly from /proc."""
+    with open("/proc/net/route") as fh:
+        for line in fh:
+            fields = line.strip().split()
+            if fields[1] != '00000000' or not int(fields[3], 16) & 2:
+                # If not default route or not RTF_GATEWAY, skip it
+                continue
+
+            return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
+def restart_router(router_ip):
+  print('router not accessable', router_ip)
+
+def restart_rpi():
+   print('no network in 300s')
+   time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
+   os.system('sudo reboot')
+
+def socket_events():
   sio.socket_connected = False
+  
   @sio.event
   def connect():
     print("I'm connected!")
@@ -204,237 +470,6 @@ def main():
       vpn_client.stop()
     except:
       pass
-
-  #setup
-  #grunfossensor/andidb setup
-  global grundfossensors
-
-  for row in config['data']:
-      if row['type'] == 'gfs':
-          sensor = gfs.grundfossensor(
-            barcode=row['barcode'],
-            sensor_id=int(row['sensor_id']),
-            type=row['sensor_type']
-          )
-          grundfossensors.append(sensor)
-      elif row['type'] == 'andiDB':
-        if not 'client' in andidb_objects:
-          if not 'ip' in row:
-            row['ip'] = '127.0.0.1'
-          if not 'port' in row:
-            row['port'] = 1337
-
-          print('connect client')
-          andidb_objects['client'] = andiDB.client(row['ip'], int(row['port']))
-
-        andidb_objects[row['table'] + ' ' +  row['name']] = andiDB.value(andidb_objects['client'],  row['table'], row['name'] )
-        
-      elif row['type'] == 'gpio_in':
-        GPIO.setup(int(row['out']), GPIO.IN)
-      elif row['type'] == 'totalizer':
-        if not row['name'] in totalizers:
-          totalizers[row['name']] = 0
-          print('new: ', row['name'])
-      elif row['type'] == 'rotator':
-        if not row['name'] in totalizers:
-          totalizers[row['name']] = float(row['start'])
-      elif row['type'] == 'current_sensor':
-        current_sensors.append(current_sensor(
-          min=float(row['min']) if 'min' in row else 4, 
-          max=float(row['max']) if 'max' in row else 20, 
-          offset=int(row['offset']) if 'offset' in row else 0 ))
-          
-  if 'router' in config:
-    
-    from monvpn import vpnclient
-    vpn_client = vpnclient()
-
-    router = config['router']
-    print('try register router')
-    if 'vpn_allowed' in router and router['vpn_allowed'] and 'ip' in router and 'user' in router and 'pw' in router:
-      vpn_client.register(router['ip'], router['user'], router['pw'])
-
-  if not os.path.isdir(offline_data_path):
-    os.makedirs(offline_data_path)
-
-
-  if len(totalizers):
-    f = open(totalizers_path, 'w+')
-    f.write(json.dumps(totalizers))
-    f.close()
-
-  last_round = current_milli_time()
-  while 1:
-      
-    message = []
-    
-    if not sio.socket_connected:
-      try:
-        if('ip' in config and 'port' in config):
-            sio.connect('http://' + config['ip'] + ':' + str(config['port']))
-            sio.socket_connected = True
-        elif 'domain' in config:
-            sio.connect(config['domain'])
-            sio.socket_connected = True
-
-      except KeyboardInterrupt:
-        raise
-      except Exception as e:
-        sio.socket_connected = False
-
-        print('socket not connected', e)
-    else:
-      pass
-    
-    its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
-    #if debug and its_time_to_send:
-    #  print('time to send [s] ', sending_intervall)
-
-    for row in config['data']:
-      if 'not_active' in row:
-          continue
-
-      if row['type'] == 'static':
-        value = row['value']
-      elif row['type'] == 'time':
-        value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-      elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
-        if 'channels' in config:
-          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
-        else:
-          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
-      elif row['type'] == 'analog':
-        value = get_from_analog(row['channel'], row['multi'], row['offset'])
-      elif row['type'] == 'gfs':
-        value = get_from_gfs(row['sensor_id'], row['value_type'])
-      elif row['type'] == 's7set':
-        continue
-      elif row['type'] == 'andiDB':
-        if row['table'] + ' ' +  row['name'] in andidb_objects:
-          value = andidb_objects[row['table'] + ' ' +  row['name']].get()
-        else:
-          print('Error', row['table'], row['name'])
-      elif row['type'] == 'rs485get':
-        value = myrs485.get(port=row['port'], adress=row['adress'], baudrate=row['baudrate'], register=row['register'], code=row['code'],more=0) 
-      elif row['type'] == 'gpio_in':
-        value = GPIO.input(int(row['offset']))
-      elif row['type'] == 'totalizer':
-        my_value = next((x for x in config['data'] if x['name'] == row['source_name']), None)
-        if my_value and 'value' in my_value:
-          totalizers[row['name']] = float(totalizers[row['name']]) +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
-          value = totalizers[row['name']]
-      elif row['type'] == 'current_sensor':
-          value = current_sensors[int(row['offset']) if 'offset' in row else 0].get()
-          if debug:
-              print('read ina value', value)
-      
-      unit = ''
-
-      if 'unit' in row:
-        unit = row['unit']
-
-      if not (row['type'] == 'static' or row['type'] == 'time'):
-        if 'lastdata' in row and (row['lastdata'] == value or not its_time_to_send): 
-          continue
-        else:
-          row['lastdata'] = value
-          if debug:
-            print(value)
-
-      if not value == 'Error':
-        message.append({'name':row['name'], 'unit': unit, 'value': value})
-        row['value'] = value
-
-   
-    last_round = current_milli_time()
-
-    if (not its_time_to_send) and len(message) <= 2:
-        continue
-
-      
-
-    if sio.socket_connected:
-      if(len(message) <= 2): #nicht sendend net genug daten
-          if debug:
-            print('not sending')
-          continue
-      if debug:
-        print(message)
-      global sending_realtime
-      if sending_realtime:
-          sio.emit('recv_data_mon3', (message, 0))
-      else:
-          sio.emit('recv_data', (message, 0))
-      last_send_time = current_milli_time()
-      
-    else:
-      if debug:
-        print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
-      if(len(message) <= 2):  # nicht sendend net genug daten
-          if debug:
-            print('no need to save no relevace')
-          continue
-      f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
-      for row in message:
-        f.write(json.dumps(row) + '\n')
-
-      f.close()
-      last_send_time = current_milli_time()
-
-    
-    if len(totalizers):
-      f = open(totalizers_path, 'w+')
-      f.write(json.dumps(totalizers))
-      f.close()
-
-
-def check_network():
-  gateway = get_default_gateway_linux()
-  internet = False
-  dns = False
-  network = False
-  try:
-    for i in ping('cloud.enwatmon.de', verbose=False):
-      internet = internet or i.success
-      dns = dns or i.success
-
-    for i in ping('8.8.8.8', verbose=False):
-      internet = internet or i.success
-
-    for i in ping(str(gateway), verbose=False):
-      network = network or i.success  
-      
-  except:
-    dns = False
-    internet = False
-
-
-  if not internet and network:
-    restart_router(gateway)
-  if not internet and not network:
-    restart_rpi()
-  
-  return dns or internet and network
- 
-
-def get_default_gateway_linux():
-    """Read the default gateway directly from /proc."""
-    with open("/proc/net/route") as fh:
-        for line in fh:
-            fields = line.strip().split()
-            if fields[1] != '00000000' or not int(fields[3], 16) & 2:
-                # If not default route or not RTF_GATEWAY, skip it
-                continue
-
-            return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
-def restart_router(router_ip):
-  print('router not accessable', router_ip)
-
-def restart_rpi():
-   print('no network in 300s')
-   time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
-   os.system('sudo reboot')
-
 
 
 def get_from_s7_db(ip, db, offset, length, datatype, channel=1):

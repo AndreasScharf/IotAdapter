@@ -31,7 +31,6 @@ class current_sensor(object):
             #self.ina4.configure(self.ina4.RANGE_32V, self.ina4.GAIN_AUTO)
         except Exception as e:
             print("Unbekannter Fehler" + str(e))
-            return "Error"
 
 
     def get(self):

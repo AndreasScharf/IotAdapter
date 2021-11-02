@@ -1,0 +1,16 @@
+/root/.pm2/logs/iot-error.log last 15 lines:
+1|iot      |
+1|iot      | Exception in thread Thread-2611660:
+1|iot      | Traceback (most recent call last):
+1|iot      |   File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+1|iot      |     self.run()
+1|iot      |   File "/usr/lib/python3.5/threading.py", line 862, in run
+1|iot      |     self._target(*self._args, **self._kwargs)
+1|iot      |   File "/usr/local/lib/python3.5/dist-packages/engineio/client.py", line 671, in _write_loop
+1|iot      |     self.queue.task_done()
+1|iot      |   File "/usr/lib/python3.5/queue.py", line 68, in task_done
+1|iot      |     raise ValueError('task_done() called too many times')
+1|iot      | ValueError: task_done() called too many times
+1|iot      |
+1|iot      | packet queue is empty, aborting
+1|iot      | packet queue is empty, aborting
