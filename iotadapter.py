@@ -47,7 +47,6 @@ GPIO.setmode(GPIO.BCM)
 #Arbeiten Hannes (Modbus, INA219)
 myrs485 = rs485()
 
-
 current_sensors = []
 
 reconnectingS7 = False
@@ -259,7 +258,12 @@ def main():
           totalizers[row['name']] = float(totalizers[row['name']]) +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
           value = totalizers[row['name']]
       elif row['type'] == 'current_sensor':
-          value = current_sensors[int(row['index']) if 'index' in row else 0].get()
+
+          sensor = [x for x in current_sensors if x.offset==row['offset']]
+          if(len(sensor)):
+            value = sensor[0].get()
+          else:
+            print('no sensor with offset', int(row['offset']))
           if debug:
               print('read ina value', value)
       

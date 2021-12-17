@@ -1,3 +1,4 @@
+
 {
     "domain": "mqtt://mqtt.enwatmon.de:1883",
     "data": [
@@ -23,3 +24,4 @@
         }
     ]
 }
+
