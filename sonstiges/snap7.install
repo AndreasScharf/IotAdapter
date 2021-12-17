@@ -1,7 +1,22 @@
 download latest version of snap7
+
+$wget https://sourceforge.net/projects/snap7/files/1.4.1/snap7-full-1.4.1.tar.gz
+
 unzip the pagckage
-cd build/arm_v7...
-make -f arm_v7...
-cd bin
-cp ...so /usr/lib/...so
-pip3 install python-snap7
+
+$tar –xvf snap7-full-1.4.1.tar.gz
+
+$cd snap7-full-1.4.1/build/unix
+$make -f arm_v7_linux.mk
+
+$cd ../bin/arm_v7-linux
+$sudo cp libsnap7.so /usr/lib/libsnap7.so
+
+$pip3 install python-snap7
+$sudo pip3 install python-snap7
+$pip3.8 install python-snap7
+$sudo pip3.8 install python-snap7
+
+rm /home/pi/snap7-full-1.4.1.tar.gz
+rm /home/pi/snap7-full-1.4.1/ -r
+sudo ldconfig

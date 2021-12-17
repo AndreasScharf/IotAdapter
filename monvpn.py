@@ -20,7 +20,7 @@ class vpnclient(object):
 
     def start(self, port, ca_root, client_key, client_cer, ta_key):
 
-      self.client.connect(self.ip_router, username=self.name, password=self.pw)
+      self.client.connect(self.ip_router, username=self.name, password=self.pw, banner_timeout=200)
       temp_config_path = './openvpn.tmp'
       remote_config_path = '/etc/config/openvpn'
 
@@ -62,6 +62,8 @@ class vpnclient(object):
       
       os.remove(temp_config_path)
       stdin, stdout, stderr = self.client.exec_command('/etc/init.d/openvpn restart')
+      
+      self.client.close()
       #self.send_command('stop')
 
     def stop(self):
@@ -98,7 +100,8 @@ class vpnclient(object):
       
       os.remove(temp_config_path)
       stdin, stdout, stderr = self.client.exec_command('/etc/init.d/openvpn restart')
-      
+      self.client.close()
+
     def set_auth_creditals(self, path, user, pw):
       f = open('user2.tmp', 'w')
       f.write(pw)

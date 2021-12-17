@@ -1,0 +1,8 @@
+{
+  "domain":"mqtt://85.214.215.187:8883",
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    {"type":"time","name":"time","active":true},
+    {"active":true, "type":"cpu_temp", "name":"cpu_temp", "unit":"°C"}
+  ]
+}

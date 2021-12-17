@@ -1,9 +1,12 @@
 #from gpiozero import MCP3008
 from datetime import datetime
+import uuid
 #from gpiozero import MCP3008
 import RPi.GPIO as GPIO
+from gpiozero import CPUTemperature
 import subprocess
 import socketio
+from mqtt_cloud_connector import connector
 import time
 import json
 import os
@@ -20,23 +23,23 @@ from INA219 import current_sensor
 from rotators import rotator
 
 import sys
+import psutil
 import platform
 import andiDB
-#Snap7
-import snap7
-from snap7.util import *
 
-if platform.python_version() <= '3.5':
-  from snap7.snap7types import *
 
+
+from s7 import s7  
+  
 
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 
 sio = socketio.Client()
-s7 = snap7.client.Client()
-
+mqtt_con = connector()
+s7 = s7()
+cpu = CPUTemperature()
 
 vpn_client = None
 GPIO.setmode(GPIO.BCM)
@@ -68,6 +71,7 @@ req_name_realtime = 'recv_data_mon3'
 
 sending_realtime = False
 debug = ('-d' in sys.argv or '-debug' in sys.argv)
+s7.debug = debug
 
 totalizers = {}
 new_totalizers = True
@@ -101,8 +105,21 @@ def main():
 #
 #  Connections aufbauen
 #
-  socket_events()
+  socket_events(config)
+  mqtt_events(config)
+
+  global sending_intervall
+
+  mad = ''
+  for line in config['data']:
+    if(line['name'] == 'mad' or line['name'] == 'MAD'):
+      mad = line['value']
+      break
+    
+  if 'sending_intervall' in config:
+    sending_intervall = int(config['sending_intervall'])
   
+  mqtt_con.mad = mad
   #setup
   #grunfossensor/andidb setup
   global grundfossensors
@@ -150,6 +167,8 @@ def main():
         if debug:
           print(rotators) 
       elif row['type'] == 'current_sensor':
+        row['index'] = len(current_sensors)
+            
         current_sensors.append(current_sensor(
           min=float(row['min']) if 'min' in row else 4, 
           max=float(row['max']) if 'max' in row else 20, 
@@ -158,12 +177,14 @@ def main():
   if 'router' in config:
     
     from monvpn import vpnclient
+    global vpn_client
     vpn_client = vpnclient()
 
     router = config['router']
     print('try register router')
     if 'vpn_allowed' in router and router['vpn_allowed'] and 'ip' in router and 'user' in router and 'pw' in router:
       vpn_client.register(router['ip'], router['user'], router['pw'])
+
 
   if not os.path.isdir(offline_data_path):
     os.makedirs(offline_data_path)
@@ -175,45 +196,48 @@ def main():
     f.close()
 
   last_round = current_milli_time()
+  try:
+    if('ip' in config and 'port' in config):
+      sio.connect('http://' + config['ip'] + ':' + str(config['port']))
+      sio.socket_connected = True
+    elif 'domain' in config and 'https' in config['domain']:
+      sio.connect(config['domain'])
+      sio.socket_connected = True
+    elif 'domain' in config and 'mqtt' in config['domain']:
+      temp_str = config['domain'].replace('mqtt://', '')
+      domain = temp_str.split(':')[0]
+      port = temp_str.split(':')[1]
+      mqtt_con.connect(domain, int(port))
+      time.sleep(5)#give time to connect
+  except KeyboardInterrupt:
+    raise
+
+  last_send_time = 0
   while 1:
-      
     message = []
-    
-    if not sio.socket_connected:
-      try:
-        if('ip' in config and 'port' in config):
-            sio.connect('http://' + config['ip'] + ':' + str(config['port']))
-            sio.socket_connected = True
-        elif 'domain' in config:
-            sio.connect(config['domain'])
-            sio.socket_connected = True
-
-      except KeyboardInterrupt:
-        raise
-      except Exception as e:
-        sio.socket_connected = False
-
-        print('socket not connected', e)
-    else:
-      pass
     
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
     #if debug and its_time_to_send:
     #  print('time to send [s] ', sending_intervall)
-
+    if debug:
+      print('\n\nSending Time in ' + str(current_milli_time()) + '-' +  str((sending_intervall * 1000) - (current_milli_time() - last_send_time)) + '', last_send_time)
+    
     for row in config['data']:
       if 'not_active' in row:
           continue
-
+      if 'active' in row and not row['active']:
+        continue
+          
       if row['type'] == 'static':
         value = row['value']
       elif row['type'] == 'time':
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
         if 'channels' in config:
-          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
+          value = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
         else:
-          value = get_from_s7_db(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
+          value = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
+          
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
       elif row['type'] == 'gfs':
@@ -235,9 +259,17 @@ def main():
           totalizers[row['name']] = float(totalizers[row['name']]) +  ( float(my_value['value']) * (current_milli_time() - last_round) / (float(row['time_offset']) if 'time_offset' in row else 1))
           value = totalizers[row['name']]
       elif row['type'] == 'current_sensor':
-          value = current_sensors[int(row['offset']) if 'offset' in row else 0].get()
+          value = current_sensors[int(row['index']) if 'index' in row else 0].get()
           if debug:
               print('read ina value', value)
+      
+      elif row['type'] == 'cpu_temp':
+        value = cpu.temperature
+      elif row['type'] == 'cpu_usage':
+        value = psutil.cpu_percent()
+      elif row['type'] == 'memory_usage':
+        value = psutil.virtual_memory()[2]
+        
       elif row['type'] == 'rotator':
           r = [x for x in rotators if x.name == row['name']][0]
           if not r:
@@ -258,13 +290,13 @@ def main():
 
       if not (row['type'] == 'static' or row['type'] == 'time'):
         if 'lastdata' in row and (row['lastdata'] == value or not its_time_to_send): 
-          if debug:
-            print(value, row['name'], its_time_to_send)
+          #if debug:
+          #  print(value, row['lastdata'], row['name'], 'sending_time', (last_round - last_send_time), sending_intervall)
           continue
         else:
           row['lastdata'] = value
           if debug:
-            print(value)
+            print(row['name'], value)
 
       if not value == 'Error':
         message.append({'name':row['name'], 'unit': unit, 'value': value})
@@ -276,7 +308,6 @@ def main():
     if (not its_time_to_send) and len(message) <= 2:
         continue
 
-      
 
     if sio.socket_connected:
       if(len(message) <= 2): #nicht sendend net genug daten
@@ -291,7 +322,18 @@ def main():
       else:
           sio.emit('recv_data', (message, 0))
       last_send_time = current_milli_time()
-      
+      if debug:
+            print('send socket')
+
+    elif mqtt_con.connected:
+      if(len(message) <= 2): #nicht sendend net genug daten
+        if debug:
+          print('not sending')
+          continue 
+      mqtt_con.senddata(message)
+      last_send_time = current_milli_time()
+      if debug:
+          print('send mqtt', message)
     else:
       if debug:
         print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
@@ -305,7 +347,8 @@ def main():
 
       f.close()
       last_send_time = current_milli_time()
-
+      if debug:
+        print('save file')
     
     if len(totalizers):
       f = open(totalizers_path, 'w+')
@@ -360,7 +403,7 @@ def restart_rpi():
    time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
    os.system('sudo reboot')
 
-def socket_events():
+def socket_events(config):
   sio.socket_connected = False
   
   @sio.event
@@ -471,6 +514,95 @@ def socket_events():
     except:
       pass
 
+def mqtt_events(config):
+    inputs = []
+
+    def connected_handler():
+      for row in config['data']:
+        if row['type'] == 's7set' and row['from'] == 'cloud':
+            row['key'] = uuid.v4()
+            inputs.append(row)
+            
+      interprete_offline_data()
+
+    mqtt_con.on_connected = connected_handler
+
+    def recievedata_handler(payload):
+      msg = json.loads(payload)
+
+      #go throug message
+      for row in msg:
+        key = msg['key']
+        matches = [x for x in inputs if x['key'] == key]#find matching valueset to key
+        if len(matches):
+          match = matches[0]
+          if match['type'] == 's7set':
+            set_s7_db(match['ip'], match['db'], match['offset'], match['length'], match['datatype'], row['value'])#write value with valueset     
+            
+    mqtt_con.on_recievedata = recievedata_handler
+
+
+    def disconnect_handler():
+      while not mqtt_con.connected:
+        time.sleep(5)
+
+        if debug:
+          print('reconnecting, is connected: ', mqtt_con.connected)
+        if not mqtt_con.connected:
+          mqtt_con.connect(mqtt_con.host, mqtt_con.port, True)
+          
+
+    mqtt_con.on_disconnected = disconnect_handler
+    
+    global vpn_client
+    def start_vpn(data):
+      
+      port = data['port'] if 'port' in data else -1
+      root_ca = data['root_ca']
+      client_ca = data['client_ca']
+      client_crt = data['client_crt']
+      ta_key = data['ta_key']
+      
+      if (not vpn_client) or port == -1 or not vpn_client.registerd:
+        return
+      print('start vpn on Port: ', port)
+
+      try:
+        vpn_client.start(port, root_ca, client_ca, client_crt, ta_key)
+        print('success')
+        mqtt_con.vpnstarted(data['auth'])
+      except:
+        print('vpn failed')
+    mqtt_con.on_startvpn = start_vpn
+    
+    def stop_vpn():
+      try:
+        vpn_client.stop()
+      except:
+        pass
+    mqtt_con.on_stopvpn = stop_vpn
+    
+    def start_realtime():
+      global sending_intervall
+      sending_intervall = 1
+    mqtt_con.on_start_realtime = start_realtime
+        
+    def stop_realtime():
+      global sending_intervall
+      if 'sending_intervall' in config:
+        sending_intervall = int(config['sending_intervall'])
+      else:
+        sending_intervall = 300
+        
+    mqtt_con.on_stop_realtime = stop_realtime
+    
+    def reconfig(data):
+      
+      
+      pass
+        
+    mqtt_con.on_reconfig_system = reconfig
+    
 
 def get_from_s7_db(ip, db, offset, length, datatype, channel=1):
   global cur_ip
@@ -548,8 +680,6 @@ def get_from_analog(channel, multi, offset):
     adc = MCP3008(channel=channel)
     vol = adc.value * 3.3 * multi
     return  vol + offset
-def get_from_mysql(id):
-    pass
 def get_from_gfs(sensor_id, value_type):
     global grundfossensors
     sensor = [elem for elem in grundfossensors if elem.sensor_id == int(sensor_id)][0]
@@ -562,10 +692,6 @@ def get_from_gfs(sensor_id, value_type):
         return sensor.get_flow()
 
 
-def get_dint(_bytearray, byte_index):
-    data = _bytearray[byte_index:byte_index + 4]
-    dint = struct.unpack('>i', struct.pack('4B', *data))[0]
-    return dint
 
 
 def interprete_offline_data():
@@ -590,16 +716,21 @@ def interprete_offline_data():
       message.append(conv_line)
 
     messages.append(message)
+    
     noError = True
-    length_of_messages = len(messages)
-    for i, message in enumerate(messages):
-      if len(message) > 2:  
-        try:
-          sio.emit('recv_data_mon3', (message, length_of_messages - i))
-          f.close()
-          noError = noError and True
-        except:
-          noError = False
+    if sio.connected:
+      length_of_messages = len(messages)
+      for i, message in enumerate(messages):
+        if len(message) > 2:  
+          try:
+            sio.emit('recv_data_mon3', (message, length_of_messages - i))
+            f.close()
+            noError = noError and True
+          except:
+            noError = False
+    elif mqtt_con.connected:
+        mqtt_con.sendofflinedata(messages)
+    
     if noError:
       os.remove(offline_data_path + '/' + file)
 

@@ -20,7 +20,7 @@ class current_sensor(object):
             #self.ina.configure(self.ina.RANGE_32V, self.ina.GAIN_AUTO)
             if offset >= 2:
                 offset = offset + 2
-
+            print('on adress ', format((0x40 + offset), '#04x') )
             self.ina2 = INA219(ohm_shunt, max_current, None, address=(0x40 + offset))
             self.ina2.configure(self.ina2.RANGE_32V, self.ina2.GAIN_AUTO)
 
@@ -32,6 +32,7 @@ class current_sensor(object):
         except Exception as e:
             print("Unbekannter Fehler" + str(e))
 
+        self.address = (0x40 + offset)
 
     def get(self):
 
@@ -39,8 +40,8 @@ class current_sensor(object):
             voltage = self.ina2.voltage() #Spannung des Busses (nicht versorgungsspannung des Raspi)
             current = self.ina2.current() #gemessner Strom
             power = self.ina2.power()  #Leistung
-
-            #print("Bus Current: %.3f mA" % self.ina2.current()
+            print("Bus Current: %.3f mA" %
+                  self.ina2.current(), format(self.address, '#04x'))
             current = round(current, 3)
             return self.m * current + self.t
 

@@ -16,15 +16,15 @@
 	      "datatype":"float"
         
   },
-  {
-        "active":true,
-        "type":"current_senor",
-        "name": "test_takt",
-        "unit":"tick",
-        "offset":0,
-        "min": 0,
-        "max": 20,
-        "datatype":"float"
-  }
+    {
+      "active": true,
+      "type": "current_senor",
+      "name": "analog_test",
+      "unit": "mAMP",
+      "offset": 0,
+      "min": 0,
+      "max": 20,
+      "datatype": "float"
+    }
   ]
 }

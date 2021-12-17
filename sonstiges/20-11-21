@@ -1,0 +1,864 @@
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:00:00"}
+{ "name":"value1", "unit": "", "value":"0.11438651293020174" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:05:00"}
+{ "name":"value1", "unit": "", "value":"0.5828193255512364" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:10:00"}
+{ "name":"value1", "unit": "", "value":"0.8129444413753424" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:15:00"}
+{ "name":"value1", "unit": "", "value":"0.5207408873083108" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:20:00"}
+{ "name":"value1", "unit": "", "value":"0.2844466697983765" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:25:00"}
+{ "name":"value1", "unit": "", "value":"0.5793935341097933" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:30:00"}
+{ "name":"value1", "unit": "", "value":"0.8496470184808649" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:35:00"}
+{ "name":"value1", "unit": "", "value":"0.44009358731464776" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:40:00"}
+{ "name":"value1", "unit": "", "value":"0.8451894820204027" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:45:00"}
+{ "name":"value1", "unit": "", "value":"0.21802262403779382" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:50:00"}
+{ "name":"value1", "unit": "", "value":"0.2904658742047682" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 00:55:00"}
+{ "name":"value1", "unit": "", "value":"0.15512057856342432" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:00:00"}
+{ "name":"value1", "unit": "", "value":"0.14750297567757098" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:05:00"}
+{ "name":"value1", "unit": "", "value":"0.9548038134619585" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:10:00"}
+{ "name":"value1", "unit": "", "value":"0.04651195450890466" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:15:00"}
+{ "name":"value1", "unit": "", "value":"0.3581278108310225" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9451319262511771" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:25:00"}
+{ "name":"value1", "unit": "", "value":"0.7311346167728036" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:30:00"}
+{ "name":"value1", "unit": "", "value":"0.18142630943019722" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:35:00"}
+{ "name":"value1", "unit": "", "value":"0.2236495874879405" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:40:00"}
+{ "name":"value1", "unit": "", "value":"0.8238124178829429" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:45:00"}
+{ "name":"value1", "unit": "", "value":"0.09948869174929231" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:50:00"}
+{ "name":"value1", "unit": "", "value":"0.41673009139103234" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 01:55:00"}
+{ "name":"value1", "unit": "", "value":"0.37290123603618053" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:00:00"}
+{ "name":"value1", "unit": "", "value":"0.8495896544280788" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:05:00"}
+{ "name":"value1", "unit": "", "value":"0.8761419243322648" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:10:00"}
+{ "name":"value1", "unit": "", "value":"0.07283513094564487" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:15:00"}
+{ "name":"value1", "unit": "", "value":"0.6993327526313569" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9963306870501438" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:25:00"}
+{ "name":"value1", "unit": "", "value":"0.6240587561721902" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:30:00"}
+{ "name":"value1", "unit": "", "value":"0.9421015300678691" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:35:00"}
+{ "name":"value1", "unit": "", "value":"0.8649576555991911" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:40:00"}
+{ "name":"value1", "unit": "", "value":"0.7351681040820917" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:45:00"}
+{ "name":"value1", "unit": "", "value":"0.9586946643361268" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:50:00"}
+{ "name":"value1", "unit": "", "value":"0.8053057360764806" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 02:55:00"}
+{ "name":"value1", "unit": "", "value":"0.29179142563589655" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:00:00"}
+{ "name":"value1", "unit": "", "value":"0.4095061317649643" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:05:00"}
+{ "name":"value1", "unit": "", "value":"0.7186858067725427" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:10:00"}
+{ "name":"value1", "unit": "", "value":"0.14645467473465767" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:15:00"}
+{ "name":"value1", "unit": "", "value":"0.46219213923652835" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9610260114863615" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:25:00"}
+{ "name":"value1", "unit": "", "value":"0.6296380017881098" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:30:00"}
+{ "name":"value1", "unit": "", "value":"0.8177589910745086" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:35:00"}
+{ "name":"value1", "unit": "", "value":"0.1968300276340781" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:40:00"}
+{ "name":"value1", "unit": "", "value":"0.6939526454612581" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:45:00"}
+{ "name":"value1", "unit": "", "value":"0.6309434356573211" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:50:00"}
+{ "name":"value1", "unit": "", "value":"0.43210440046961807" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 03:55:00"}
+{ "name":"value1", "unit": "", "value":"0.7084832858731215" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:00:00"}
+{ "name":"value1", "unit": "", "value":"0.2766827820299844" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:05:00"}
+{ "name":"value1", "unit": "", "value":"0.3849348730082697" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:10:00"}
+{ "name":"value1", "unit": "", "value":"0.4440754406394355" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:15:00"}
+{ "name":"value1", "unit": "", "value":"0.12874873333812087" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:20:00"}
+{ "name":"value1", "unit": "", "value":"0.7918398186283788" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:25:00"}
+{ "name":"value1", "unit": "", "value":"0.8140586584730417" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:30:00"}
+{ "name":"value1", "unit": "", "value":"0.4975374409206007" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:35:00"}
+{ "name":"value1", "unit": "", "value":"0.3979145450543614" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:40:00"}
+{ "name":"value1", "unit": "", "value":"0.18502695638937672" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:45:00"}
+{ "name":"value1", "unit": "", "value":"0.07340372875894186" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:50:00"}
+{ "name":"value1", "unit": "", "value":"0.14347440829093394" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 04:55:00"}
+{ "name":"value1", "unit": "", "value":"0.07314131720270389" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:00:00"}
+{ "name":"value1", "unit": "", "value":"0.2540506116294612" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:05:00"}
+{ "name":"value1", "unit": "", "value":"0.3429624222161948" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:10:00"}
+{ "name":"value1", "unit": "", "value":"0.24673535957965764" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:15:00"}
+{ "name":"value1", "unit": "", "value":"0.6529286925223825" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:20:00"}
+{ "name":"value1", "unit": "", "value":"0.3530359026729656" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:25:00"}
+{ "name":"value1", "unit": "", "value":"0.18252298868286232" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:30:00"}
+{ "name":"value1", "unit": "", "value":"0.7583884491013448" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:35:00"}
+{ "name":"value1", "unit": "", "value":"0.6821991875258578" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:40:00"}
+{ "name":"value1", "unit": "", "value":"0.5069697976052394" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:45:00"}
+{ "name":"value1", "unit": "", "value":"0.5482386583806792" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:50:00"}
+{ "name":"value1", "unit": "", "value":"0.8392202104445002" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 05:55:00"}
+{ "name":"value1", "unit": "", "value":"0.9111075526062854" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:00:00"}
+{ "name":"value1", "unit": "", "value":"0.8281565468779875" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:05:00"}
+{ "name":"value1", "unit": "", "value":"0.39706461440179275" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:10:00"}
+{ "name":"value1", "unit": "", "value":"0.7060380091160553" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:15:00"}
+{ "name":"value1", "unit": "", "value":"0.7865016355609566" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9639389181875228" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:25:00"}
+{ "name":"value1", "unit": "", "value":"0.6675265116800203" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:30:00"}
+{ "name":"value1", "unit": "", "value":"0.32071916387083077" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:35:00"}
+{ "name":"value1", "unit": "", "value":"0.3954754732343665" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:40:00"}
+{ "name":"value1", "unit": "", "value":"0.27292603752604794" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:45:00"}
+{ "name":"value1", "unit": "", "value":"0.8079280619893047" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:50:00"}
+{ "name":"value1", "unit": "", "value":"0.7411888770397833" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 06:55:00"}
+{ "name":"value1", "unit": "", "value":"0.060358907250475546" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:00:00"}
+{ "name":"value1", "unit": "", "value":"0.8433309291861328" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:05:00"}
+{ "name":"value1", "unit": "", "value":"0.023234702231693882" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:10:00"}
+{ "name":"value1", "unit": "", "value":"0.5088416384919503" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:15:00"}
+{ "name":"value1", "unit": "", "value":"0.13878079568620527" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:20:00"}
+{ "name":"value1", "unit": "", "value":"0.6843749677176474" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:25:00"}
+{ "name":"value1", "unit": "", "value":"0.493127013640133" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:30:00"}
+{ "name":"value1", "unit": "", "value":"0.4013207388392186" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:35:00"}
+{ "name":"value1", "unit": "", "value":"0.2734509456744063" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:40:00"}
+{ "name":"value1", "unit": "", "value":"0.7138484092115641" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:45:00"}
+{ "name":"value1", "unit": "", "value":"0.7950780154151821" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:50:00"}
+{ "name":"value1", "unit": "", "value":"0.31445204223558487" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 07:55:00"}
+{ "name":"value1", "unit": "", "value":"0.019505257596743486" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:00:00"}
+{ "name":"value1", "unit": "", "value":"0.8521869406963543" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:05:00"}
+{ "name":"value1", "unit": "", "value":"0.8758621840796521" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:10:00"}
+{ "name":"value1", "unit": "", "value":"0.9414337839440675" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:15:00"}
+{ "name":"value1", "unit": "", "value":"0.33432379619004604" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:20:00"}
+{ "name":"value1", "unit": "", "value":"0.729217651979835" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:25:00"}
+{ "name":"value1", "unit": "", "value":"0.8372779534469923" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:30:00"}
+{ "name":"value1", "unit": "", "value":"0.9682822845551574" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:35:00"}
+{ "name":"value1", "unit": "", "value":"0.959778243159254" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:40:00"}
+{ "name":"value1", "unit": "", "value":"0.4961277308423262" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:45:00"}
+{ "name":"value1", "unit": "", "value":"0.890357139586923" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:50:00"}
+{ "name":"value1", "unit": "", "value":"0.3035326979812093" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 08:55:00"}
+{ "name":"value1", "unit": "", "value":"0.05854941836536187" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:00:00"}
+{ "name":"value1", "unit": "", "value":"0.7562032792851274" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:05:00"}
+{ "name":"value1", "unit": "", "value":"0.17639665759188627" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:10:00"}
+{ "name":"value1", "unit": "", "value":"0.9619429061150356" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:15:00"}
+{ "name":"value1", "unit": "", "value":"0.926172118929816" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:20:00"}
+{ "name":"value1", "unit": "", "value":"0.37387494275631517" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:25:00"}
+{ "name":"value1", "unit": "", "value":"0.8214691155185496" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:30:00"}
+{ "name":"value1", "unit": "", "value":"0.17809032545765247" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:35:00"}
+{ "name":"value1", "unit": "", "value":"0.22411169623541738" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:40:00"}
+{ "name":"value1", "unit": "", "value":"0.3540834410576169" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:45:00"}
+{ "name":"value1", "unit": "", "value":"0.08438907073239199" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:50:00"}
+{ "name":"value1", "unit": "", "value":"0.9183268402074058" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 09:55:00"}
+{ "name":"value1", "unit": "", "value":"0.8518494820841246" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:00:00"}
+{ "name":"value1", "unit": "", "value":"0.4164095185494239" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:05:00"}
+{ "name":"value1", "unit": "", "value":"0.29173308376178597" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:10:00"}
+{ "name":"value1", "unit": "", "value":"0.7172388438096765" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:15:00"}
+{ "name":"value1", "unit": "", "value":"0.5226612793744696" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:20:00"}
+{ "name":"value1", "unit": "", "value":"0.7482506587149587" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:25:00"}
+{ "name":"value1", "unit": "", "value":"0.5478229052839998" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:30:00"}
+{ "name":"value1", "unit": "", "value":"0.866211760540666" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:35:00"}
+{ "name":"value1", "unit": "", "value":"0.3842364626020276" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:40:00"}
+{ "name":"value1", "unit": "", "value":"0.3286464235799774" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:45:00"}
+{ "name":"value1", "unit": "", "value":"0.6807598370635152" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:50:00"}
+{ "name":"value1", "unit": "", "value":"0.4264381975829973" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 10:55:00"}
+{ "name":"value1", "unit": "", "value":"0.4561808117974768" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:00:00"}
+{ "name":"value1", "unit": "", "value":"0.9341617406446636" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:05:00"}
+{ "name":"value1", "unit": "", "value":"0.2568091013675562" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:10:00"}
+{ "name":"value1", "unit": "", "value":"0.3646169273489852" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:15:00"}
+{ "name":"value1", "unit": "", "value":"0.9707752435280802" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:20:00"}
+{ "name":"value1", "unit": "", "value":"0.5448884224415887" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:25:00"}
+{ "name":"value1", "unit": "", "value":"0.38147787347115136" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:30:00"}
+{ "name":"value1", "unit": "", "value":"0.5917336741123067" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:35:00"}
+{ "name":"value1", "unit": "", "value":"0.6159657365245889" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:40:00"}
+{ "name":"value1", "unit": "", "value":"0.117324576625219" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:45:00"}
+{ "name":"value1", "unit": "", "value":"0.9785337160444018" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:50:00"}
+{ "name":"value1", "unit": "", "value":"0.6737486519825003" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 11:55:00"}
+{ "name":"value1", "unit": "", "value":"0.47001371720608354" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:00:00"}
+{ "name":"value1", "unit": "", "value":"0.5012431978680679" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:05:00"}
+{ "name":"value1", "unit": "", "value":"0.6741347905589855" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:10:00"}
+{ "name":"value1", "unit": "", "value":"0.05956917307416498" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:15:00"}
+{ "name":"value1", "unit": "", "value":"0.11607157994088169" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9447971127912899" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:25:00"}
+{ "name":"value1", "unit": "", "value":"0.26303942693699534" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:30:00"}
+{ "name":"value1", "unit": "", "value":"0.24620688670105462" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:35:00"}
+{ "name":"value1", "unit": "", "value":"0.5189004269127137" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:40:00"}
+{ "name":"value1", "unit": "", "value":"0.01793929124455218" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:45:00"}
+{ "name":"value1", "unit": "", "value":"0.6473096808015183" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:50:00"}
+{ "name":"value1", "unit": "", "value":"0.17352999411626024" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 12:55:00"}
+{ "name":"value1", "unit": "", "value":"0.5195375757668015" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:00:00"}
+{ "name":"value1", "unit": "", "value":"0.7499697292759664" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:05:00"}
+{ "name":"value1", "unit": "", "value":"0.9026817780194845" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:10:00"}
+{ "name":"value1", "unit": "", "value":"0.8899682101281784" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:15:00"}
+{ "name":"value1", "unit": "", "value":"0.21908846998387477" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:20:00"}
+{ "name":"value1", "unit": "", "value":"0.15866528011792735" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:25:00"}
+{ "name":"value1", "unit": "", "value":"0.7423423341279181" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:30:00"}
+{ "name":"value1", "unit": "", "value":"0.9022780688304165" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:35:00"}
+{ "name":"value1", "unit": "", "value":"0.6747912930163011" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:40:00"}
+{ "name":"value1", "unit": "", "value":"0.20011589108148087" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:45:00"}
+{ "name":"value1", "unit": "", "value":"0.13635189510230195" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:50:00"}
+{ "name":"value1", "unit": "", "value":"0.969723100151746" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 13:55:00"}
+{ "name":"value1", "unit": "", "value":"0.08418512609219853" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:00:00"}
+{ "name":"value1", "unit": "", "value":"0.9729833330153888" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:05:00"}
+{ "name":"value1", "unit": "", "value":"0.9396199085929158" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:10:00"}
+{ "name":"value1", "unit": "", "value":"0.12318890517268577" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:15:00"}
+{ "name":"value1", "unit": "", "value":"0.5123784116770375" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:20:00"}
+{ "name":"value1", "unit": "", "value":"0.8550121084625395" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:25:00"}
+{ "name":"value1", "unit": "", "value":"0.6296769985112752" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:30:00"}
+{ "name":"value1", "unit": "", "value":"0.3996017503573086" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:35:00"}
+{ "name":"value1", "unit": "", "value":"0.68250126066475" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:40:00"}
+{ "name":"value1", "unit": "", "value":"0.1366446406294175" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:45:00"}
+{ "name":"value1", "unit": "", "value":"0.4094700756831643" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:50:00"}
+{ "name":"value1", "unit": "", "value":"0.7490919738857371" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 14:55:00"}
+{ "name":"value1", "unit": "", "value":"0.5357384125208963" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:00:00"}
+{ "name":"value1", "unit": "", "value":"0.715970198154631" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:05:00"}
+{ "name":"value1", "unit": "", "value":"0.3609773292410662" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:10:00"}
+{ "name":"value1", "unit": "", "value":"0.09132160299212033" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:15:00"}
+{ "name":"value1", "unit": "", "value":"0.981903068392525" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:20:00"}
+{ "name":"value1", "unit": "", "value":"0.10462588278697915" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:25:00"}
+{ "name":"value1", "unit": "", "value":"0.44960153296258665" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:30:00"}
+{ "name":"value1", "unit": "", "value":"0.7080451287662912" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:35:00"}
+{ "name":"value1", "unit": "", "value":"0.0540661373602932" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:40:00"}
+{ "name":"value1", "unit": "", "value":"0.6429399746630785" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:45:00"}
+{ "name":"value1", "unit": "", "value":"0.9022626201263889" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:50:00"}
+{ "name":"value1", "unit": "", "value":"0.07626260015856323" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 15:55:00"}
+{ "name":"value1", "unit": "", "value":"0.8814576482670482" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:00:00"}
+{ "name":"value1", "unit": "", "value":"0.22233918447454926" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:05:00"}
+{ "name":"value1", "unit": "", "value":"0.7697120111757153" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:10:00"}
+{ "name":"value1", "unit": "", "value":"0.48059212868087875" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:15:00"}
+{ "name":"value1", "unit": "", "value":"0.2703356791712741" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:20:00"}
+{ "name":"value1", "unit": "", "value":"0.2997490538571621" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:25:00"}
+{ "name":"value1", "unit": "", "value":"0.5069964498202983" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:30:00"}
+{ "name":"value1", "unit": "", "value":"0.23292271834295086" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:35:00"}
+{ "name":"value1", "unit": "", "value":"0.8564406126810561" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:40:00"}
+{ "name":"value1", "unit": "", "value":"0.025199999073928447" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:45:00"}
+{ "name":"value1", "unit": "", "value":"0.7320664572817451" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:50:00"}
+{ "name":"value1", "unit": "", "value":"0.3430800848449187" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 16:55:00"}
+{ "name":"value1", "unit": "", "value":"0.4119110427347352" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:00:00"}
+{ "name":"value1", "unit": "", "value":"0.6713458492488771" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:05:00"}
+{ "name":"value1", "unit": "", "value":"0.04349179888952104" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:10:00"}
+{ "name":"value1", "unit": "", "value":"0.3807870515917038" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:15:00"}
+{ "name":"value1", "unit": "", "value":"0.5490858332692428" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9426786945714496" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:25:00"}
+{ "name":"value1", "unit": "", "value":"0.6989266359956792" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:30:00"}
+{ "name":"value1", "unit": "", "value":"0.10817926780719322" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:35:00"}
+{ "name":"value1", "unit": "", "value":"0.2820215197394542" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:40:00"}
+{ "name":"value1", "unit": "", "value":"0.35616503390361287" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:45:00"}
+{ "name":"value1", "unit": "", "value":"0.022064346752511454" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:50:00"}
+{ "name":"value1", "unit": "", "value":"0.4797480001799327" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 17:55:00"}
+{ "name":"value1", "unit": "", "value":"0.5811188033063466" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:00:00"}
+{ "name":"value1", "unit": "", "value":"0.9729306700359812" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:05:00"}
+{ "name":"value1", "unit": "", "value":"0.7779785794655362" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:10:00"}
+{ "name":"value1", "unit": "", "value":"0.1278381768729836" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:15:00"}
+{ "name":"value1", "unit": "", "value":"0.04439990364601998" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:20:00"}
+{ "name":"value1", "unit": "", "value":"0.8867516075358266" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:25:00"}
+{ "name":"value1", "unit": "", "value":"0.24711157913633053" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:30:00"}
+{ "name":"value1", "unit": "", "value":"0.5393860952599137" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:35:00"}
+{ "name":"value1", "unit": "", "value":"0.15504599371873862" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:40:00"}
+{ "name":"value1", "unit": "", "value":"0.7755730512536753" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:45:00"}
+{ "name":"value1", "unit": "", "value":"0.4346803695200313" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:50:00"}
+{ "name":"value1", "unit": "", "value":"0.3574590425389188" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 18:55:00"}
+{ "name":"value1", "unit": "", "value":"0.892749127685174" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:00:00"}
+{ "name":"value1", "unit": "", "value":"0.49821290631015946" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:05:00"}
+{ "name":"value1", "unit": "", "value":"0.3316858754908123" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:10:00"}
+{ "name":"value1", "unit": "", "value":"0.17131635323989114" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:15:00"}
+{ "name":"value1", "unit": "", "value":"0.7765307167310259" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:20:00"}
+{ "name":"value1", "unit": "", "value":"0.17081053881938402" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:25:00"}
+{ "name":"value1", "unit": "", "value":"0.13412001894454373" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:30:00"}
+{ "name":"value1", "unit": "", "value":"0.20177748122525496" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:35:00"}
+{ "name":"value1", "unit": "", "value":"0.3063654633274542" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:40:00"}
+{ "name":"value1", "unit": "", "value":"0.2480006831839171" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:45:00"}
+{ "name":"value1", "unit": "", "value":"0.23440624948520006" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:50:00"}
+{ "name":"value1", "unit": "", "value":"0.010143685516312506" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 19:55:00"}
+{ "name":"value1", "unit": "", "value":"0.6155532411717547" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:00:00"}
+{ "name":"value1", "unit": "", "value":"0.7052672341871581" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:05:00"}
+{ "name":"value1", "unit": "", "value":"0.8099110455985629" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:10:00"}
+{ "name":"value1", "unit": "", "value":"0.675072848782998" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:15:00"}
+{ "name":"value1", "unit": "", "value":"0.1831565029808856" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:20:00"}
+{ "name":"value1", "unit": "", "value":"0.9616581303135349" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:25:00"}
+{ "name":"value1", "unit": "", "value":"0.7799718024522203" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:30:00"}
+{ "name":"value1", "unit": "", "value":"0.11002691773777673" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:35:00"}
+{ "name":"value1", "unit": "", "value":"0.1411814802337017" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:40:00"}
+{ "name":"value1", "unit": "", "value":"0.856213647398566" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:45:00"}
+{ "name":"value1", "unit": "", "value":"0.8467974574087717" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:50:00"}
+{ "name":"value1", "unit": "", "value":"0.6814769217173522" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 20:55:00"}
+{ "name":"value1", "unit": "", "value":"0.535643111334022" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:00:00"}
+{ "name":"value1", "unit": "", "value":"0.5784453778557214" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:05:00"}
+{ "name":"value1", "unit": "", "value":"0.56640431822699" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:10:00"}
+{ "name":"value1", "unit": "", "value":"0.16108554849434298" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:15:00"}
+{ "name":"value1", "unit": "", "value":"0.5021720631310276" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:20:00"}
+{ "name":"value1", "unit": "", "value":"0.8722135597130963" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:25:00"}
+{ "name":"value1", "unit": "", "value":"0.3505868060682077" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:30:00"}
+{ "name":"value1", "unit": "", "value":"0.35561700529203377" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:35:00"}
+{ "name":"value1", "unit": "", "value":"0.2855740741644428" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:40:00"}
+{ "name":"value1", "unit": "", "value":"0.5663511397403876" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:45:00"}
+{ "name":"value1", "unit": "", "value":"0.0020904247208357596" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:50:00"}
+{ "name":"value1", "unit": "", "value":"0.8018784085838753" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 21:55:00"}
+{ "name":"value1", "unit": "", "value":"0.09991532036050699" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:00:00"}
+{ "name":"value1", "unit": "", "value":"0.11752338137819462" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:05:00"}
+{ "name":"value1", "unit": "", "value":"0.993445956327186" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:10:00"}
+{ "name":"value1", "unit": "", "value":"0.3785247982730011" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:15:00"}
+{ "name":"value1", "unit": "", "value":"0.06041665511954131" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:20:00"}
+{ "name":"value1", "unit": "", "value":"0.11273736482800445" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:25:00"}
+{ "name":"value1", "unit": "", "value":"0.8391879208040192" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:30:00"}
+{ "name":"value1", "unit": "", "value":"0.42228887564296347" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:35:00"}
+{ "name":"value1", "unit": "", "value":"0.8259938328038597" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:40:00"}
+{ "name":"value1", "unit": "", "value":"0.16465939246874362" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:45:00"}
+{ "name":"value1", "unit": "", "value":"0.45087848925355756" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:50:00"}
+{ "name":"value1", "unit": "", "value":"0.3053305486044351" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 22:55:00"}
+{ "name":"value1", "unit": "", "value":"0.454091836523688" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:00:00"}
+{ "name":"value1", "unit": "", "value":"0.9160660986072168" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:05:00"}
+{ "name":"value1", "unit": "", "value":"0.42693703124903415" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:10:00"}
+{ "name":"value1", "unit": "", "value":"0.06831320841538824" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:15:00"}
+{ "name":"value1", "unit": "", "value":"0.08380606057222872" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:20:00"}
+{ "name":"value1", "unit": "", "value":"0.7877719922774062" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:25:00"}
+{ "name":"value1", "unit": "", "value":"0.18780672999645764" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:30:00"}
+{ "name":"value1", "unit": "", "value":"0.2914214136276798" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:35:00"}
+{ "name":"value1", "unit": "", "value":"0.3342580344729462" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:40:00"}
+{ "name":"value1", "unit": "", "value":"0.08263862663961119" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:45:00"}
+{ "name":"value1", "unit": "", "value":"0.9482347980204882" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:50:00"}
+{ "name":"value1", "unit": "", "value":"0.5630567453815124" }
+{ "name":"MAD", "unit": "", "value":"gfs_test"}
+{ "name":"time", "unit": "", "value":"2021-11-20 23:55:00"}
+{ "name":"value1", "unit": "", "value":"0.9959027144223411" }

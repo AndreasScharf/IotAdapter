@@ -1,0 +1,431 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	server_name enwatmon.de www.enwatmon.de;
+	location / {
+		proxy_pass "http://127.0.0.1:10000";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+    proxy_set_header  X-Real-IP  $remote_addr;
+
+	}
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/enwatmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/enwatmon.de/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+	server_name mobil.enwatmon.de;
+	location / {
+		proxy_pass "http://127.0.0.1:8000";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header  X-Real-IP  $remote_addr;
+
+ 	}
+
+   listen 443 ssl; # managed by Certbot
+   ssl_certificate /etc/letsencrypt/live/mobil.enwatmon.de/fullchain.pem; # managed by Certbot
+   ssl_certificate_key /etc/letsencrypt/live/mobil.enwatmon.de/privkey.pem; # managed by Certbot
+   include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+upstream socket_nodes {
+  ip_hash;
+  server 127.0.0.1:8002;
+}
+
+server {
+	server_name test.enwatmon.de;
+	location / {
+		proxy_pass "http://127.0.0.1:8002";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+    proxy_set_header  X-Real-IP  $remote_addr;
+	}
+
+  location /socket.io {
+    proxy_pass http://socket_nodes;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+  }
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/test.enwatmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/test.enwatmon.de/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+	server_name cloud.enwatmon.de;
+	location / {
+		proxy_pass "http://127.0.0.1:5002";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header  X-Real-IP  $remote_addr;
+
+ 	}
+
+   listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/cloud.enwatmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/cloud.enwatmon.de/privkey.pem; # managed by Certbot
+   include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+	server_name testcloud.enwatmon.de;
+	 location / {
+		proxy_pass "http://127.0.0.1:5001";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header  X-Real-IP  $remote_addr;
+
+ 	 }
+
+   listen 443 ssl; # managed by Certbot
+   ssl_certificate /etc/letsencrypt/live/testcloud.enwatmon.de/fullchain.pem; # managed by Certbot
+   ssl_certificate_key /etc/letsencrypt/live/testcloud.enwatmon.de/privkey.pem; # managed by Certbot
+   include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+	server_name frappmon.de www.frappmon.de;
+	 location / {
+		proxy_pass "http://127.0.0.1:9000";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header  X-Real-IP  $remote_addr;
+
+ 	 }
+
+   listen 443 ssl; # managed by Certbot
+   ssl_certificate /etc/letsencrypt/live/frappmon.de/fullchain.pem; # managed by Certbot
+   ssl_certificate_key /etc/letsencrypt/live/frappmon.de/privkey.pem; # managed by Certbot
+   include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+    server_name vpn.enwatmon.de;
+    location / {
+		proxy_pass "http://127.0.0.1:20001";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+	}
+   listen 443 ssl; # managed by Certbot
+   ssl_certificate /etc/letsencrypt/live/vpn.enwatmon.de/fullchain.pem; # managed by Certbot
+   ssl_certificate_key /etc/letsencrypt/live/vpn.enwatmon.de/privkey.pem; # managed by Certbot
+   include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+}
+
+
+server {
+    if ($host = www.enwatmon.de) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = enwatmon.de) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	server_name enwatmon.de www.enwatmon.de;
+	listen 80;
+    return 404; # managed by Certbot
+}
+
+server {
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	#index index.html index.htm index.nginx-debian.html;
+        server_name license.enwatmon.de; # managed by Certbot
+
+
+	location / {
+ 		proxy_pass "http://127.0.0.1:13000";
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+	}
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/license.enwatmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/license.enwatmon.de/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+#server {
+#    if ($host = license.enwatmon.de) {
+#        return 301 https://$host$request_uri;
+#    } # managed by Certbot
+
+
+#	listen 80 ;
+#	listen [::]:80 ;
+#    server_name license.enwatmon.de;
+#    return 404; # managed by Certbot
+
+
+#}
+
+
+server {
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name frappmon.de; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/frappmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/frappmon.de/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = frappmon.de) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	listen 80 ;
+	listen [::]:80 ;
+    server_name frappmon.de;
+    return 404; # managed by Certbot
+
+
+}
+
+server {
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name testcloud.enwatmon.de; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+
+    listen [::]:443 ssl; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/testcloud.enwatmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/testcloud.enwatmon.de/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = testcloud.enwatmon.de) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	listen 80 ;
+	listen [::]:80 ;
+    server_name testcloud.enwatmon.de;
+    return 404; # managed by Certbot
+
+
+}
+
+server {
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+    server_name vpn.enwatmon.de; # managed by Certbot
+
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+
+    listen [::]:443 ssl; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/vpn.enwatmon.de/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/vpn.enwatmon.de/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = vpn.enwatmon.de) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	listen 80 ;
+	listen [::]:80 ;
+    server_name vpn.enwatmon.de;
+    return 404; # managed by Certbot
+
+
+}

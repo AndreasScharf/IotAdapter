@@ -14,3 +14,22 @@
 1|iot      |
 1|iot      | packet queue is empty, aborting
 1|iot      | packet queue is empty, aborting
+
+
+
+
+1|iot      |   File "/usr/local/lib/python3.5/dist-packages/websocket/_core.py", line 253, in send
+1|iot      |     return self.send_frame(frame)
+1|iot      |   File "/usr/local/lib/python3.5/dist-packages/websocket/_core.py", line 279, in send_frame
+1|iot      |     l = self._send(data)
+1|iot      |   File "/usr/local/lib/python3.5/dist-packages/websocket/_core.py", line 449, in _send
+1|iot      |     return send(self.sock, data)
+1|iot      |   File "/usr/local/lib/python3.5/dist-packages/websocket/_socket.py", line 157, in send
+1|iot      |     return _send()
+1|iot      |   File "/usr/local/lib/python3.5/dist-packages/websocket/_socket.py", line 139, in _send
+1|iot      |     return sock.send(data)
+1|iot      |   File "/usr/lib/python3.5/ssl.py", line 871, in send
+1|iot      |     return socket.send(self, data, flags)
+1|iot      | BrokenPipeError: [Errno 32] Broken pipe
+1|iot      |
+1|iot      | packet queue is empty, aborting
