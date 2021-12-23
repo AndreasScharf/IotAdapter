@@ -16,7 +16,7 @@ from pythonping import ping
 
 import grundfossensor as gfs
 
-#Hannes
+#Hannes 01
 from modbus import rs485 
 from INA219 import current_sensor
 
