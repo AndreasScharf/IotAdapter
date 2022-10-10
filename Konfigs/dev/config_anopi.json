@@ -1,0 +1,27 @@
+
+{
+    "domain": "mqtt://mqtt.enwatmon.de:1883",
+    "data": [
+        {
+            "name": "MAD",
+            "type": "static",
+            "unit": "",
+            "value": "gfs_test"
+        },
+        {
+            "name": "time",
+            "type": "time"
+        },
+        { "active": true, "type": "current_sensor", "name": "AI0", "unit": "", "offset": 0, "min": 0, "max": 20,  "datatype": "float" },
+        { "active": true, "type": "current_sensor", "name": "AI1", "unit": "", "offset": 1, "min": 0, "max": 20,  "datatype": "float" },
+        { "active": true, "type": "current_sensor", "name": "AI2", "unit": "", "offset": 2, "min": 0, "max": 20,  "datatype": "float" },
+        { "active": true, "type": "current_sensor", "name": "AI3", "unit": "", "offset": 3, "min": 0, "max": 20,  "datatype": "float" },
+
+        {"active":true, "type":"gpio_in", "name":"DI0", "unit":"", "offset":7},
+        {"active":true, "type":"gpio_in", "name":"DI1", "unit":"", "offset":17},
+        {"active":true, "type":"gpio_in", "name":"DI2", "unit":"", "offset":27},
+        {"active":true, "type":"gpio_in", "name":"DI3", "unit":"", "offset":22}
+
+    ]
+}
+

@@ -1,5 +1,5 @@
 {
-  "domain":"mqtt://85.214.215.187:8883",
+  "domain":"mqtt://mqtt.enwatmon.de:1883",
   "data":[
     { "type" : "static", "name" : "MAD", "value":"gfs_test"},
     {"type":"time","name":"time","active":true},

@@ -20,6 +20,7 @@ class connector(object):
         print('connecting', self.connected)
         if hasattr(self, 'client'):
             self.client.disconnect()
+            del self.client
 
         self.client = mqtt.Client()
             
@@ -47,8 +48,9 @@ class connector(object):
                 self.on_disconnect()
 
     def on_connect(self, client, userdata, flags, rc):
+        print('connected::')
         ret = self.client.publish(self.mad + "/alive", self.mad) 
-
+        print(ret)
         self.connected = True
         print('connection established')
         self.client.subscribe("$SYS/#")
@@ -62,13 +64,16 @@ class connector(object):
         self.client.subscribe( self.mad + "/stop_realtime")
         
         self.client.subscribe(self.mad + "/reconfig_system")
+        self.client.subscribe(self.mad + "/update_system")
 
 
         if hasattr(self, 'on_connected') and callable(getattr(self, 'on_connected')):
             self.on_connected()
 
     def on_message(self, client, userdata, msg):
-
+        if not (self.mad in msg.topic):
+            return
+        
         if '/startvpn' in msg.topic:
             if hasattr(self, 'on_startvpn') and callable(getattr(self, 'on_startvpn')):
                 try:
@@ -103,6 +108,15 @@ class connector(object):
                 self.on_reconfig_system()
             else:
                 print('on_reconfig_system not linked')
+        elif '/update_system' in msg.topic:
+            if hasattr(self, 'on_update') and callable(getattr(self, 'on_update')):
+                try:
+                    data = json.loads(msg.payload)
+                    self.on_update(data)
+                except:
+                    print('not a json')
+            else:
+                print('on_update not linked')
         else:
             pass
 
@@ -125,3 +139,8 @@ class connector(object):
     def vpnstarted(self, auth_token):
         data = json.dumps({'auth_token':auth_token})
         ret = self.client.publish(self.mad + "/vpn_started", data)
+        
+    def setupinputs(self, inputs):
+        print(self.mad + "/setupinputs")
+        data = json.dumps(inputs)
+        ret = self.client.publish(self.mad + "/setupinputs", data)

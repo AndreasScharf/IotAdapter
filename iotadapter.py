@@ -23,6 +23,7 @@ from INA219 import current_sensor
 from rotators import rotator
 
 import sys
+import math
 import psutil
 import platform
 import andiDB
@@ -131,7 +132,7 @@ def main():
             type=row['sensor_type']
           )
           grundfossensors.append(sensor)
-      elif row['type'] == 'andiDB':
+      elif row['type'] == 'andiDB' or row['type'] == 'andiDBWrite':
         if not 'client' in andidb_objects:
           if not 'ip' in row:
             row['ip'] = '127.0.0.1'
@@ -139,9 +140,10 @@ def main():
             row['port'] = 1337
 
           print('connect client')
-          andidb_objects['client'] = andiDB.client(row['ip'], int(row['port']))
-
-        andidb_objects[row['table'] + ' ' +  row['name']] = andiDB.value(andidb_objects['client'],  row['table'], row['name'] )
+        if row['type'] == 'andiDBWrite':#only go furthure if READ Object
+          continue
+        
+        andidb_objects[row['table'] + ' ' +  row['name']] = andiDB.value( row['table'], row['name'] )
         
       elif row['type'] == 'gpio_in':
         GPIO.setup(int(row['out']), GPIO.IN)
@@ -167,11 +169,14 @@ def main():
           print(rotators) 
       elif row['type'] == 'current_sensor':
         row['index'] = len(current_sensors)
-            
-        current_sensors.append(current_sensor(
-          min=float(row['min']) if 'min' in row else 4, 
-          max=float(row['max']) if 'max' in row else 20, 
-          offset=int(row['offset']) if 'offset' in row else 0 ))
+        sensor = current_sensor(
+            min=float(row['min']) if 'min' in row else 4,
+            max=float(row['max']) if 'max' in row else 20,
+            offset=int(row['offset']) if 'offset' in row else 0,
+            cutoff=int(row['cutoff']) if 'cutoff' in row else 0)
+        
+        sensor.debug = debug
+        current_sensors.append(sensor)
           
   if 'router' in config:
     
@@ -218,8 +223,8 @@ def main():
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
     #if debug and its_time_to_send:
     #  print('time to send [s] ', sending_intervall)
-    if debug:
-      print('\n\nSending Time in ' + str(current_milli_time()) + '-' +  str((sending_intervall * 1000) - (current_milli_time() - last_send_time)) + '', last_send_time)
+    #if debug:
+    #  print('\n\nSending Time in ' + str(current_milli_time()) + '-' +  str((sending_intervall * 1000) - (current_milli_time() - last_send_time)) + '', last_send_time)
     
     for row in config['data']:
       if 'not_active' in row:
@@ -241,7 +246,7 @@ def main():
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
       elif row['type'] == 'gfs':
         value = get_from_gfs(row['sensor_id'], row['value_type'])
-      elif row['type'] == 's7set':
+      elif row['type'] == 's7set' or row['type'] == 'andiDBWrite':
         continue
       elif row['type'] == 'andiDB':
         if row['table'] + ' ' +  row['name'] in andidb_objects:
@@ -262,10 +267,14 @@ def main():
           sensor = [x for x in current_sensors if x.offset==row['offset']]
           if(len(sensor)):
             value = sensor[0].get()
+          elif len(sensor) and 'datatype' in sensor[0] and sensor['datatype'] == 'bool':
+            value = int(sensor[0].getDigital(5))
           else:
             print('no sensor with offset', int(row['offset']))
+          
+          
           if debug:
-              print('read ina value', value)
+            print('read ina value', value)
       
       elif row['type'] == 'cpu_temp':
         value = cpu.temperature
@@ -299,9 +308,9 @@ def main():
           continue
         else:
           row['lastdata'] = value
-          if debug:
-            print(row['name'], value)
 
+      print(row['name'] , value)
+      
       if not value == 'Error':
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
@@ -315,8 +324,8 @@ def main():
 
     if sio.socket_connected:
       if(len(message) <= 2): #nicht sendend net genug daten
-          if debug:
-            print('not sending')
+          #if debug:
+          #  print('not sending')
           continue
       if debug:
         print(message)
@@ -331,19 +340,19 @@ def main():
 
     elif mqtt_con.connected:
       if(len(message) <= 2): #nicht sendend net genug daten
-        if debug:
-          print('not sending')
-          continue 
+        #if debug:
+        #  print('not sending')
+        continue 
       mqtt_con.senddata(message)
       last_send_time = current_milli_time()
       if debug:
           print('send mqtt', message)
     else:
-      if debug:
-        print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
+      #if debug:
+      #  print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
       if(len(message) <= 2):  # nicht sendend net genug daten
-          if debug:
-            print('no need to save no relevace')
+          #if debug:
+          #  print('no need to save no relevace')
           continue
       f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
       for row in message:
@@ -522,27 +531,47 @@ def mqtt_events(config):
     inputs = []
 
     def connected_handler():
+      inputs.clear()
+         
       for row in config['data']:
-        if row['type'] == 's7set' and row['from'] == 'cloud':
-            row['key'] = uuid.v4()
+        if (row['type'] == 's7set') and row['from'] == 'cloud':
+            row['key'] = str(uuid.uuid4())
             inputs.append(row)
+        elif (row['type'] == 'andiDBWrite') and row['from'] == 'cloud':
+            key = str(uuid.uuid4()).replace('-', '_')
+            row['key'] = key
             
+            andidb_objects[key] = andiDB.value(row['table'], row['name'])
+            inputs.append(row)
+        if len(inputs):
+          if debug:
+            print(inputs)
+            
+          mqtt_con.setupinputs(inputs)   
+          
       interprete_offline_data()
 
     mqtt_con.on_connected = connected_handler
 
     def recievedata_handler(payload):
-      msg = json.loads(payload)
-
+      print('control', payload.decode('utf-8'))
+      msg = json.loads(payload.decode('utf-8'))
       #go throug message
       for row in msg:
-        key = msg['key']
+        key = row['key']
         matches = [x for x in inputs if x['key'] == key]#find matching valueset to key
         if len(matches):
           match = matches[0]
+          if debug:
+            print(match)
           if match['type'] == 's7set':
-            set_s7_db(match['ip'], match['db'], match['offset'], match['length'], match['datatype'], row['value'])#write value with valueset     
-            
+            s7.set(match['ip'], match['db'], match['offset'], match['length'], match['datatype'], row['value'])#write value with valueset     
+          elif match['type'] == 'andiDBWrite':
+            if key in andidb_objects:
+              andidb_objects[key].set(float(row['value']))
+            elif debug:
+              print('no matching value')
+              
     mqtt_con.on_recievedata = recievedata_handler
 
 

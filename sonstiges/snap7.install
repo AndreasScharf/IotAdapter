@@ -4,7 +4,7 @@ $wget https://sourceforge.net/projects/snap7/files/1.4.1/snap7-full-1.4.1.tar.gz
 
 unzip the pagckage
 
-$tar –xvf snap7-full-1.4.1.tar.gz
+$tar -xzvf snap7-full-1.4.1.tar.gz
 
 $cd snap7-full-1.4.1/build/unix
 $make -f arm_v7_linux.mk
