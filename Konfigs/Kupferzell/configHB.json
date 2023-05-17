@@ -1,0 +1,13 @@
+{
+  "domain":"mqtt://mqtt.enwatmon.de:1883",
+  "router": {"ip":"192.168.10.1", "vpn_allowed":true, "user": "root", "pw":"Enwat2007!"},
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"2ef9eba0-b557-4c20-9897-ba6cd4b3da14"},
+    {"type":"time","name":"time","active":true},
+    {"active":true, "type":"gfs", "name":"gfs1_pressure", "unit":"bar", "barcode":"99387817-01-051-00001", "sensor_type":"RPS", "sensor_id":"1", "value_type":"press"},
+    {"active":true, "type":"gfs", "name":"gfs0_temp", "unit":"°C", "barcode":"99387817-01-051-00001", "sensor_type":"RPS", "sensor_id":"1", "value_type":"temp"},
+
+    { "active": true, "type": "current_sensor", "name": "AI0", "unit": "", "offset": 0, "min": 0, "max": 10, "messurement": "V", "datatype": "float" },
+    { "active": true, "type": "current_sensor", "name": "AI1", "unit": "", "offset": 1, "min": 0, "max": 10, "messurement": "V", "datatype": "float" }
+    ]
+}

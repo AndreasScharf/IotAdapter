@@ -1,0 +1,56 @@
+{
+    "domain": "mqtt://mqtt.enwatmon.de:1883",
+    "router": {"ip":"192.168.10.1", "vpn_allowed":true, "user": "root", "pw":"Enwat2007!"},
+    "data": [
+        {  "name": "MAD", "type": "static", "unit": "", "value": "35da5477-be38-4873-950e-ff677c0e007b"
+        },
+        {  "name": "time", "type": "time"
+        },
+
+        { "active": true, "name": "Ist Saal", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "48", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Ist Kabinen", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "52", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Ist Wirtschaft", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "56", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Ist Kegelbahn", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "60", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Aussentemperatur", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "44", "length": "4", "datatype": "real"   },
+
+        { "active": true, "type": "s7set", "ip": "192.168.10.100", "db": "160", "offset": "28", "datatype": "real", "length": "4", "from": "cloud", "remote_source": "control_number", "remote_mad": "35da5477-be38-4873-950e-ff677c0e007b", "remote_vn": "Soll Saal", "remote_unit": "°C"},
+        { "active": true, "type": "s7set", "ip": "192.168.10.100", "db": "160", "offset": "32", "datatype": "real", "length": "4", "from": "cloud", "remote_source": "control_number", "remote_mad": "35da5477-be38-4873-950e-ff677c0e007b", "remote_vn": "Soll Kabinen", "remote_unit": "°C"},
+        { "active": true, "type": "s7set", "ip": "192.168.10.100", "db": "160", "offset": "36", "datatype": "real", "length": "4", "from": "cloud", "remote_source": "control_number", "remote_mad": "35da5477-be38-4873-950e-ff677c0e007b", "remote_vn": "Soll Wirtschaft", "remote_unit": "°C"},
+        { "active": true, "type": "s7set", "ip": "192.168.10.100", "db": "160", "offset": "40", "datatype": "real", "length": "4", "from": "cloud", "remote_source": "control_number", "remote_mad": "35da5477-be38-4873-950e-ff677c0e007b", "remote_vn": "Soll Kegelbahn", "remote_unit": "°C"},
+        { "active": true, "type": "s7set", "ip": "192.168.10.100", "db": "160", "offset": "132", "datatype": "real", "length": "4", "from": "cloud", "remote_source": "control_number", "remote_mad": "35da5477-be38-4873-950e-ff677c0e007b", "remote_vn": "Soll Warmwasser", "remote_unit": "°C"},
+    
+        
+        { "active": true, "name": "MKSaal Soll", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "68", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKSaal Aktiv", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "160", "offset": "72.0", "length": "1", "datatype": "bit"   },
+        { "active": true, "name": "MKSaal Ist", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "74", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKSaal VWAuto", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "160", "offset": "82.0", "length": "1", "datatype": "bit"   },
+        
+        { "active": true, "name": "MKWirtschaft Soll", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "84", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKWirtschaft Aktiv", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "88", "length": "1", "datatype": "bit"   },
+        { "active": true, "name": "MKWirtschaft Ist", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "90", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKWirtschaft VWAuto", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "160", "offset": "98.0", "length": "1", "datatype": "bit"   },
+        
+        { "active": true, "name": "MKKabinen Soll", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "100", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKKabinen Aktiv", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "104", "length": "1", "datatype": "bit"   },
+        { "active": true, "name": "MKKabinen Ist", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "106", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKKabinen VWAuto", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "160", "offset": "114.0", "length": "1", "datatype": "bit"   },
+        
+        { "active": true, "name": "MKKegelbahn Soll", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "116", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKKegelbahn Aktiv", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "120", "length": "4", "datatype": "bit"   },
+        { "active": true, "name": "MKKegelbahn Ist", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "122", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKKegelbahn VWAuto", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "160", "offset": "130.0", "length": "1", "datatype": "bit"   },
+        
+        { "active": true, "name": "MKWarmwasser Soll", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "132", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKWarmwasser Aktiv", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "136", "length": "4", "datatype": "bit"   },
+        { "active": true, "name": "MKWarmwasser Ist", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "138", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "MKWarmwasser VWAuto", "type": "s7", "unit": "", "ip": "192.168.10.100", "db": "160", "offset": "146.0", "length": "1", "datatype": "bit"   },
+      
+        { "active": true, "name": "Soll Saal Read", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "28", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Soll Kabinen Read", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "32", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Soll Wirtschaft Read", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "36", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Soll Kegelbahn Read", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "40", "length": "4", "datatype": "real"   },
+        { "active": true, "name": "Soll Warmwasser Read", "type": "s7", "unit": "°C", "ip": "192.168.10.100", "db": "160", "offset": "132", "length": "4", "datatype": "real"   }
+
+
+    ]   
+}

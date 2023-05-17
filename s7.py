@@ -61,12 +61,14 @@ class s7(object):
         bool_index = 0
         if '.' in offset:
             byte_index, bool_index = str(offset).split('.')
-
+        else:
+            byte_index = int(offset)
+            
             #byte_index = int(offset.split('.')[1])
         value = 0.0
-        if self.debug:
+        #if self.debug:
           
-          print(offset, byte_index, len(data), data)
+        #  print(offset, byte_index, len(data), data)
 
         if type=='bit':
             return self.get_bool(data, 0, int(bool_index))
@@ -91,7 +93,7 @@ class s7(object):
                 data = self.read_client.db_read(int(db), int(float(offset)), int(length) if not datatype == 'bit' else 1)
                 read_successful = True
             except:
-                print('cannot read db')
+                print('cannot read db', ip, int(db), int(float(offset)), int(length) if not datatype == 'bit' else 1)
             time.sleep(0.3)
 
         if datatype == 'bit':
@@ -111,17 +113,18 @@ class s7(object):
         """
             Start writing Job
         """
-        self.write_client.establish_connection(ip, channel)
+        self.read_client.establish_connection(ip, channel)
         write_successful = False
         while not write_successful:
             try:
-                self.write_client.db_write(int(db), int(offset), data)
+                self.read_client.db_write(int(db), int(offset), data)
                 write_successful = True
             except:
                 if self.debug:
                     print('no successful write')
             time.sleep(0.3)
-        
+        if self.debug:
+            print('write', db, offset, value, ' success')
 
     def get_dint(self, _bytearray, byte_index):
         data = _bytearray[byte_index:byte_index + 4]

@@ -1,0 +1,22 @@
+{
+    "domain": "mqtt://mqtt.enwatmon.de:1883",
+    "data": [
+        {  "name": "MAD", "type": "static", "unit": "", "value": "pechbrunnHB" },
+        {  "name": "time", "type": "time"},
+
+        {  "active": true, "name": "Niveau Hochbehaelter", "type": "s7", "unit": "%", "ip": "192.168.10.100", "db": "300", "offset": "8", "length": "4", "datatype": "real"   },
+        {  "active": true, "name": "Durchfluss Ultrafilter", "type": "s7", "unit": "m³/h", "ip": "192.168.10.100", "db": "300", "offset": "12", "length": "4", "datatype": "real"   },
+        {  "active": true, "name": "UV Intensitaet", "type": "s7", "unit": "W/m²", "ip": "192.168.10.100", "db": "300", "offset": "24", "length": "4", "datatype": "real"   },
+        {  "active": true, "name": "Truebung", "type": "s7", "unit": "NTU", "ip": "192.168.10.100", "db": "300", "offset": "32", "length": "4", "datatype": "real"   },
+        
+        {  "active": true, "name": "PIC Quelldruck", "type": "s7", "unit": "bar", "ip": "192.168.10.100", "db": "300", "offset": "36", "length": "4", "datatype": "real"   },
+        {  "active": true, "name": "PIC Zulauf UF", "type": "s7", "unit": "bar", "ip": "192.168.10.100", "db": "300", "offset": "40", "length": "4", "datatype": "real"   },
+        {  "active": true, "name": "PIC Filtrat UF", "type": "s7", "unit": "bar", "ip": "192.168.10.100", "db": "300", "offset": "44", "length": "4", "datatype": "real"   },
+
+        {  "active": true, "name": "Mengenzaehler Zulauf UF", "type": "s7", "unit": "m³", "ip": "192.168.10.100", "db": "300", "offset": "72", "length": "4", "datatype": "dint"   },
+        {  "active": true, "name": "Mengenzaehler Rueckspuelwasser", "type": "s7", "unit": "m³", "ip": "192.168.10.100", "db": "300", "offset": "76", "length": "4", "datatype": "dint"   },
+        {  "active": true, "name": "Mengenzaehler Ortsnetz", "type": "s7", "unit": "m³", "ip": "192.168.10.100", "db": "300", "offset": "88", "length": "4", "datatype": "dint"   },
+                
+      
+    ]   
+}

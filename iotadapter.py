@@ -21,6 +21,7 @@ from modbus import rs485
 from INA219 import current_sensor
 
 from rotators import rotator
+from openvpn_handler import vpnclient as ovpnclient
 
 import sys
 import math
@@ -77,6 +78,10 @@ totalizers = {}
 new_totalizers = True
 
 rotators = []
+outputs = []
+
+ov = 0
+
 
 try:
   f = open(totalizers_path, 'r')
@@ -146,7 +151,7 @@ def main():
         andidb_objects[row['table'] + ' ' +  row['name']] = andiDB.value( row['table'], row['name'] )
         
       elif row['type'] == 'gpio_in':
-        GPIO.setup(int(row['out']), GPIO.IN)
+        GPIO.setup(int(row['offset']), GPIO.IN)
       elif row['type'] == 'totalizer':
         if not row['name'] in totalizers:
           totalizers[row['name']] = 0
@@ -189,7 +194,11 @@ def main():
     if 'vpn_allowed' in router and router['vpn_allowed'] and 'ip' in router and 'user' in router and 'pw' in router:
       vpn_client.register(router['ip'], router['user'], router['pw'])
 
-
+  
+  if 'openvpn' in config:
+    global ov
+    ov = ovpnclient(path='/home/pi/Documents/IotAdapter/openvpn_handler/config.ovpn')        
+  
   if not os.path.isdir(offline_data_path):
     os.makedirs(offline_data_path)
 
@@ -221,11 +230,8 @@ def main():
     message = []
     
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
-    #if debug and its_time_to_send:
-    #  print('time to send [s] ', sending_intervall)
-    #if debug:
-    #  print('\n\nSending Time in ' + str(current_milli_time()) + '-' +  str((sending_intervall * 1000) - (current_milli_time() - last_send_time)) + '', last_send_time)
-    
+
+    #read inputs
     for row in config['data']:
       if 'not_active' in row:
           continue
@@ -256,7 +262,10 @@ def main():
       elif row['type'] == 'rs485get':
         value = myrs485.get(port=row['port'], adress=row['adress'], baudrate=row['baudrate'], register=row['register'], code=row['code'],more=0) 
       elif row['type'] == 'gpio_in':
-        value = GPIO.input(int(row['offset']))
+        if 'invert' in row and row['invert']:
+          value = not GPIO.input(int(row['offset']))
+        else:
+          value = GPIO.input(int(row['offset']))
       elif row['type'] == 'totalizer':
         my_value = next((x for x in config['data'] if x['name'] == row['source_name']), None)
         if my_value and 'value' in my_value:
@@ -266,7 +275,8 @@ def main():
 
           sensor = [x for x in current_sensors if x.offset==row['offset']]
           if(len(sensor)):
-            value = sensor[0].get()
+            messurement = row['messurement'] if 'messurement' in row else 'mA'
+            value = sensor[0].get(messurement)
           elif len(sensor) and 'datatype' in sensor[0] and sensor['datatype'] == 'bool':
             value = int(sensor[0].getDigital(5))
           else:
@@ -309,15 +319,31 @@ def main():
         else:
           row['lastdata'] = value
 
-      print(row['name'] , value)
+      #if debug:
+      #  print(row['name'] , value)
       
       if not value == 'Error':
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
 
+    
+    #set outputs
+    for item in outputs:
+        if item['type'] == 's7set' and 'value' in item and 'execute' in item and item['execute']:
+          if debug:
+            print('execute', item)
+            
+          s7.set(item['ip'], item['db'], item['offset'], item['length'], item['datatype'], item['value'], item['channel'] if 'channel' in item else 1)#write value with valueset     
+          item['execute'] = False
+          
+          mqtt_con.confirminputs([item['key']])
+          time.sleep(1)
+
    
     last_round = current_milli_time()
 
+    
+    
     if (not its_time_to_send) and len(message) <= 2:
         continue
 
@@ -345,8 +371,8 @@ def main():
         continue 
       mqtt_con.senddata(message)
       last_send_time = current_milli_time()
-      if debug:
-          print('send mqtt', message)
+      #if debug:
+      #    print('send mqtt', message)
     else:
       #if debug:
       #  print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
@@ -528,44 +554,48 @@ def socket_events(config):
       pass
 
 def mqtt_events(config):
-    inputs = []
 
     def connected_handler():
-      inputs.clear()
+      outputs.clear()
          
       for row in config['data']:
         if (row['type'] == 's7set') and row['from'] == 'cloud':
-            row['key'] = str(uuid.uuid4())
-            inputs.append(row)
+            row['key'] = str(uuid.uuid4()).replace('-', '_')
+            row['execute'] = True
+            outputs.append(row)
         elif (row['type'] == 'andiDBWrite') and row['from'] == 'cloud':
             key = str(uuid.uuid4()).replace('-', '_')
             row['key'] = key
+            row['execute'] = True
             
             andidb_objects[key] = andiDB.value(row['table'], row['name'])
-            inputs.append(row)
-        if len(inputs):
+            outputs.append(row)
+        if len(outputs):
           if debug:
-            print(inputs)
+            print(outputs)
             
-          mqtt_con.setupinputs(inputs)   
+          mqtt_con.setupinputs(outputs)
           
       interprete_offline_data()
 
     mqtt_con.on_connected = connected_handler
 
     def recievedata_handler(payload):
-      print('control', payload.decode('utf-8'))
       msg = json.loads(payload.decode('utf-8'))
       #go throug message
+      
+      print('recieve handler', msg)
       for row in msg:
         key = row['key']
-        matches = [x for x in inputs if x['key'] == key]#find matching valueset to key
+        # find matching valueset to key
+        matches = [x for x in outputs if x['key'] == key]
         if len(matches):
           match = matches[0]
           if debug:
             print(match)
           if match['type'] == 's7set':
-            s7.set(match['ip'], match['db'], match['offset'], match['length'], match['datatype'], row['value'])#write value with valueset     
+            match['value'] = row['value']
+            match['execute'] = True
           elif match['type'] == 'andiDBWrite':
             if key in andidb_objects:
               andidb_objects[key].set(float(row['value']))
@@ -596,9 +626,16 @@ def mqtt_events(config):
       client_crt = data['client_crt']
       ta_key = data['ta_key']
       
-      if (not vpn_client) or port == -1 or not vpn_client.registerd:
+      if ((not vpn_client) or port == -1 or not vpn_client.registerd) and not ov:
         return
       print('start vpn on Port: ', port)
+
+      if ov:
+        ov.create_config(ca=root_ca, key=client_ca, cert=client_crt, tls=ta_key, port = port)
+        ov.start_vpn()
+        mqtt_con.vpnstarted(data['auth'])
+
+        return
 
       try:
         vpn_client.start(port, root_ca, client_ca, client_crt, ta_key)
@@ -609,6 +646,10 @@ def mqtt_events(config):
     mqtt_con.on_startvpn = start_vpn
     
     def stop_vpn():
+      if ov:
+        ov.stop_vpn()
+        return
+      
       try:
         vpn_client.stop()
       except:

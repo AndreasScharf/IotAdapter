@@ -105,7 +105,7 @@ class connector(object):
                 print('on_stop_realtime not linked')
         elif '/reconfig_system' in msg.topic:
             if hasattr(self, 'on_stop_realtime') and callable(getattr(self, 'on_stop_realtime')):
-                self.on_reconfig_system()
+                self.on_reconfig_system(msg.payload)
             else:
                 print('on_reconfig_system not linked')
         elif '/update_system' in msg.topic:
@@ -144,3 +144,7 @@ class connector(object):
         print(self.mad + "/setupinputs")
         data = json.dumps(inputs)
         ret = self.client.publish(self.mad + "/setupinputs", data)
+
+    def confirminputs(self, inputs):
+        data = json.dumps(inputs)
+        ret = self.client.publish(self.mad + "/confirminputs", data)

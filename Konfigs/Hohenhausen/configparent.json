@@ -1,21 +1,36 @@
 {
-  "domain":"https://cloud.enwatmon.de",
+  "domain":"mqtt://mqtt.enwatmon.de:1883",
   "data":[
-    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    { "type" : "static", "name" : "MAD", "value":"6ef9306f-4d7f-4919-899f-b23e17cede6f"},
     { "type":"time","name":"time","active":true},
+    { "active": true, "name": "Druck Rohwasser", "type": "s7", "unit": "bar", "ip": "192.168.10.200", "db": "300", "offset": "0", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Druck Filtrat", "type": "s7", "unit": "bar", "ip": "192.168.10.200", "db": "300", "offset": "4", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Niveau Hochbehälter", "type": "s7", "unit": "%", "ip": "192.168.10.200", "db": "300", "offset": "8", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Differnzdruck", "type": "s7", "unit": "bar", "ip": "192.168.10.200", "db": "300", "offset": "12", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Flux", "type": "s7", "unit": "l/m²", "ip": "192.168.10.200", "db": "300", "offset": "16", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Permeabilität", "type": "s7", "unit": "l/m²bar", "ip": "192.168.10.200", "db": "300", "offset": "20", "length": "4", "datatype": "real"   },
+
+    { "active": true, "name": "Menge Rohwasser", "type": "s7", "unit": "m³", "ip": "192.168.10.200", "db": "300", "offset": "24", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Durchfluss Rohwasser", "type": "s7", "unit": "m³/h", "ip": "192.168.10.200", "db": "300", "offset": "28", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Druck Ortsnetz", "type": "s7", "unit": "bar", "ip": "192.168.10.200", "db": "300", "offset": "32", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Menge", "type": "s7", "unit": "m²", "ip": "192.168.10.200", "db": "300", "offset": "36", "length": "4", "datatype": "real"   },
+    { "active": true, "name": "Wassertemperatur", "type": "s7", "unit": "°C", "ip": "192.168.10.200", "db": "300", "offset": "40", "length": "4", "datatype": "real"   },
+
     {
       "active":true,
       "type":"s7set",
-      "ip": "192.168.14.45",
-      "db": "1",
-      "offset":"0",
+      "ip": "192.168.10.200",
+      "db": "300",
+      "offset":"44",
       "datatype": "real",
       "length": "4",
 
       "from":"cloud",
       "remote_source":"control_number",
-      "remote_mad":"gfs_test",
+      "remote_mad":"9749753d-2706-4dd5-9fdc-f014bf05d775",
       "remote_VN":"gfs0_pressure",
-      "remote_unit":"bar" }
+      "remote_unit":"bar" },
+    { "active": true, "name": "HB Niveau extern", "type": "s7", "unit": "bar", "ip": "192.168.10.200", "db": "300", "offset": "44", "length": "4", "datatype": "real"   }
+
   ]
 }

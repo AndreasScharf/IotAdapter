@@ -45,7 +45,7 @@ class grundfossensor(object):
 
             self.message.append(self.sensor_id)
             self.message.append(self.checksum(self.message))
-            self.ser.write(self.message)
+            self.ser.write(bytearray(self.message))
             anwser = self.listen()
             if anwser == 'Error':
                 continue
@@ -82,7 +82,7 @@ class grundfossensor(object):
          else:
            return 'Error'
     def listen(self):
-        timeouts = 10 # Error modus
+        timeouts = 100 # Error modus
         isHeader = False
         buffer = []
         trys = 0

@@ -21,7 +21,7 @@ class current_sensor(object):
         try:
             if offset >= 2:
                 offset = offset + 2
-            self.ina2 = INA219(ohm_shunt, max_current, None, address=(0x40 + offset))
+            self.ina2 = INA219(ohm_shunt, max_current, 1, address=(0x40 + offset))
             self.ina2.configure(self.ina2.RANGE_32V, self.ina2.GAIN_AUTO)
 
         except Exception as e:
@@ -39,8 +39,10 @@ class current_sensor(object):
                 value = self.ina2.current() #gemessner Strom
                 
             power = self.ina2.power()  #Leistung
-            if hasattr(self, 'debug') and self.debug:
+            if hasattr(self, 'debug') and self.debug and not messurement == 'V':
                 print("Bus Current: %.3f mA" % self.ina2.current(), format(self.address, '#04x'))
+            elif hasattr(self, 'debug') and self.debug and messurement == 'V':
+                print("Bus Voltage: %.3f V" % self.ina2.voltage(), format(self.address, '#04x'))
             
             value = round(value, 3)
             if value < self.min:
