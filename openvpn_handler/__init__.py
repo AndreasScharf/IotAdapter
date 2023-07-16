@@ -9,6 +9,7 @@ class vpnclient(object):
        self.config_path = path
 
     def create_config(self, ca, key, cert, tls,port):
+      print(ca)
        
       '''
       create a config file with connection parameters for triangle connection to server
@@ -51,11 +52,12 @@ verb 3
       
     def start_vpn(self):
       #start openvpn as systemctl for running one instance in the background
-      order = 'sudo systemctl start openvpn@client'
+      order = 'sudo systemctl enable --now openvpn'
       print(order)
       os.system(order)
       
     def stop_vpn(self):
-      order = 'sudo systemctl stop openvpn@client'
+      order = 'sudo systemctl disable --now openvpn'
       print(order)
       os.system(order)
+    
