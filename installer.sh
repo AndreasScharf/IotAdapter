@@ -6,6 +6,9 @@ cd snap7-full-1.4.1/build/unix
 make -f arm_v7_linux.mk
 cd ../bin/arm_v7-linux
 sudo cp libsnap7.so /usr/lib/libsnap7.so
+
+cd ~/Documents/IotAdapter
+
 pip3 install python-snap7
 
 rm /home/pi/uf/snap7-full-1.4.1.tar.gz
