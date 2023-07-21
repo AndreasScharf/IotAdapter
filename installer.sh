@@ -74,6 +74,9 @@ pip3 install pi-ina219
 pip3 install paho-mqtt
 pip3 install psutil
 
+pip3 uninstall serial -y
+pip3 install pyserial
+
 # In Standalone Mode Start All processes
 if [ "$1" = "standalone" ]; then
     cd ~/Documents/IotAdapter
