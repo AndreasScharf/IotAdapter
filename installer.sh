@@ -40,6 +40,13 @@ if [ "$1" = "standalone" ]; then
     # disable SWAP
     sudo sed 's/# CONF_SWAPSIZE=100/CONF_SWAPSIZE=0' /etc/dphys-swapfile
     sudo systemctl restart dphys-swapfile
+
+    # Install AndiDB Client
+    git clone https://github.com/AndreasScharf/andiDBClientC ~/Downloads/andiDBValue
+    cd ~/Downloads/andiDBValue
+    sudo python3 setup.py install
+    cd ~
+ 
 fi
 
 # Install Snap7
@@ -81,4 +88,6 @@ pip3 install pyserial
 if [ "$1" = "standalone" ]; then
     cd ~/Documents/IotAdapter
     pm2 start
+
+    pm2 save
 fi

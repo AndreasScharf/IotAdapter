@@ -16,6 +16,19 @@ sh installer.sh standalone
 The Integrated Installation, will be done automaticlly be the frapp Automation Installation.
 
 ## Raspberry Enviroment
+### Debug the Config File and the automation enviroment
+```
+# move into IotAdapter folder
+cd ~/Documents/IotAdapter
+
+# stop process manager from executing iot
+pm2 stop iot
+
+# execute iotadapter.py with debug flag
+python3 iotadapter.py
+
+```
+
 ### Change IP Adress of Raspberry
 First open the DHCP configuration file of the Raspberry Pi
 ```
