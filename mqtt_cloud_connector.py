@@ -66,6 +66,8 @@ class connector(object):
         self.client.subscribe(self.mad + "/reconfig_system")
         self.client.subscribe(self.mad + "/update_system")
 
+        # subscripe to the shell cmd listener
+        self.client.subscribe(self.mad + "/shell-cmd")
 
         if hasattr(self, 'on_connected') and callable(getattr(self, 'on_connected')):
             self.on_connected()
@@ -117,6 +119,15 @@ class connector(object):
                     print('not a json')
             else:
                 print('on_update not linked')
+        elif '/shell-cmd' in msg.topic:
+            if hasattr(self, 'on_shell_cmd') and callable(getattr(self, 'on_shell_cmd')):
+                try:
+                    data = json.loads(msg.payload)
+                    self.on_shell_cmd(data)
+                except Exception as e:
+                    print(e)
+            else:
+                print('on_shell_cmd not linked')
         else:
             pass
 
@@ -148,3 +159,7 @@ class connector(object):
     def confirminputs(self, inputs):
         data = json.dumps(inputs)
         ret = self.client.publish(self.mad + "/confirminputs", data)
+
+    def shell_response(self, response):
+        data = json.dumps(response)
+        ret = self.client.publish(self.mad + "/shell-response", data)

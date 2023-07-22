@@ -12,6 +12,8 @@ import json
 import os
 import socket
 import struct
+
+import _thread
 from pythonping import ping
 
 import grundfossensor as gfs
@@ -553,6 +555,27 @@ def socket_events(config):
     except:
       pass
 
+
+shellCMDTread = None
+
+
+def executeShellCMD(cmd):
+  editor = False
+  filename = ''
+  sudo = False
+  if "nano" in cmd or 'sudo nano' in cmd:
+    cmd = cmd.replace('nano', 'cat')
+    sudo = 'sudo ' in cmd
+    filename = cmd.replace('cat ', '').replace('sudo ', '')
+    editor = True
+  
+  print(cmd)
+  stream = os.popen(cmd)
+  output = stream.read()
+
+  mqtt_con.shell_response({ 'res' : output, 'editor': editor, 'filename': filename, 'sudo': sudo})
+
+
 def mqtt_events(config):
 
     def connected_handler():
@@ -677,53 +700,21 @@ def mqtt_events(config):
         
     mqtt_con.on_reconfig_system = reconfig
     
-
-def get_from_s7_db(ip, db, offset, length, datatype, channel=1):
-  global cur_ip
-  global reconnectingS7
-  global s7
-
-  if reconnectingS7 or not cur_ip == ip :
-    try:
-      if s7:
-        s7.destroy()
-
-      s7 = snap7.client.Client()
-      if debug:
-        print('connecting to', ip, channel)
-      s7.connect(ip, 0, channel)
-      reconnectingS7 = False
-      cur_ip = ip
-    except:
-      error_code = 0x50
-      #sio.emit('set_value_back', error_code)
+    # handler for shell commands
+    def on_shell_cmd(data):
+      cmd =  data['cmd']
       
-      reconnectingS7 = True
-      print('CPU not avalible')
-      return 'Error'
-  try:
-    data = s7.db_read(int(db), int(float(offset)), int(length) if not datatype=='bit' else 8)
-  except Exception as e:
-      print('DB Error, Offset Error, Security Error', e)
-      #s7 in error mode 
-      reconnectingS7 = True
-      return 'Error'
-  byte_index = 0
-  if '.' in offset:
-    byte_index = int(offset.split('.')[1])
-  value = 0.0
-  #print(offset, byte_index, len(data))
+      
+      _thread.start_new_thread(executeShellCMD, (cmd,))
+      
+      
+      
+    
+    mqtt_con.on_shell_cmd = on_shell_cmd
 
-  if datatype=='bit':
-    return get_bool(data, byte_index, 0)
-  elif datatype=='word' or datatype=='byte':
-    return get_int(data, 0)
-  elif datatype=='dint':
-    return get_dint(data, 0)
-  elif datatype=='real':
-    return get_real(data, 0)
-  else:
-    return -1
+
+
+
 def set_s7_db(ip, db, offset, length, datatype, value):
   global cur_ip
 
