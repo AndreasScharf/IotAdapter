@@ -1,11 +1,20 @@
 import requests
 from zipfile import ZipFile
 import getpass
+import sys
+
+u, p = ''
+if len(sys.argv) == 3:
+  u = sys.argv[1]
+  p = sys.argv[2]
+else:
+  print('PIK:')
+
+  u = input('Your Username: ')
+  p = getpass.getpass('Passphrase: ')
+
 
 host = 'https://cdm-test.frappgmbh.de'
-print('PIK:')
-u = input('Your Username: ')
-p = getpass.getpass('Passphrase: ')
 res = requests.post(url='{host}/maschines/get-keys'.format(host=host), data={
     'name': u, 'passphrase': p
 })

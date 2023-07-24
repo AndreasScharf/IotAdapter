@@ -1,7 +1,7 @@
 INSTALLATION_PATH="/home/pi/uf"
 # For getting the MQTT Keys
 cd /home/pi/Documents/IotAdapter
-python3 ./get-keys.py
+python3 ./get-keys.py $1 $2
 rm /home/pi/Documents/IotAdapter/keys.zip
 
 
@@ -95,6 +95,9 @@ if [ "$1" = "standalone" ]; then
     cd ~/Documents/IotAdapter
     pm2 start
     pm2 delete web
+
+    pm2 startup
+    # Startup Script
 
     pm2 save
 fi
