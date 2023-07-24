@@ -5,7 +5,7 @@
 ### Standalone Installation
 ```
 # Downloading the github Repository
-git clone https://github.com/AndreasScharf/IotAdapter.git ~Documents/IotAdapter
+git clone https://github.com/AndreasScharf/IotAdapter.git ~/Documents/IotAdapter
 
 # Installing Packages & Dependencies
 cd ~Documents/IotAdapter

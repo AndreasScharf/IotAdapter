@@ -1,4 +1,9 @@
 INSTALLATION_PATH="/home/pi/uf"
+# For getting the MQTT Keys
+cd /home/pi/Documents/IotAdapter
+python3 ./get-keys.py
+rm /home/pi/Documents/IotAdapter/keys.zip
+
 
 # Standalone request
 if [ "$1" = "standalone" ]; then
@@ -72,7 +77,6 @@ cd ~/Documents/IotAdapter
 
 pip3 install python-snap7
 pip3 install "python-socketio[client]"
-pip3 install json
 
 pip3 install -U minimalmodbus
 pip3 install pythonping
@@ -84,10 +88,13 @@ pip3 install psutil
 pip3 uninstall serial -y
 pip3 install pyserial
 
+
+
 # In Standalone Mode Start All processes
 if [ "$1" = "standalone" ]; then
     cd ~/Documents/IotAdapter
     pm2 start
+    pm2 delete web
 
     pm2 save
 fi
