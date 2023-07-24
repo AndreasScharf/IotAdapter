@@ -51,13 +51,18 @@ verb 3
       f.close()
       
     def start_vpn(self):
-      #start openvpn as systemctl for running one instance in the background
-      order = 'sudo systemctl enable --now openvpn'
+      # start openvpn as systemctl for running one instance in the background
+      order = 'sudo systemctl enable openvpn@client'
+      print(order)
+      os.system(order)
+      
+      # restart for the new configuration to be enabled
+      order = 'sudo systemctl restart openvpn@client'
       print(order)
       os.system(order)
       
     def stop_vpn(self):
-      order = 'sudo systemctl disable --now openvpn'
+      order = 'sudo systemctl disable openvpn@client --now'
       print(order)
       os.system(order)
     
