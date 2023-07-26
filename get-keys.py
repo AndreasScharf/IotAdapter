@@ -4,7 +4,7 @@ import getpass
 import sys
 
 u, p = ''
-if len(sys.argv) == 3:
+if len(sys.argv) == 3 and not (sys.argv[1] == '' or sys.argv[2] == ''):
   u = sys.argv[1]
   p = sys.argv[2]
 else:

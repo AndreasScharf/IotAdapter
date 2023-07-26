@@ -1,7 +1,7 @@
 INSTALLATION_PATH="/home/pi/uf"
 # For getting the MQTT Keys
 cd /home/pi/Documents/IotAdapter
-python3 ./get-keys.py $1 $2
+python3 ./get-keys.py $2 $3
 rm /home/pi/Documents/IotAdapter/keys.zip
 
 
