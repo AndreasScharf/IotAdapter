@@ -234,7 +234,8 @@ def main():
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
 
     #read inputs
-    for row in config['data']:
+    
+    for index, row in enumerate(config['data']):
       if 'not_active' in row:
           continue
       if 'active' in row and not row['active']:
@@ -257,15 +258,19 @@ def main():
       elif row['type'] == 's7set' or row['type'] == 'andiDBWrite':
         continue
       elif row['type'] == 'andiDB':
-        if row['table'] + ' ' +  row['name'] in andidb_objects:
+        name_index = row['table'] + ' ' + row['name']
+        if name_index in andidb_objects:
+              
           try:
-            value = andidb_objects[row['table'] + ' ' +  row['name']].get()
-          except:
+            value = andidb_objects[name_index].get()
+          except AttributeError:
             # remove failed andiDB Object to prevent trouble
-            del andidb_objects[row['table'] + ' ' + row['name']]
+            del config['data'][index]
+            del andidb_objects[name_index]
             
             if debug:
-              print('Error With', row['table'] + ' ' + row['name'])
+              print('Error With', name_index)
+            continue
         else:
           print('Error', row['table'], row['name'])
       elif row['type'] == 'rs485get':
