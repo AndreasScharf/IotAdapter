@@ -261,6 +261,9 @@ def main():
           try:
             value = andidb_objects[row['table'] + ' ' +  row['name']].get()
           except:
+            # remove failed andiDB Object to prevent trouble
+            del andidb_objects[row['table'] + ' ' + row['name']]
+            
             if debug:
               print('Error With', row['table'] + ' ' + row['name'])
         else:
