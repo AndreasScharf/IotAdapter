@@ -258,7 +258,11 @@ def main():
         continue
       elif row['type'] == 'andiDB':
         if row['table'] + ' ' +  row['name'] in andidb_objects:
-          value = andidb_objects[row['table'] + ' ' +  row['name']].get()
+          try:
+            value = andidb_objects[row['table'] + ' ' +  row['name']].get()
+          except:
+            if debug:
+              print('Error With', row['table'] + ' ' + row['name'])
         else:
           print('Error', row['table'], row['name'])
       elif row['type'] == 'rs485get':

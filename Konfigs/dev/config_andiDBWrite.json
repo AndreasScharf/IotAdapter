@@ -2,8 +2,7 @@
 	"domain": "mqtt://mqtt.enwatmon.de:1883",
 	
 	"data": [
-		{
-			"name": "MAD",
+		{ "name": "MAD",
 			"type": "static",
 			"unit": "",
 			"value": "56032830-5dd1-48f7-98bc-a1f7fe5c7d9b"
@@ -13,16 +12,6 @@
 			"type": "time"
 		},
 		
-		{
-			"active": true,
-			"type": "andiDBWrite",
-			"name": "av10",
-			
-			"unit": "",
-			"table": "output_values",
-
-			"remote_vn": "av10",
-			"remote_unit": ""
-		}
+		{ "active": true, "type": "andiDBWrite", "name": "av10",  "unit": "", "table": "output_values", "remote_vn": "av10", "remote_unit": "" }
 	]
 }
