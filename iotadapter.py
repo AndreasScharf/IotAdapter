@@ -5,7 +5,7 @@ import uuid
 import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
 import subprocess
-import socketio
+#import socketio
 from mqtt_cloud_connector import connector
 import time
 import json
@@ -40,7 +40,6 @@ from s7 import s7
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 
-sio = socketio.Client()
 mqtt_con = connector()
 s7 = s7()
 cpu = CPUTemperature()
@@ -112,7 +111,6 @@ def main():
 #
 #  Connections aufbauen
 #
-  socket_events(config)
   mqtt_events(config)
 
   global sending_intervall
@@ -212,13 +210,7 @@ def main():
 
   last_round = current_milli_time()
   try:
-    if('ip' in config and 'port' in config):
-      sio.connect('http://' + config['ip'] + ':' + str(config['port']))
-      sio.socket_connected = True
-    elif 'domain' in config and 'https' in config['domain']:
-      sio.connect(config['domain'])
-      sio.socket_connected = True
-    elif 'domain' in config and 'mqtt' in config['domain']:
+   if 'domain' in config and 'mqtt' in config['domain']:
       temp_str = config['domain'].replace('mqtt://', '')
       domain = temp_str.split(':')[0]
       port = temp_str.split(':')[1]
@@ -362,27 +354,16 @@ def main():
         continue
 
 
-    if sio.socket_connected:
-      if(len(message) <= 2): #nicht sendend net genug daten
-          #if debug:
-          #  print('not sending')
-          continue
-      if debug:
-        print(message)
-      global sending_realtime
-      if sending_realtime:
-          sio.emit('recv_data_mon3', (message, 0))
-      else:
-          sio.emit('recv_data', (message, 0))
-      last_send_time = current_milli_time()
-      if debug:
-            print('send socket')
-
-    elif mqtt_con.connected:
+    
+    if mqtt_con.connected:
       if(len(message) <= 2): #nicht sendend net genug daten
         #if debug:
         #  print('not sending')
         continue 
+      if debug:
+        data = json.dumps(data).strip()
+        print('Message Size {} MB'.format(len(data) / 1000000))
+      
       mqtt_con.senddata(message)
       last_send_time = current_milli_time()
       #if debug:
@@ -392,7 +373,7 @@ def main():
       #  print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
       if(len(message) <= 2):  # nicht sendend net genug daten
           #if debug:
-          #  print('no need to save no relevace')
+          #  print('no need to save no relavance')
           continue
       f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
       for row in message:
@@ -456,117 +437,6 @@ def restart_rpi():
    time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
    os.system('sudo reboot')
 
-def socket_events(config):
-  sio.socket_connected = False
-  
-  @sio.event
-  def connect():
-    print("I'm connected!")
-    
-    sio.socket_connected = True
-    print('socket,', sio.socket_connected)
-    mad = ''
-    for line in config['data']:
-        if(line['name'] == 'mad' or line['name'] == 'MAD'):
-            mad = line['value']
-            break
-
-    sio.emit('alive', {'mad': mad})
-
-    inputs = []
-
-    for line in config['data']:
-        if line['type'] == 's7set' and line['from'] == 'cloud':
-            inputs.append(line)
-    
-    if debug:
-      print('start interpreting offline data')
-    interprete_offline_data()
-
-
-    sio.emit('setup_inputs', {'inputs':inputs})
-  @sio.event
-  def connect_error(self):
-    print("The connection failed!")
-    sio.socket_connected = False
-
-    global sending_intervall
-    sending_intervall = 300
-
-  @sio.event
-  def disconnect():
-    
-    print("I'm disconnected!")
-    sio.socket_connected = False
-
-    global sending_intervall
-    sending_intervall = 300
-
-  @sio.on('set_value')
-  def set_value(data):
-
-    ip = data['ip']
-    db = data['db']
-    offset = data['offset']
-    datatype = data['datatype']
-    length = data['length']
-    if debug:
-        print('set_s7_db', ip, db, offset, length, datatype, float(data['value']) )
-
-    set_s7_db(ip, db, offset, length, datatype, float(data['value']))
-    if data['remote_source'] == 'control_button' and float(data['value']):
-      time.sleep(0.3)#set 300 miliseconds
-      set_s7_db(ip, db, offset, length, datatype, 0.0)
-      message = [
-        {"name":"mad", "unit":"", "value":data['remote_mad']},
-        {"name": "time", "unit":"", "value": datetime.now().strftime('%Y-%m-%d %H:%M:%S')},
-        {"name": data['remote_VN'], "unit": data['remote_unit'], "value":"0"}
-      ]
-      sio.emit('recv_data_mon3', message)
-
-
-  @sio.on('alive_realtime')
-  def alive_realtime(data):
-      global sending_realtime
-      global sending_intervall
-
-      sending_realtime = data['send_realtime']
-      if sending_realtime :
-        sending_intervall = 0.03
-      else:
-        sending_intervall = 300
-
-
-  @sio.on('reboot_rpi')
-  def reboot_rpi():
-      os.system('sudo reboot')
-
-
-  @sio.on('start_vpn')
-  def start_vpn(data):
-    port = data['port'] if 'port' in data else -1
-    root_ca = data['root_ca']
-    client_ca = data['client_ca']
-    client_crt = data['client_crt']
-    ta_key = data['ta_key']
-    if (not vpn_client) or port == -1 or not vpn_client.registerd:
-      return
-    
-    print('start vpn on Port: ', port)
-    try:
-      vpn_client.start(port, root_ca, client_ca, client_crt, ta_key)
-      print('success')
-    except:
-      print('vpn failed')
-
-
-  @sio.on('stop_vpn')
-  def stop_vpn(data):
-    try:
-      vpn_client.stop()
-    except:
-      pass
-
 
 shellCMDTread = None
 
@@ -621,6 +491,11 @@ def mqtt_events(config):
       
       print('recieve handler', msg)
       for row in msg:
+        if not ('key' in row and 'value' in row):
+          if debug:
+            print('Invalid msg', msg)
+          return
+            
         key = row['key']
         # find matching valueset to key
         matches = [x for x in outputs if x['key'] == key]
@@ -736,7 +611,7 @@ def set_s7_db(ip, db, offset, length, datatype, value):
       cur_ip = ip
     except:
       error_code = 0x50
-      sio.emit('set_value_back', error_code)
+      #sio.emit('set_value_back', error_code)
       print('CPU not avalible')
       return
 
@@ -795,17 +670,8 @@ def interprete_offline_data():
     messages.append(message)
     
     noError = True
-    if sio.connected:
-      length_of_messages = len(messages)
-      for i, message in enumerate(messages):
-        if len(message) > 2:  
-          try:
-            sio.emit('recv_data_mon3', (message, length_of_messages - i))
-            f.close()
-            noError = noError and True
-          except:
-            noError = False
-    elif mqtt_con.connected:
+    
+    if mqtt_con.connected:
         mqtt_con.sendofflinedata(messages)
     
     if noError:

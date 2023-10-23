@@ -53,7 +53,7 @@ class connector(object):
         print(ret)
         self.connected = True
         print('connection established')
-        self.client.subscribe("$SYS/#")
+        #self.client.subscribe("$SYS/#")
 
         self.client.subscribe( self.mad + "/recievedata")
 
@@ -72,6 +72,7 @@ class connector(object):
         if hasattr(self, 'on_connected') and callable(getattr(self, 'on_connected')):
             self.on_connected()
 
+    # due to qos being 0, this might not be recieved proberly. Also it can be triggered multiple times
     def on_message(self, client, userdata, msg):
         if not (self.mad in msg.topic):
             return
