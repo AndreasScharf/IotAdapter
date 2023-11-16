@@ -117,7 +117,7 @@ class s7(object):
         write_successful = False
         while not write_successful:
             try:
-                self.read_client.db_write(int(db), int(offset), data)
+                self.read_client.db_write(int(db), int(float(offset)), data)
                 write_successful = True
             except:
                 if self.debug:
