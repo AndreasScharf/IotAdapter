@@ -1,0 +1,8 @@
+{
+  "domain":"mqtt://mqtt.enwatmon.de:1883",
+  "data":[
+    { "type" : "static", "name" : "MAD", "value":"gfs_test"},
+    {"type":"time","name":"time","active":true},
+    {"active":true, "type":"mobil_usage", "name":"mobil_usage", "unit":"bytes"}
+  ]
+}

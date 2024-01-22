@@ -16,4 +16,4 @@ def get_network_bytes(interface):
         
     return (0, 0, 'no wwan')
 if __name__ == '__main__':
-    get_mobil_usage()
+    print(get_mobil_usage())
