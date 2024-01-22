@@ -1,25 +1,15 @@
 
 {
 	"domain":"mqtt://mqtt.enwatmon.de:1885",
+	"sending_intervall": 60,
 	"data":[
 		{ "type" : "static", "name" : "MAD", "value":"f8ea788b-6c64-415e-a8fc-7efd5e829aae"},
 		{ "type":"time","name":"time","active":true},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.0", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_start", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.1", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_reset", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.2", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_res_1", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.3", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_res_2", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.4", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_res_3", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.5", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_res_4", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.6", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_res_5", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.7", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P1_toggle", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.0", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_start", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.1", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_reset", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.2", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_res_1", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.3", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_res_2", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.4", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_res_3", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.5", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_res_4", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.6", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_res_5", "remote_unit": ""},
-		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.7", "datatype": "bit", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "f8ea788b-6c64-415e-a8fc-7efd5e829aae", "remote_vn": "S01_P2_toggle", "remote_unit": ""},
+		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "0.0", "datatype": "byte", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "68332176-bbdb-4ad7-b86c-6e74b92eec1b", "remote_vn": "S01_P1_control", "remote_unit": ""},
+		
+		{ "active": true, "type": "s7set", "ip": "192.168.11.100", "db": "200", "offset": "2.0", "datatype": "byte", "length": "1", "from": "cloud", "remote_source": "control_number", "remote_mad": "68332176-bbdb-4ad7-b86c-6e74b92eec1b", "remote_vn": "S01_P2_control", "remote_unit": ""},
+		
+		{ "active":true, "name": "S01_P1_status", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.0", "length": "1", "datatype": "byte"   },
 		{ "active":true, "name": "S01_P1_run", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.0", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P1_handmode", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.1", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P1_general error", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.2", "length": "1", "datatype": "bit"   },
@@ -28,11 +18,14 @@
 		{ "active":true, "name": "S01_P1_res_1", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.5", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P1_res_2", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.6", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P1_toggle", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "4.7", "length": "1", "datatype": "bit"   },
+		
 		{ "active":true, "name": "S01_P1_Level", "type": "s7", "unit": "m", "ip": "192.168.11.100", "db": "200", "offset": "6.0", "length": "4", "datatype": "real"   },
 		{ "active":true, "name": "S01_P1_Flow", "type": "s7", "unit": "m³/h", "ip": "192.168.11.100", "db": "200", "offset": "10.0", "length": "4", "datatype": "real"   },
 		{ "active":true, "name": "S01_P1_Counter", "type": "s7", "unit": "m³", "ip": "192.168.11.100", "db": "200", "offset": "14.0", "length": "4", "datatype": "real"   },
 		{ "active":true, "name": "S01_P1_Level_pump_on", "type": "s7", "unit": "m", "ip": "192.168.11.100", "db": "200", "offset": "18.0", "length": "4", "datatype": "real"   },
 		{ "active":true, "name": "S01_P1_Level_pump_off", "type": "s7", "unit": "m", "ip": "192.168.11.100", "db": "200", "offset": "22.0", "length": "4", "datatype": "real"   },
+		
+		{ "active":true, "name": "S01_P2_status", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.0", "length": "1", "datatype": "byte"   },
 		{ "active":true, "name": "S01_P2_run", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.0", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P2_handmode", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.1", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P2_general error", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.2", "length": "1", "datatype": "bit"   },
@@ -41,6 +34,7 @@
 		{ "active":true, "name": "S01_P2_res_1", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.5", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P2_res_2", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.6", "length": "1", "datatype": "bit"   },
 		{ "active":true, "name": "S01_P2_toggle", "type": "s7", "unit": "", "ip": "192.168.11.100", "db": "200", "offset": "26.7", "length": "1", "datatype": "bit"   },
+		
 		{ "active":true, "name": "S01_P2_Level", "type": "s7", "unit": "m", "ip": "192.168.11.100", "db": "200", "offset": "28.0", "length": "4", "datatype": "real"   },
 		{ "active":true, "name": "S01_P2_Flow", "type": "s7", "unit": "m³/h", "ip": "192.168.11.100", "db": "200", "offset": "32.0", "length": "4", "datatype": "real"   },
 		{ "active":true, "name": "S01_P2_Counter", "type": "s7", "unit": "m³", "ip": "192.168.11.100", "db": "200", "offset": "36.0", "length": "4", "datatype": "real"   },

@@ -25,20 +25,17 @@ from INA219 import current_sensor
 from rotators import rotator
 from openvpn_handler import vpnclient as ovpnclient
 
+from rpi_system.network import get_mobil_usage
+
 import sys
 import math
 import psutil
 import platform
 import andiDB
 
-
-
 from s7 import s7  
-  
-
 
 current_milli_time = lambda: int(round(time.time() * 1000))
-
 
 mqtt_con = connector()
 s7 = s7()
@@ -60,6 +57,7 @@ totalizers_path = '/home/pi/Documents/IotAdapter/totalizers.json'
 
 offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata'
 #offline_data_path = './offlinedata.json'
+
 router = '192.168.10.1'
 grundfossensors = []
 
@@ -68,10 +66,7 @@ has_andidb_requests = False
 
 sending_intervall = 300
 
-req_name_intervall = 'recv_data'
-req_name_realtime = 'recv_data_mon3'
-
-sending_realtime = False
+# debug flag 
 debug = ('-d' in sys.argv or '-debug' in sys.argv)
 s7.debug = debug
 
@@ -199,6 +194,8 @@ def main():
     global ov
     ov = ovpnclient(path='/home/pi/Documents/IotAdapter/openvpn_handler/config.ovpn')        
   
+  # check if offline folder exists
+  # if not create one
   if not os.path.isdir(offline_data_path):
     os.makedirs(offline_data_path)
 
@@ -210,12 +207,15 @@ def main():
 
   last_round = current_milli_time()
   try:
-   if 'domain' in config and 'mqtt' in config['domain']:
-      temp_str = config['domain'].replace('mqtt://', '')
-      domain = temp_str.split(':')[0]
-      port = temp_str.split(':')[1]
-      mqtt_con.connect(domain, int(port))
-      time.sleep(5)#give time to connect
+    # extract mqtt connection parameters and establish connection 
+    if 'domain' in config and 'mqtt' in config['domain']:
+        temp_str = config['domain'].replace('mqtt://', '')
+        domain = temp_str.split(':')[0]
+        port = temp_str.split(':')[1]
+        mqtt_con.connect(domain, int(port))
+        # give mqtt client time to connect to server
+        time.sleep(5)
+        
   except KeyboardInterrupt:
     raise
 
@@ -298,42 +298,33 @@ def main():
         value = psutil.cpu_percent()
       elif row['type'] == 'memory_usage':
         value = psutil.virtual_memory()[2]
+      
+      # get mobil usage      
+      elif row['type'] == 'mobil_usage':
+        (rx_bytes, tx_bytes, sum_bytes) = get_mobil_usage()
+        value = sum_bytes
         
-      elif row['type'] == 'rotator':
-          r = [x for x in rotators if x.name == row['name']][0]
-          if not r:
-            print(r) 
-            return
-          value = r.get_flow(current_milli_time() - last_round)
-          last_total = r.totalizer
-          now_total = r.get_totalizer()
-          if not last_total == now_total:
-              message.append({'name':row['name'] + "_amount", 'unit': unit.split('/')[0] if '/' in unit else '', 'value': now_total})
-          if debug:
-            print(row['name'], value, now_total)
-            
+     
       unit = ''
-
       if 'unit' in row:
         unit = row['unit']
 
       if not (row['type'] == 'static' or row['type'] == 'time'):
-        if 'lastdata' in row and (row['lastdata'] == value or not its_time_to_send): 
-          #if debug:
-          #  print(value, row['lastdata'], row['name'], 'sending_time', (last_round - last_send_time), sending_intervall)
+        # messurement is discarded if lastdata is undefined and equal
+        # or if it is not sending_time and this value isnt on_tigger  
+        discard_messurement = ('lastdata' in row and row['lastdata'] == value) or ((not its_time_to_send) and (not 'on_trigger' in row))
+        if discard_messurement: 
           continue
         else:
           row['lastdata'] = value
 
-      #if debug:
-      #  print(row['name'] , value)
       
       if not value == 'Error':
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
 
     
-    #set outputs
+    #set outputs in sync with the s7 read part
     for item in outputs:
         if item['type'] == 's7set' and 'value' in item and 'execute' in item and item['execute']:
           if debug:
@@ -347,40 +338,45 @@ def main():
 
    
     last_round = current_milli_time()
-
     
-    
-    if (not its_time_to_send) and len(message) <= 2:
+    if len(message) <= 2:
         continue
 
 
-    
+    # system is connected to mqtt server
     if mqtt_con.connected:
       if(len(message) <= 2): #nicht sendend net genug daten
-        #if debug:
-        #  print('not sending')
         continue 
+
+      # print mqtt message in debug mode
       if debug:
-        data = json.dumps(data).strip()
+        data = json.dumps(message).strip()
         print('Message Size {} MB'.format(len(data) / 1000000))
       
+      
+      # call the send data block
       mqtt_con.senddata(message)
-      last_send_time = current_milli_time()
-      #if debug:
-      #    print('send mqtt', message)
-    else:
-      #if debug:
-      #  print('save data in', offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json')
-      if(len(message) <= 2):  # nicht sendend net genug daten
-          #if debug:
-          #  print('no need to save no relavance')
+
+      # sending time set to current timestemp
+      if its_time_to_send:
+        last_send_time = current_milli_time()
+    
+    # system has no connection to mqtt server
+    else: 
+      # do not send / save
+      # message only contains out of two values
+      if(len(message) <= 2):  
           continue
+        
+      # open offline data space
       f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
       for row in message:
         f.write(json.dumps(row) + '\n')
 
       f.close()
-      last_send_time = current_milli_time()
+      if its_time_to_send:
+        last_send_time = current_milli_time()
+        
       if debug:
         print('save file')
     
@@ -389,53 +385,6 @@ def main():
       f.write(json.dumps(totalizers))
       f.close()
 
-
-def check_network():
-  gateway = get_default_gateway_linux()
-  internet = False
-  dns = False
-  network = False
-  try:
-    for i in ping('cloud.enwatmon.de', verbose=False):
-      internet = internet or i.success
-      dns = dns or i.success
-
-    for i in ping('8.8.8.8', verbose=False):
-      internet = internet or i.success
-
-    for i in ping(str(gateway), verbose=False):
-      network = network or i.success  
-      
-  except:
-    dns = False
-    internet = False
-
-
-  if not internet and network:
-    restart_router(gateway)
-  if not internet and not network:
-    restart_rpi()
-  
-  return dns or internet and network
- 
-
-def get_default_gateway_linux():
-    """Read the default gateway directly from /proc."""
-    with open("/proc/net/route") as fh:
-        for line in fh:
-            fields = line.strip().split()
-            if fields[1] != '00000000' or not int(fields[3], 16) & 2:
-                # If not default route or not RTF_GATEWAY, skip it
-                continue
-
-            return socket.inet_ntoa(struct.pack("<L", int(fields[2], 16)))
-def restart_router(router_ip):
-  print('router not accessable', router_ip)
-
-def restart_rpi():
-   print('no network in 300s')
-   time.sleep(300) # damit ich 5 min zeit habe falls da a fehler ist
-   os.system('sudo reboot')
 
 
 shellCMDTread = None
@@ -601,33 +550,6 @@ def mqtt_events(config):
 
 
 
-
-def set_s7_db(ip, db, offset, length, datatype, value):
-  global cur_ip
-
-  if not cur_ip or not cur_ip == ip:
-    try:
-      s7.connect(ip, 0, 1)
-      cur_ip = ip
-    except:
-      error_code = 0x50
-      #sio.emit('set_value_back', error_code)
-      print('CPU not avalible')
-      return
-
-
-  data = bytearray(int(length) + 1)
-
-  if datatype == 'bit':
-      byte_index = int((offset - int(offset)) * 10)
-      set_bool(data, byte_index, value, value)
-      data = data[:-1]
-  elif datatype == 'real':
-      set_real(data, 0, float(value))
-      data = (data[:-1])
-
-  s7.db_write(int(db), int(offset), data)
-
 def get_from_analog(channel, multi, offset):
     adc = MCP3008(channel=channel)
     vol = adc.value * 3.3 * multi
@@ -642,8 +564,6 @@ def get_from_gfs(sensor_id, value_type):
         return sensor.get_pessure()
     elif value_type=='flow':
         return sensor.get_flow()
-
-
 
 
 def interprete_offline_data():

@@ -72,7 +72,10 @@ class s7(object):
 
         if type=='bit':
             return self.get_bool(data, 0, int(bool_index))
-        elif type=='word' or type=='byte':
+        elif type == 'byte':
+            # converts byte array to one uint
+            return int.from_bytes(data, "big")
+        elif type=='word':
             return get_int(data, 0)
         elif type=='dint':
             return self.get_dint(data, 0)
@@ -103,7 +106,10 @@ class s7(object):
                 data[0] = (1 << bit_index) | data[0]
             else:
                 data[0] = (~(1 << bit_index)) & data[0]
-
+        elif datatype == 'byte':
+            #convert the integer into bytes
+            data = int(value).to_bytes(1, 'big', signed=False)
+            
         elif datatype == 'real':
             data = bytearray(int(length) + 1)
             set_real(data, 0, float(value))
