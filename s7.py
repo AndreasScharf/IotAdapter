@@ -53,9 +53,12 @@ class s7(object):
         try:
             data = self.read_client.db_read(int(db), int(float(offset)), int(length) if not type == 'bit' else 1)
         except Exception as e:
+            # if e == b' ISO : An error occurred during recv TCP : Connection timed out':
+            
+            #s7 in error mode and do a restart
+            self.read_client.reconnecting = True
+
             print('DB Error, Offset Error, Security Error', e)
-            #s7 in error mode 
-            self.reconnecting = True
             return 'Error'
         byte_index = 0
         bool_index = 0
