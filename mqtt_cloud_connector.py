@@ -31,6 +31,7 @@ class connector(object):
                 keyfile='/home/pi/Documents/IotAdapter/keys/client1-key.pem',
                 cert_reqs=ssl.CERT_NONE) # <--- even without arguments
         self.client.disable_logger()
+        
         self.client.on_connect = lambda client, userdata, flags, rc: self.on_connect(client, userdata, flags, rc)
         self.client.on_message = lambda client, userdata, msg : self.on_message(client, userdata, msg)
         self.client.on_disconnect = lambda  client, userdata, rc : self.on_disconnect()
@@ -38,15 +39,15 @@ class connector(object):
 
         self.client.username_pw_set(username="mqtt", password="mqttpw1337")
         try:
-            self.client.connect(host, port, 60)
-            self.connected = True
+            # need to connect in async mode
+            self.client.connect_async(host, port, 60)
             self.client.loop_start()
         except KeyboardInterrupt:
             raise
-        except:
+        except Exception as e:
             if not reconnect:
                 self.on_disconnect()
-
+            
     def on_connect(self, client, userdata, flags, rc):
         print('connected::')
         ret = self.client.publish(self.mad + "/alive", self.mad) 
@@ -142,11 +143,24 @@ class connector(object):
 
     def senddata(self, data):
         data = json.dumps(data).strip()
-        ret = self.client.publish(self.mad + "/senddata", data) 
+        (rc, mid) = self.client.publish(self.mad + "/senddata", data) 
+        
+        # if message doesnt goes trough 
+        # enable reconnect
+        if rc == mqtt.MQTT_ERR_NO_CONN:
+            self.connected = False
 
     def sendofflinedata(self, data):
         data = json.dumps(data).strip()
-        ret = self.client.publish(self.mad + "/offlinedata", data)
+        topic = self.mad + "/offlinedata"
+        (rc, mid) = self.client.publish(topic=topic, payload=data, qos=1)
+        # if message doesnt goes trough 
+        # enable reconnect
+        if rc == mqtt.MQTT_ERR_NO_CONN:
+            self.connected = False
+
+        # return True if Success other wise return false
+        return rc == mqtt.MQTT_ERR_SUCCESS       
 
     def vpnstarted(self, auth_token):
         data = json.dumps({'auth_token':auth_token})
