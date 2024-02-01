@@ -1,0 +1,8 @@
+1.0.0
+    STATE on 30.01.2024
+
+1.0.1
+    - MQTT Connect was a blocking statement, switched to connect_async.
+    - Resolved Bug when System wasnt collecting offline data
+    - send offline data is changed to QOS == 1 this prevents data loss on transmission, 
+    mqtt con is checked before offline data is deleted

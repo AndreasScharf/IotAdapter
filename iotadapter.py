@@ -1,3 +1,10 @@
+"""
+GENERAL INFORMATION about Module
+"""
+__all__ = []
+__version__ = '1.0.1'
+__author__ = 'Andreas Scharf'
+
 #from gpiozero import MCP3008
 from datetime import datetime
 import uuid
@@ -219,6 +226,9 @@ def main():
   except KeyboardInterrupt:
     raise
 
+  if debug:
+    print('Start Reading Loop')
+    
   last_send_time = 0
   while 1:
     message = []
@@ -589,12 +599,12 @@ def interprete_offline_data():
 
     messages.append(message)
     
-    noError = True
+    success_sending_data = False
     
     if mqtt_con.connected:
-        mqtt_con.sendofflinedata(messages)
+        success_sending_data = mqtt_con.sendofflinedata(messages)
     
-    if noError:
+    if success_sending_data:
       os.remove(offline_data_path + '/' + file)
 
 
