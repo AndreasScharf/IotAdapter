@@ -584,29 +584,70 @@ def interprete_offline_data():
     if debug:
       print('interpreting file:', file)
 
+
+    success_sending_data = True
+
     messages = []
     message = []
+
     f = open(offline_data_path + '/' + file, 'r')
+    
+    error_in_message_block = False
+    
+    # go throung all lines in one file
     for line in f.readlines():
+      
+      # check if line starts like a json would start
       if not line.startswith('{'):
         continue
-      conv_line = json.loads(line)
-      if (conv_line['name'] == 'mad' or conv_line['name'] == 'MAD') and len(message):
-        messages.append(message)
-        message = []
+      
+      try:
+        conv_line = json.loads(line)
 
-      message.append(conv_line)
+        # if new line is mad start new message block
+        if (conv_line['name'] == 'mad' or conv_line['name'] == 'MAD'):
+          # only add if message block has entrys
+          if len(message):
+            messages.append(message)
+            
+          # then clear message block
+          message = []
+          
+          # also there can be no errors in the message block 
+          error_in_message_block = False
+          
+          
+        if not error_in_message_block:
+          message.append(conv_line)
+        
+      except Exception as e:
+        print(e)
+        # this means one line in the message block is not a vaild JSON
+        error_in_message_block = True
+        
+        # prevent deleting this file
+        success_sending_data = False
 
+      # end of loop
+    
+    # close file to prevent crossing
+    f.close()
+    
+    # append last message block to the whole message
     messages.append(message)
     
-    success_sending_data = False
     
+    # send to the message to the cloud
     if mqtt_con.connected:
-        success_sending_data = mqtt_con.sendofflinedata(messages)
+        success_sending_data = mqtt_con.sendofflinedata(messages) and success_sending_data
+    
     
     if success_sending_data:
-      os.remove(offline_data_path + '/' + file)
-
+      try:
+        # Failes in some cases
+        os.remove(offline_data_path + '/' + file)
+      except:
+        pass
 
 if __name__ == '__main__':
     main()
