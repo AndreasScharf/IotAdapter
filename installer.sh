@@ -82,7 +82,7 @@ pip3 install -U minimalmodbus
 pip3 install pythonping
 
 pip3 install pi-ina219
-pip3 install paho-mqtt
+pip3 install paho-mqtt==2.0.0
 pip3 install psutil
 
 pip3 uninstall serial -y

@@ -21,7 +21,6 @@ import socket
 import struct
 
 import _thread
-from pythonping import ping
 
 import grundfossensor as gfs
 
