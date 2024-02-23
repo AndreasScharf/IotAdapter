@@ -2,7 +2,7 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.0.1'
+__version__ = '1.1.1'
 __author__ = 'Andreas Scharf'
 
 #from gpiozero import MCP3008
