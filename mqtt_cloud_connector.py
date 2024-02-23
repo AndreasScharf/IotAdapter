@@ -22,7 +22,7 @@ class connector(object):
             self.client.disconnect()
             del self.client
 
-        self.client = mqtt.Client()
+        self.client = mqtt.Client( mqtt.CallbackAPIVersion.VERSION2 )
             
             
         self.client.tls_set(
@@ -32,11 +32,17 @@ class connector(object):
                 cert_reqs=ssl.CERT_NONE) # <--- even without arguments
         self.client.disable_logger()
         
-        self.client.on_connect = lambda client, userdata, flags, rc: self.on_connect(client, userdata, flags, rc)
-        self.client.on_message = lambda client, userdata, msg : self.on_message(client, userdata, msg)
-        self.client.on_disconnect = lambda  client, userdata, rc : self.on_disconnect()
-
-
+        if self.client.callback_api_version == mqtt.CallbackAPIVersion.VERSION2:
+            self.client.on_connect = lambda client, userdata, flags, rc, props: self.on_connect(client, userdata, flags, rc)
+            self.client.on_message = lambda client, userdata, msg : self.on_message(client, userdata, msg)
+            self.client.on_disconnect = lambda client, userdata, disconnect_flags, reason_code, properties: self.on_disconnect()
+        elif self.client.callback_api_version == mqtt.CallbackAPIVersion.VERSION1:
+            self.client.on_connect = lambda client, userdata, flags, rc: self.on_connect(client, userdata, flags, rc)
+            self.client.on_message = lambda client, userdata, msg : self.on_message(client, userdata, msg)
+            self.client.on_disconnect = lambda client, userdata, disconnect_flags: self.on_disconnect()
+        else:
+            print('No MQTT Version Stored')
+        
         self.client.username_pw_set(username="mqtt", password="mqttpw1337")
         try:
             # need to connect in async mode
