@@ -49,7 +49,7 @@ class connector(object):
         self.client.username_pw_set(username="mqtt", password="mqttpw1337")
         try:
             # need to connect in async mode
-            self.client.connect_async(host, port, 60)
+            self.connect_async(host, port, 60)
             self.start_mqtt_loop()
         except KeyboardInterrupt:
             raise
@@ -89,6 +89,21 @@ class connector(object):
         if hasattr(self, 'on_connected') and callable(getattr(self, 'on_connected')):
             self.on_connected()
 
+    # thread safe calling of the mqtt functions
+    def connect_async(self, host, port, keepalive):
+        
+        connection_thread = threading.Thread(target=connect, args=(host, port, keepalive), daemon=True)
+        
+        def connect(host, port, keepalive):
+            
+            # blocking function
+            self.client.connect(host, port, keepalive)
+        
+        connection_thread.start()
+        
+            
+        
+    
     def start_mqtt_loop(self):
         if self.mqtt_thread: 
             return
@@ -106,6 +121,8 @@ class connector(object):
                 print(e)
                 
             time.sleep(0.5)
+        
+        
                     
     # due to qos being 0, this might not be recieved proberly. Also it can be triggered multiple times
     def on_message(self, client, userdata, msg):
