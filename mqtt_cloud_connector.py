@@ -118,7 +118,6 @@ class connector(object):
         while 1:
             try:
                 self.client.loop()    
-                print('MQTT Loop')
             except Exception as e:
                 print(e)
                 
