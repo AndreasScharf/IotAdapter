@@ -394,6 +394,10 @@ def main():
       f.write(json.dumps(totalizers))
       f.close()
 
+    # terminate programm 
+    # if mqtt thread is set and mqtt thread is no longer alive
+    if  mqtt_con.mqtt_thread and not mqtt_con.mqtt_thread.is_alive():
+      sys.exit(1)
 
 
 shellCMDTread = None
