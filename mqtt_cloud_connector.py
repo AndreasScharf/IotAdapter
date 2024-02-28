@@ -96,7 +96,7 @@ class connector(object):
         self.mqtt_thread = threading.Thread(target=self.mqtt_loop, args=(1,),  daemon=True)
         self.mqtt_thread.start()
         
-    def mqtt_loop(self):
+    def mqtt_loop(self, args):
         
         while 1:
             try:
