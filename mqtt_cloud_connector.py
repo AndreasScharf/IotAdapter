@@ -92,13 +92,15 @@ class connector(object):
     # thread safe calling of the mqtt functions
     def connect_async(self, host, port, keepalive):
         
-        connection_thread = threading.Thread(target=connect, args=(host, port, keepalive), daemon=True)
-        
         def connect(host, port, keepalive):
+            print('Start MQTT Connection')
+            try:
+                # blocking function
+                self.client.connect(host, port, keepalive)
+            except Exception as e:
+                print('MQTT Connection Error', e)
             
-            # blocking function
-            self.client.connect(host, port, keepalive)
-        
+        connection_thread = threading.Thread(target=connect, args=(host, port, keepalive), daemon=True)
         connection_thread.start()
         
             
