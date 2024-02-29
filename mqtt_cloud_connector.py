@@ -2,11 +2,14 @@ import paho.mqtt.client as mqtt
 import ssl
 import time
 import json
+import threading
 
 class connector(object):
     def __init__(self):
         self.connected = False
         self.not_reconnect = False
+        
+        self.mqtt_thread = 0
        
     def connect(self, host, port, reconnect=False):
         
@@ -48,6 +51,8 @@ class connector(object):
             # need to connect in async mode
             self.client.connect_async(host, port, 60)
             self.client.loop_start()
+            
+            #self.start_mqtt_loop()
         except KeyboardInterrupt:
             raise
         except Exception as e:
@@ -55,30 +60,76 @@ class connector(object):
                 self.on_disconnect()
             
     def on_connect(self, client, userdata, flags, rc):
-        print('connected::')
-        ret = self.client.publish(self.mad + "/alive", self.mad) 
-        print(ret)
-        self.connected = True
-        print('connection established')
-        #self.client.subscribe("$SYS/#")
+        try:
+            print('connected::')
+            ret = self.client.publish(self.mad + "/alive", self.mad) 
+            print(ret)
+            self.connected = True
+            print('connection established')
 
-        self.client.subscribe( self.mad + "/recievedata")
+            self.client.subscribe( self.mad + "/recievedata")
 
-        self.client.subscribe( self.mad + "/startvpn")
-        self.client.subscribe( self.mad + "/stopvpn")
+            self.client.subscribe( self.mad + "/startvpn")
+            self.client.subscribe( self.mad + "/stopvpn")
 
-        self.client.subscribe( self.mad + "/start_realtime")
-        self.client.subscribe( self.mad + "/stop_realtime")
+            self.client.subscribe( self.mad + "/start_realtime")
+            self.client.subscribe( self.mad + "/stop_realtime")
+            
+            self.client.subscribe(self.mad + "/reconfig_system")
+            self.client.subscribe(self.mad + "/update_system")
+
+            # subscripe to the shell cmd listener
+            self.client.subscribe(self.mad + "/shell-cmd")
         
-        self.client.subscribe(self.mad + "/reconfig_system")
-        self.client.subscribe(self.mad + "/update_system")
-
-        # subscripe to the shell cmd listener
-        self.client.subscribe(self.mad + "/shell-cmd")
+        except Exception as e:
+            # Broken PIPE ERROR
+            print(e)
+            
+            self.connected = False
+            self.on_disconnect()
 
         if hasattr(self, 'on_connected') and callable(getattr(self, 'on_connected')):
             self.on_connected()
 
+    # thread safe calling of the mqtt functions
+    def connect_async(self, host, port, keepalive):
+        
+        def connect(host, port, keepalive):
+            print('Start MQTT Connection')
+            try:
+                # blocking function
+                self.client.connect(host, port, keepalive)
+            except Exception as e:
+                print('MQTT Connection Error', e)
+            
+        connection_thread = threading.Thread(target=connect, args=(host, port, keepalive), daemon=True)
+        connection_thread.start()
+        
+            
+        
+    
+    def start_mqtt_loop(self):
+        if self.mqtt_thread: 
+            return
+        
+        self.mqtt_thread = threading.Thread(target=self.mqtt_loop, args=(1,),  daemon=True)
+        self.mqtt_thread.start()
+        
+    def mqtt_loop(self, args):
+        
+        while 1:
+            try:
+                self.client.loop()    
+            except Exception as e:
+                print(e)
+                
+            time.sleep(0.5)
+        
+        
+    def thread_is_alive(self):
+        return self.client and self.client._thread and self.client._thread.is_alive()
+        
+                    
     # due to qos being 0, this might not be recieved proberly. Also it can be triggered multiple times
     def on_message(self, client, userdata, msg):
         if not (self.mad in msg.topic):

@@ -2,7 +2,7 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.1.1'
+__version__ = '1.2.1'
 __author__ = 'Andreas Scharf'
 
 #from gpiozero import MCP3008
@@ -394,6 +394,10 @@ def main():
       f.write(json.dumps(totalizers))
       f.close()
 
+    # terminate programm 
+    # if mqtt thread is set and mqtt thread is no longer alive
+    if not mqtt_con.thread_is_alive():
+      sys.exit(1)
 
 
 shellCMDTread = None
