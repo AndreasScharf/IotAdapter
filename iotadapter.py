@@ -33,6 +33,8 @@ from openvpn_handler import vpnclient as ovpnclient
 
 from rpi_system.network import get_mobil_usage
 
+from lcds import start_lcds, lcds_safe_line
+
 import sys
 import math
 import psutil
@@ -109,9 +111,9 @@ def main():
     print('File not correct')
     return
 
-#
-#  Connections aufbauen
-#
+  #
+  #  Connections aufbauen
+  #
   mqtt_events(config)
 
   global sending_intervall
@@ -228,7 +230,12 @@ def main():
   if debug:
     print('Start Reading Loop')
     
+
+  start_lcds()
   last_send_time = 0
+  
+  timestemp = datetime.now()
+
   while 1:
     message = []
     
@@ -245,7 +252,11 @@ def main():
       if row['type'] == 'static':
         value = row['value']
       elif row['type'] == 'time':
+        
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestemp = datetime.now()
+
+
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
         if 'channels' in config:
           value = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
@@ -329,9 +340,12 @@ def main():
 
       
       if not value == 'Error':
+        # append message
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
 
+        # save data in local continues data safe
+        lcds_safe_line(mad, row['name'], timestemp, value)
     
     #set outputs in sync with the s7 read part
     for item in outputs:
@@ -393,6 +407,8 @@ def main():
       f = open(totalizers_path, 'w+')
       f.write(json.dumps(totalizers))
       f.close()
+
+
 
     # terminate programm 
     # if mqtt thread is set and mqtt thread is no longer alive
