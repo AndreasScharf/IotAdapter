@@ -343,9 +343,10 @@ def main():
         # append message
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
-
-        # save data in local continues data safe
-        lcds_safe_line(mad, row['name'], timestemp, value)
+(
+        if not (row['type'] == 'static' or row['type'] == 'time'):
+          # save data in local continues data safe
+          lcds_safe_line(mad, row['name'], timestemp, value)
     
     #set outputs in sync with the s7 read part
     for item in outputs:
