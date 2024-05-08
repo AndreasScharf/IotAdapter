@@ -343,7 +343,7 @@ def main():
         # append message
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
-(
+        
         if not (row['type'] == 'static' or row['type'] == 'time'):
           # save data in local continues data safe
           lcds_safe_line(mad, row['name'], timestemp, value)
