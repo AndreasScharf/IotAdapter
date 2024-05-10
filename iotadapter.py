@@ -33,7 +33,7 @@ from openvpn_handler import vpnclient as ovpnclient
 
 from rpi_system.network import get_mobil_usage
 
-from lcds import start_lcds, lcds_safe_line
+from lcds import start_lcds, lcds_safe_line, rotate_lcds_folder 
 
 import sys
 import math
@@ -344,11 +344,12 @@ def main():
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
         
+        # only enter if the value is a float 
         if not (row['type'] == 'static' or row['type'] == 'time'):
           # save data in local continues data safe
           lcds_safe_line(mad, row['name'], timestemp, value)
     
-    #set outputs in sync with the s7 read part
+    # set outputs in sync with the s7 read part
     for item in outputs:
         if item['type'] == 's7set' and 'value' in item and 'execute' in item and item['execute']:
           if debug:
@@ -360,7 +361,7 @@ def main():
           mqtt_con.confirminputs([item['key']])
           time.sleep(1)
 
-   
+    #
     last_round = current_milli_time()
     
     if len(message) <= 2:
@@ -410,6 +411,8 @@ def main():
       f.close()
 
 
+    # rotate lcds folder
+    rotate_lcds_folder()
 
     # terminate programm 
     # if mqtt thread is set and mqtt thread is no longer alive

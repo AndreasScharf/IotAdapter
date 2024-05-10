@@ -52,6 +52,45 @@ def float_to_bytes(float_num):
     return struct.pack('f', float_num)
 
 
+# check folder size 
+
+
+# storage can be only be 1GB
+MAX_FOLDER_SIZE = 1 * 1024 * 1024 * 1024
+
+
+def get_folder_size(folder_path):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(folder_path):
+        for filename in filenames:
+            file_path = os.path.join(dirpath, filename)
+            total_size += os.path.getsize(file_path)
+    return total_size
+
+def get_latest_dump(folder_path):
+
+    min_file = ''
+    for dirpath, dirnames, filenames in os.walk(folder_path):
+        if filenames.replace('.hex', '') > min_file:
+            min_file = filenames.replace('.hex', '')
+
+    if min_file == '':
+        return 0
+    
+    return min_file + '.hex'
+
+
+def rotate_lcds_folder():
+    folder_size = get_folder_size(LCDS_PATH)
+
+    if folder_size > MAX_FOLDER_SIZE:
+
+        file_to_delete = get_latest_dump(LCDS_PATH)
+        if file_to_delete:
+            os.remove(LCDS_PATH + '/' + file_to_delete )
+            print('Remove File {}'.format( LCDS_PATH + '/' + file_to_delete ))
+
+
 def test():
     from datetime import datetime, timezone
     line_hex = line_to_hex_format('ABC123', 'Hallentemperatur', datetime(2024, 5, 8, 11, 30, 0, tzinfo=timezone.utc), 3.14)
