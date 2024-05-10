@@ -71,8 +71,10 @@ def get_latest_dump(folder_path):
 
     min_file = ''
     for dirpath, dirnames, filenames in os.walk(folder_path):
-        if filenames.replace('.hex', '') > min_file:
-            min_file = filenames.replace('.hex', '')
+        for filename in filenames:
+            file_date = filename.replace('.hex', '')
+            if file_date > min_file:
+                min_file = file_date
 
     if min_file == '':
         return 0
