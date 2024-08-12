@@ -56,3 +56,17 @@ static routers=192.168.10.1
 static domain_name_servers=8.8.8.8
 ```
 
+### LCDS Local Contineues Data Saving
+The LCDS saves data in a continues loop in the hex data format to prevent data losses when the cloud instance is not available.
+The following directory is the link in which the data is stored, the folder will be created when system is starting
+
+```
+/home/pi/Documents/lcds-dump/
+```
+#### LCDS hex format 
+The LCDS will be in a bucket system every bucket is one date 
+```
+YYYY_MM_DD.hex 
+```
+in the bucket data will be stored in the following format
+MD5Identifier (16Byte) + Timestemp (4 Bytes) + Value (4 Bytes) 

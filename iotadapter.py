@@ -33,6 +33,8 @@ from openvpn_handler import vpnclient as ovpnclient
 
 from rpi_system.network import get_mobil_usage
 
+from lcds import start_lcds, lcds_safe_line, rotate_lcds_folder 
+
 import sys
 import math
 import psutil
@@ -84,6 +86,9 @@ outputs = []
 
 ov = 0
 
+REAL_TIME_DURATION = 5 * 60
+realTimeDataEnd = 0
+
 
 try:
   f = open(totalizers_path, 'r')
@@ -109,9 +114,9 @@ def main():
     print('File not correct')
     return
 
-#
-#  Connections aufbauen
-#
+  #
+  #  Connections aufbauen
+  #
   mqtt_events(config)
 
   global sending_intervall
@@ -228,7 +233,12 @@ def main():
   if debug:
     print('Start Reading Loop')
     
+
+  start_lcds()
   last_send_time = 0
+  
+  timestemp = datetime.now()
+
   while 1:
     message = []
     
@@ -245,7 +255,11 @@ def main():
       if row['type'] == 'static':
         value = row['value']
       elif row['type'] == 'time':
+        
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestemp = datetime.now()
+
+
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
         if 'channels' in config:
           value = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
@@ -318,6 +332,11 @@ def main():
       if 'unit' in row:
         unit = row['unit']
 
+      # check for realtime status
+      if realTimeDataEnd > time.time():
+        mqtt_con.set_realtime_value(row['name'], value=value)
+
+
       if not (row['type'] == 'static' or row['type'] == 'time'):
         # messurement is discarded if lastdata is undefined and equal
         # or if it is not sending_time and this value isnt on_tigger  
@@ -329,11 +348,16 @@ def main():
 
       
       if not value == 'Error':
+        # append message
         message.append({'name':row['name'], 'unit': unit, 'value': value})
         row['value'] = value
-
+        
+        # only enter if the value is a float 
+        if not (row['type'] == 'static' or row['type'] == 'time'):
+          # save data in local continues data safe
+          lcds_safe_line(mad, row['name'], timestemp, value)
     
-    #set outputs in sync with the s7 read part
+    # set outputs in sync with the s7 read part
     for item in outputs:
         if item['type'] == 's7set' and 'value' in item and 'execute' in item and item['execute']:
           if debug:
@@ -345,7 +369,7 @@ def main():
           mqtt_con.confirminputs([item['key']])
           time.sleep(1)
 
-   
+    #
     last_round = current_milli_time()
     
     if len(message) <= 2:
@@ -393,6 +417,10 @@ def main():
       f = open(totalizers_path, 'w+')
       f.write(json.dumps(totalizers))
       f.close()
+
+
+    # rotate lcds folder
+    rotate_lcds_folder()
 
     # terminate programm 
     # if mqtt thread is set and mqtt thread is no longer alive
@@ -528,9 +556,15 @@ def mqtt_events(config):
         pass
     mqtt_con.on_stopvpn = stop_vpn
     
-    def start_realtime():
-      global sending_intervall
-      sending_intervall = 1
+    def start_realtime(payload):
+        global realTimeDataEnd
+        realTimeDataEnd = time.time() + REAL_TIME_DURATION
+
+        msg = json.loads(payload.decode('utf-8'))
+        # maybe check here if msg contains msg
+        mqtt_con.set_realtime_object(msg)
+
+
     mqtt_con.on_start_realtime = start_realtime
         
     def stop_realtime():

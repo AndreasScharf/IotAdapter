@@ -3,6 +3,9 @@ import ssl
 import time
 import json
 import threading
+import hashlib
+
+from utils import create_realtime_payload
 
 class connector(object):
     def __init__(self):
@@ -10,6 +13,8 @@ class connector(object):
         self.not_reconnect = False
         
         self.mqtt_thread = 0
+
+        self.rt_data_object = []
        
     def connect(self, host, port, reconnect=False):
         
@@ -62,6 +67,7 @@ class connector(object):
     def on_connect(self, client, userdata, flags, rc):
         try:
             print('connected::')
+
             ret = self.client.publish(self.mad + "/alive", self.mad) 
             print(ret)
             self.connected = True
@@ -72,7 +78,7 @@ class connector(object):
             self.client.subscribe( self.mad + "/startvpn")
             self.client.subscribe( self.mad + "/stopvpn")
 
-            self.client.subscribe( self.mad + "/start_realtime")
+            self.client.subscribe( self.mad + "/start-realtime")
             self.client.subscribe( self.mad + "/stop_realtime")
             
             self.client.subscribe(self.mad + "/reconfig_system")
@@ -154,9 +160,9 @@ class connector(object):
                 self.on_recievedata(msg.payload)
             else:
                 print('on_recievedata not linked')
-        elif '/start_realtime' in msg.topic:
+        elif '/start-realtime' in msg.topic:
             if hasattr(self, 'on_start_realtime') and callable(getattr(self, 'on_start_realtime')):
-                self.on_start_realtime()
+                self.on_start_realtime(msg.payload)
             else:
                 print('on_start_realtime not linked')
         elif '/stop_realtime' in msg.topic:
@@ -200,38 +206,103 @@ class connector(object):
 
     def senddata(self, data):
         data = json.dumps(data).strip()
-        (rc, mid) = self.client.publish(self.mad + "/senddata", data) 
-        
-        # if message doesnt goes trough 
-        # enable reconnect
-        if rc == mqtt.MQTT_ERR_NO_CONN:
+
+        try:
+            (rc, mid) = self.client.publish(self.mad + "/senddata", data) 
+            
+            # if message doesnt goes trough 
+            # enable reconnect
+            if rc == mqtt.MQTT_ERR_NO_CONN:
+                self.connected = False
+        except:
             self.connected = False
+            self.not_reconnect = True
+
 
     def sendofflinedata(self, data):
         data = json.dumps(data).strip()
         topic = self.mad + "/offlinedata"
-        (rc, mid) = self.client.publish(topic=topic, payload=data, qos=1)
-        # if message doesnt goes trough 
-        # enable reconnect
-        if rc == mqtt.MQTT_ERR_NO_CONN:
-            self.connected = False
+        try:
+            (rc, mid) = self.client.publish(topic=topic, payload=data, qos=1)
+            # if message doesnt goes trough 
+            # enable reconnect
+            if rc == mqtt.MQTT_ERR_NO_CONN:
+                self.connected = False
 
-        # return True if Success other wise return false
-        return rc == mqtt.MQTT_ERR_SUCCESS       
+            # return True if Success other wise return false
+            return rc == mqtt.MQTT_ERR_SUCCESS       
+        except:
+            self.connected = False
+            self.not_reconnect = True
+            return False
+
 
     def vpnstarted(self, auth_token):
         data = json.dumps({'auth_token':auth_token})
-        ret = self.client.publish(self.mad + "/vpn_started", data)
-        
+        try:
+            ret = self.client.publish(self.mad + "/vpn_started", data)
+        except:
+            self.connected = False
+            self.not_reconnect = True
+
     def setupinputs(self, inputs):
         print(self.mad + "/setupinputs")
         data = json.dumps(inputs)
-        ret = self.client.publish(self.mad + "/setupinputs", data)
+        try:
+            ret = self.client.publish(self.mad + "/setupinputs", data)
+        except:
+            self.connected = False
+            self.not_reconnect = True
 
     def confirminputs(self, inputs):
         data = json.dumps(inputs)
-        ret = self.client.publish(self.mad + "/confirminputs", data)
+        try:
+            ret = self.client.publish(self.mad + "/confirminputs", data)
+        except:
+            self.connected = False
+            self.not_reconnect = True
 
     def shell_response(self, response):
         data = json.dumps(response)
-        ret = self.client.publish(self.mad + "/shell-response", data)
+        try:
+            ret = self.client.publish(self.mad + "/shell-response", data)
+        except:
+            self.connected = False
+            self.not_reconnect = True
+
+    def set_realtime_object(self, valuenames):
+        self.rt_data_object = []
+        for vn in valuenames:
+            self.rt_data_object.append({ "name": vn, "md5": hashlib.md5(vn.lower().encode()).digest(), "value": 0, "updated": False })
+
+    
+    def set_realtime_value(self, name, value):
+        
+        for row in self.rt_data_object:
+            if row['name'] == name:
+                
+                row['value'] = value
+                row['updated'] = True
+        
+        if not len(self.rt_data_object):
+            return 0
+
+        # after every set check if real time data object is ready to send
+        for row in self.rt_data_object:
+            if not row['updated']:
+                return 0
+       
+        
+        payload = create_realtime_payload(self.rt_data_object)
+        
+        # full data object
+        try:
+            self.client.publish(self.mad + "/send-realtime", payload=payload)
+        except:
+            self.connected = False
+            self.not_reconnect = True
+
+        for row in self.rt_data_object:
+            row['updated'] = False
+
+        time.sleep(1)
