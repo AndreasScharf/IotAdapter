@@ -83,6 +83,7 @@ def get_latest_dump(folder_path):
 
 
 def rotate_lcds_folder():
+    # get folder size
     folder_size = get_folder_size(LCDS_PATH)
 
     if folder_size > MAX_FOLDER_SIZE:

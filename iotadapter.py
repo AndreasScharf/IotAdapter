@@ -86,6 +86,9 @@ outputs = []
 
 ov = 0
 
+REAL_TIME_DURATION = 5 * 60
+realTimeDataEnd = 0
+
 
 try:
   f = open(totalizers_path, 'r')
@@ -329,6 +332,11 @@ def main():
       if 'unit' in row:
         unit = row['unit']
 
+      # check for realtime status
+      if realTimeDataEnd > time.time():
+        mqtt_con.set_realtime_value(row['name'], value=value)
+
+
       if not (row['type'] == 'static' or row['type'] == 'time'):
         # messurement is discarded if lastdata is undefined and equal
         # or if it is not sending_time and this value isnt on_tigger  
@@ -548,9 +556,15 @@ def mqtt_events(config):
         pass
     mqtt_con.on_stopvpn = stop_vpn
     
-    def start_realtime():
-      global sending_intervall
-      sending_intervall = 1
+    def start_realtime(payload):
+        global realTimeDataEnd
+        realTimeDataEnd = time.time() + REAL_TIME_DURATION
+
+        msg = json.loads(payload.decode('utf-8'))
+        # maybe check here if msg contains msg
+        mqtt_con.set_realtime_object(msg)
+
+
     mqtt_con.on_start_realtime = start_realtime
         
     def stop_realtime():
