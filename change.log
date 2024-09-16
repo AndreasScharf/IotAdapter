@@ -6,3 +6,10 @@
     - Resolved Bug when System wasnt collecting offline data
     - send offline data is changed to QOS == 1 this prevents data loss on transmission, 
     mqtt con is checked before offline data is deleted
+
+1.3.1
+    - Added Realtime function
+    - Added Try and Catch for every mqtt publish to prevent Broken Pipe
+
+1.4.1
+    - Added Error Flag, if you add a "error:true" to a config line this will make a Push Notification on the front page

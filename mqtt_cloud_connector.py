@@ -293,11 +293,13 @@ class connector(object):
                 return 0
        
         
-        payload = create_realtime_payload(self.rt_data_object)
         
         # full data object
         try:
+            payload = create_realtime_payload(self.rt_data_object)
             self.client.publish(self.mad + "/send-realtime", payload=payload)
+        except ValueError:
+            pass
         except:
             self.connected = False
             self.not_reconnect = True
@@ -306,3 +308,17 @@ class connector(object):
             row['updated'] = False
 
         time.sleep(1)
+
+    def send_error_value(self, name, value):
+        
+        md5_name = hashlib.md5(name.lower().encode()).digest()
+        payload_object = [{ "md5":md5_name, "value": value }]
+  
+        try:
+            payload = create_realtime_payload(payload_object)
+            self.client.publish(self.mad + "/send-realtime", payload=payload)
+        except ValueError:
+            pass
+        except:
+            self.connected = False
+            self.not_reconnect = True
