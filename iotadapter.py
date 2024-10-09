@@ -2,7 +2,7 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.4.1'
+__version__ = '1.5.1'
 __author__ = 'Andreas Scharf'
 
 #from gpiozero import MCP3008
@@ -11,14 +11,11 @@ import uuid
 #from gpiozero import MCP3008
 import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
-import subprocess
 #import socketio
 from mqtt_cloud_connector import connector
 import time
 import json
 import os
-import socket
-import struct
 
 import _thread
 
@@ -36,12 +33,24 @@ from rpi_system.network import get_mobil_usage
 from lcds import start_lcds, lcds_safe_line, rotate_lcds_folder 
 
 import sys
-import math
 import psutil
-import platform
 import andiDB
 
 from s7 import s7  
+
+from dotenv import load_dotenv
+import os
+# Load .env file
+load_dotenv()
+
+DEVICE_FINGERPRINT = os.getenv('FINGERPRINT', 0)
+if not DEVICE_FINGERPRINT:
+  print('ENVIROMENT FAILURE missing FINGERPRINT')
+  sys.exit(0)
+
+PKI = os.getenv('PKI', 'cdm.frappgmbh.de')
+
+CONNECTION = os.getenv('CONNECTION', 'mqtt.enwatmon.de:1883')
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
@@ -70,7 +79,6 @@ router = '192.168.10.1'
 grundfossensors = []
 
 andidb_objects = {}
-has_andidb_requests = False
 
 sending_intervall = 300
 
@@ -223,12 +231,13 @@ def main():
         temp_str = config['domain'].replace('mqtt://', '')
         domain = temp_str.split(':')[0]
         port = temp_str.split(':')[1]
-        mqtt_con.connect(domain, int(port))
+        mqtt_con.connect(domain, int(port), mad=mad)
         # give mqtt client time to connect to server
         time.sleep(5)
         
   except KeyboardInterrupt:
     raise
+
 
   if debug:
     print('Start Reading Loop')
@@ -549,7 +558,6 @@ def mqtt_events(config):
       #if not mqtt_con.connected:
       #  mqtt_con.connect(mqtt_con.host, mqtt_con.port, True)
           
-
     mqtt_con.on_disconnected = disconnect_handler
     
     global vpn_client
@@ -598,7 +606,6 @@ def mqtt_events(config):
         msg = json.loads(payload.decode('utf-8'))
         # maybe check here if msg contains msg
         mqtt_con.set_realtime_object(msg)
-
 
     mqtt_con.on_start_realtime = start_realtime
         

@@ -5,6 +5,7 @@ module.exports = {
     interpreter: '/usr/local/bin/python3.8',
     out_file: "/dev/null",
     error_file: "/dev/null",
+    
   },
     {
       name: "web",

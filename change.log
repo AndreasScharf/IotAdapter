@@ -13,3 +13,6 @@
 
 1.4.1
     - Added Error Flag, if you add a "error:true" to a config line this will make a Push Notification on the front page
+1.5.1
+    - PKI Integration strict and strict certificates
+    - "FINGERPRINT" .env is now nessesary 
