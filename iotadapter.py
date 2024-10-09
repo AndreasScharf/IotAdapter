@@ -5,6 +5,11 @@ __all__ = []
 __version__ = '1.5.1'
 __author__ = 'Andreas Scharf'
 
+from dotenv import load_dotenv
+import os
+# Load .env file
+load_dotenv()
+
 #from gpiozero import MCP3008
 from datetime import datetime
 import uuid
@@ -38,10 +43,7 @@ import andiDB
 
 from s7 import s7  
 
-from dotenv import load_dotenv
-import os
-# Load .env file
-load_dotenv()
+
 
 DEVICE_FINGERPRINT = os.getenv('FINGERPRINT', 0)
 if not DEVICE_FINGERPRINT:

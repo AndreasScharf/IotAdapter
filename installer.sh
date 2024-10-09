@@ -85,6 +85,7 @@ pip3 install pi-ina219
 pip3 install paho-mqtt==2.0.0
 pip3 install psutil
 
+pip3 install python-dotenv
 pip3 uninstall serial -y
 pip3 install pyserial
 
