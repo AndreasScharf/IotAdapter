@@ -34,6 +34,8 @@ class connector(object):
 
         self.pki_request_allowed = 0
 
+        self.client_loop_startup = False
+
         if mad:
             self.mad = mad
        
@@ -111,7 +113,9 @@ class connector(object):
             print(f'[PKI] Failed with {e}')
 
     def connect(self, host, port, mad, reconnect=False, request_certs=False ):
-        
+        # prevents WDT from firing
+        self.client_loop_startup = True
+
         self.mad = mad
         self.host = host
         self.port = port
@@ -157,6 +161,8 @@ class connector(object):
             # need to connect in async mode
             self.client.connect_async(host, port, 60)
             self.client.loop_start()
+
+            self.client_loop_startup = False
             
         except KeyboardInterrupt:
             raise
@@ -215,8 +221,9 @@ class connector(object):
     def thread_is_alive(self):
         thread_alive = self.client and self.client._thread and self.client._thread.is_alive()
 
-        if not thread_alive:
-            print( self.client , self.client._thread , self.client._thread.is_alive())
+        # if client loop startup is running wait let wdt chill
+        if self.client_loop_startup:
+            return True
 
         return thread_alive
         
