@@ -171,9 +171,8 @@ class connector(object):
             # if connection is not accepted 
             # check for bad certificate
             if not rc == mqtt.CONNACK_ACCEPTED:
-                pass
-                #self.bad_certificate_handler()
-                #return
+                self.bad_certificate_handler()
+                raise CertificateError('Bad Certificate')
 
             ret = self.client.publish(self.mad + "/alive", self.mad) 
             self.connected = True
