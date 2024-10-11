@@ -203,7 +203,6 @@ class connector(object):
             print(e)
             
             self.connected = False
-            self.on_disconnect()
 
         if hasattr(self, 'on_connected') and callable(getattr(self, 'on_connected')):
             self.on_connected()
