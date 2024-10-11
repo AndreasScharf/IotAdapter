@@ -214,7 +214,12 @@ class connector(object):
 
         
     def thread_is_alive(self):
-        return self.client and self.client._thread and self.client._thread.is_alive()
+        thread_alive = self.client and self.client._thread and self.client._thread.is_alive()
+
+        if not thread_alive:
+            print( self.client , self.client._thread , self.client._thread.is_alive())
+
+        return thread_alive
         
                     
     # due to qos being 0, this might not be recieved proberly. Also it can be triggered multiple times
