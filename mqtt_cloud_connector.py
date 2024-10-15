@@ -36,6 +36,8 @@ class connector(object):
 
         self.client_loop_startup = False
 
+        self.disconnect_SSL_certificates = False
+
         if mad:
             self.mad = mad
        
@@ -63,7 +65,6 @@ class connector(object):
 
             raise CertificateError(error_text)
      
-
     def pki_request_check(self):
         # if file exists do not make new request
         if os.path.isfile(SSL_CA_PATH) and os.path.isfile(SSL_CERT_PATH) and os.path.isfile(SSL_KEY_PATH):
@@ -75,8 +76,7 @@ class connector(object):
 
         # wait for the next time to do a PKI Request
         if time.time() < self.pki_request_allowed:
-            print('Not yet')
-            return
+            return False
         
         # set new allowed time for next request
         self.pki_request_allowed = time.time() + 5 * 60
@@ -104,13 +104,20 @@ class connector(object):
                 with open(SSL_KEY_PATH, 'w') as f:
                     f.write(data['key'])
                 
-                self.load_ssl_chain()
+
+                return True
                 
             else:
                 print(f'[PKI] Failed with status code {response.status_code}')
                 print('[PKI] Error:', response.text)
+
+                return False
+            
         except Exception as e:
             print(f'[PKI] Failed with {e}')
+
+            return False
+
 
     def connect(self, host, port, mad, reconnect=False, request_certs=False ):
         # prevents WDT from firing
@@ -140,13 +147,20 @@ class connector(object):
             
             self.load_ssl_chain()
         except CertificateError:
-            self.pki_request_certificates()
+            # request next valid certificates
+            success = self.pki_request_certificates()
+
+            # allways load ssl chain !!!! oad this ssl chain
+            self.load_ssl_chain()
+
+         
         
         
         self.client.disable_logger()
         
         if self.client.callback_api_version == mqtt.CallbackAPIVersion.VERSION2:
             self.client.on_connect = lambda client, userdata, flags, rc, props: self.on_connect(client, userdata, flags, rc)
+            
             self.client.on_message = lambda client, userdata, msg : self.on_message(client, userdata, msg)
             self.client.on_disconnect = lambda client, userdata, disconnect_flags, reason_code, properties: self.on_disconnect(client, userdata, disconnect_flags, reason_code, properties)
         elif self.client.callback_api_version == mqtt.CallbackAPIVersion.VERSION1:
@@ -168,8 +182,6 @@ class connector(object):
             raise
         except Exception as e:
             print('Error While Connecting')
-            if not reconnect:
-                self.on_disconnect()
             
     
     def on_connect(self, client, userdata, flags, rc):
@@ -177,8 +189,11 @@ class connector(object):
             # if connection is not accepted 
             # check for bad certificate
             if not rc == mqtt.CONNACK_ACCEPTED:
+                self.disconnect_SSL_certificates = True
                 self.bad_certificate_handler()
                 raise CertificateError('Bad Certificate')
+            
+            self.disconnect_SSL_certificates = False
 
             ret = self.client.publish(self.mad + "/alive", self.mad) 
             self.connected = True
@@ -209,9 +224,6 @@ class connector(object):
         
     def bad_certificate_handler(self):
         print('[PKI] bad_certificate_handler')
-
-        # first disconnect from mqtt broker
-        self.client.disconnect()
 
         # reconnect with new certificate request
         self.connect(host=self.host, port=self.port, mad=self.mad, request_certs=True)
@@ -288,7 +300,9 @@ class connector(object):
             pass
 
     def on_disconnect(self, client, userdata, disconnect_flags, reason_code, properties):
-        print(disconnect_flags, reason_code)
+        print('[MQTT Client] Disconnect')
+
+
         self.connected = False
         if hasattr(self, 'on_disconnected') and callable(getattr(self, 'on_disconnected')):
             self.on_disconnected()
