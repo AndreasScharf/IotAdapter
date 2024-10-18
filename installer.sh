@@ -1,13 +1,29 @@
+
+# FINGERPINT= && curl https://raw.githubusercontent.com/AndreasScharf/IotAdapter/staging/installer.sh | bash -s -- standalone
+
 INSTALLATION_PATH="/home/pi/uf"
+if [ $FINGERPRINT = "" ]; then 
+    echo "Fingerprint missing..."
+    exit 1
+fi
+
+# downloading the git repository
+git clone https://github.com/AndreasScharf/IotAdapter.git /home/pi/Documents/IotAdapter
+
+# set enviroment file
+echo -e "FINGERPRINT=$FINGERPRINT\nPKI_HOST=https://cdm.frappgmbh.de\nCONNECTION=mqtt://mqtt.enwatmon.de:1883" > /home/pi/Documents/IotAdapter/.env
+
+
 # For getting the MQTT Keys
 cd /home/pi/Documents/IotAdapter
-python3 ./get-keys.py $2 $3
-rm /home/pi/Documents/IotAdapter/keys.zip
 
 
 # Standalone request
 if [ "$1" = "standalone" ]; then
     echo "Standalone Installtion ..."
+      # copy Siemens UF Copy as standart config.json
+    cp Konfigs/configStandart2.json config.json
+
     INSTALLATION_PATH="/home/pi"
 
     # Whole UPDATE
@@ -51,6 +67,8 @@ if [ "$1" = "standalone" ]; then
     cd ~/Downloads/andiDBValue
     sudo python3 setup.py install
     cd ~
+
+  
  
 fi
 
@@ -88,7 +106,6 @@ pip3 install psutil
 pip3 install python-dotenv
 pip3 uninstall serial -y
 pip3 install pyserial
-
 
 
 # In Standalone Mode Start All processes
