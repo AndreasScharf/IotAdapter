@@ -2,7 +2,7 @@
 # FINGERPINT= && curl https://raw.githubusercontent.com/AndreasScharf/IotAdapter/staging/installer.sh | bash -s -- standalone
 
 INSTALLATION_PATH="/home/pi/uf"
-if [ $FINGERPRINT = "" ]; then 
+if [ "$FINGERPRINT" = "" ]; then 
     echo "Fingerprint missing..."
     exit 1
 fi
@@ -22,10 +22,12 @@ cd /home/pi/Documents/IotAdapter
 if [ "$1" = "standalone" ]; then
     echo "Standalone Installtion ..."
       # copy Siemens UF Copy as standart config.json
-    cp Konfigs/configStandart2.json config.json
 
     INSTALLATION_PATH="/home/pi"
+    WORKING_DICT="$INSTALLATION_PATH/Documents/IotAdapter"
 
+    cp "$WORKING_DICT/Konfigs/configStandart2.json" "$WORKING_DICT/config.json"
+    python3 "$WORKING_DICT/installer/changeMad.py" $MAD
     # Whole UPDATE
     sudo apt update -y
     sudo apt full-upgrade -y
