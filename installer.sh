@@ -2,7 +2,7 @@
 # FINGERPINT= && curl https://raw.githubusercontent.com/AndreasScharf/IotAdapter/staging/installer.sh | bash -s -- standalone
 
 INSTALLATION_PATH="/home/pi/uf"
-if [ "$FINGERPRINT" = "" ]; then 
+if [  -z "$FINGERPRINT" ]; then 
     echo "Fingerprint missing..."
     exit 1
 fi
