@@ -23,6 +23,10 @@ SSL_KEY_PATH = os.getenv('SSL_KEY_PATH',  f'{CERT_DIR}client1-key.pem')
 DEVICE_FINGERPRINT = os.getenv('FINGERPRINT', 0)
 PKI_HOST = os.getenv('PKI_HOST', 'https://cdm.frappgmbh.de')
 
+if not os.path.exists(CERT_DIR):
+    os.makedirs(CERT_DIR)  # Creates all intermediate-level directories if needed
+    print(f"Directory {CERT_DIR} created.")
+
 class connector(object):
     def __init__(self, mad=False):
         self.connected = False
