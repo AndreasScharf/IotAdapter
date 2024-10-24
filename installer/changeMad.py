@@ -17,7 +17,7 @@ with open(json_file_path, 'r') as file:
     data = json.load(file)
 
 # Traverse the JSON to find the correct object and modify it
-for item in data['Object']['values']:
+for item in data['data']:
     if item.get('name') == 'MAD':
         item['value'] = new_value  # Set the new value
 
