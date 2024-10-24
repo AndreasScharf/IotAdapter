@@ -2,8 +2,13 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.2.1'
+__version__ = '1.5.1'
 __author__ = 'Andreas Scharf'
+
+from dotenv import load_dotenv
+import os
+# Load .env file
+load_dotenv()
 
 #from gpiozero import MCP3008
 from datetime import datetime
@@ -11,14 +16,11 @@ import uuid
 #from gpiozero import MCP3008
 import RPi.GPIO as GPIO
 from gpiozero import CPUTemperature
-import subprocess
 #import socketio
 from mqtt_cloud_connector import connector
 import time
 import json
 import os
-import socket
-import struct
 
 import _thread
 
@@ -36,12 +38,21 @@ from rpi_system.network import get_mobil_usage
 from lcds import start_lcds, lcds_safe_line, rotate_lcds_folder 
 
 import sys
-import math
 import psutil
-import platform
 import andiDB
 
 from s7 import s7  
+
+
+
+DEVICE_FINGERPRINT = os.getenv('FINGERPRINT', 0)
+if not DEVICE_FINGERPRINT:
+  print('ENVIROMENT FAILURE missing FINGERPRINT')
+  sys.exit(0)
+
+PKI = os.getenv('PKI', 'cdm.frappgmbh.de')
+
+CONNECTION = os.getenv('CONNECTION', 'mqtt.enwatmon.de:1883')
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
@@ -70,7 +81,6 @@ router = '192.168.10.1'
 grundfossensors = []
 
 andidb_objects = {}
-has_andidb_requests = False
 
 sending_intervall = 300
 
@@ -223,12 +233,13 @@ def main():
         temp_str = config['domain'].replace('mqtt://', '')
         domain = temp_str.split(':')[0]
         port = temp_str.split(':')[1]
-        mqtt_con.connect(domain, int(port))
+        mqtt_con.connect(domain, int(port), mad=mad)
         # give mqtt client time to connect to server
         time.sleep(5)
         
   except KeyboardInterrupt:
     raise
+
 
   if debug:
     print('Start Reading Loop')
@@ -332,15 +343,39 @@ def main():
       if 'unit' in row:
         unit = row['unit']
 
+      # error flag:
+      # config 'error' is true and value is 1 and was 0 before
+      error_flag = 'error' in row and row['error']
+      send_error = False
+      # set last data
+      if error_flag and value and 'lastdata' in row and not row['lastdata']:
+        send_error = True
+        row['lastdata'] = value
+
+      # reset of error value
+      elif error_flag and 'lastdata' in row and row['lastdata'] and not value:
+        send_error = True
+        row['lastdata'] = value
+
+
+      # send error value
+      if send_error:
+        mqtt_con.send_error_value(row['name'], value)
+
+
       # check for realtime status
       if realTimeDataEnd > time.time():
         mqtt_con.set_realtime_value(row['name'], value=value)
+
+
 
 
       if not (row['type'] == 'static' or row['type'] == 'time'):
         # messurement is discarded if lastdata is undefined and equal
         # or if it is not sending_time and this value isnt on_tigger  
         discard_messurement = ('lastdata' in row and row['lastdata'] == value) or ((not its_time_to_send) and (not 'on_trigger' in row))
+
+        
         if discard_messurement: 
           continue
         else:
@@ -349,7 +384,14 @@ def main():
       
       if not value == 'Error':
         # append message
-        message.append({'name':row['name'], 'unit': unit, 'value': value})
+        message_line = { 'name':row['name'], 'unit': unit, 'value': value }
+
+        # append error flag to the value row
+        if 'error' in row and row['error']:
+          message_line['error'] = True
+
+
+        message.append(message_line)
         row['value'] = value
         
         # only enter if the value is a float 
@@ -372,6 +414,8 @@ def main():
     #
     last_round = current_milli_time()
     
+   
+
     if len(message) <= 2:
         continue
 
@@ -426,6 +470,8 @@ def main():
     # if mqtt thread is set and mqtt thread is no longer alive
     if not mqtt_con.thread_is_alive():
       sys.exit(1)
+
+    
 
 
 shellCMDTread = None
@@ -506,15 +552,14 @@ def mqtt_events(config):
 
 
     def disconnect_handler():
-      while not mqtt_con.connected:
-        time.sleep(5)
+      time.sleep(5)
 
-        if debug:
-          print('reconnecting, is connected: ', mqtt_con.connected)
-        if not mqtt_con.connected:
-          mqtt_con.connect(mqtt_con.host, mqtt_con.port, True)
+      if debug:
+        print('reconnecting, is connected: ', mqtt_con.connected)
+
+      #if not mqtt_con.connected:
+      #  mqtt_con.connect(mqtt_con.host, mqtt_con.port, True)
           
-
     mqtt_con.on_disconnected = disconnect_handler
     
     global vpn_client
@@ -563,7 +608,6 @@ def mqtt_events(config):
         msg = json.loads(payload.decode('utf-8'))
         # maybe check here if msg contains msg
         mqtt_con.set_realtime_object(msg)
-
 
     mqtt_con.on_start_realtime = start_realtime
         

@@ -7,3 +7,5 @@ keys
 andiDB.py
 
 venv
+dump
+__pycache__
