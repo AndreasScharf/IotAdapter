@@ -16,3 +16,6 @@
 1.5.1
     - PKI Integration strict and strict certificates
     - "FINGERPRINT" .env is now nessesary 
+
+1.6.1
+    - Add WEB Config Plattform for S7 PUT&GET, Network settings 

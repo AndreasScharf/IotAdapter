@@ -29,12 +29,17 @@ class PLCClient(snap7.client.Client):
                 self.connect(ip, 0, channel)
                 self.ip_address = ip
                 self.reconnecting = False
+
+                return 0
             except Exception as e:
                 error_code = 0x50
                 self.reconnecting = True
+
                 if self.debug:
                     print('CPU not avalible', ip)
                     print(e)
+                return f'Unreachable peer {ip}'
+                
 
 
 class s7(object):
@@ -48,7 +53,9 @@ class s7(object):
 
     def get(self, ip, db, offset, length, type, channel=1):
 
-        self.read_client.establish_connection(ip, channel)
+        result = self.read_client.establish_connection(ip, channel)
+        if result:
+            return None, result
         
         try:
             data = self.read_client.db_read(int(db), int(float(offset)), int(length) if not type == 'bit' else 1)
@@ -58,8 +65,9 @@ class s7(object):
             #s7 in error mode and do a restart
             self.read_client.reconnecting = True
 
-            print('DB Error, Offset Error, Security Error', e)
-            return 'Error'
+            #print('DB Error, Offset Error, Security Error', e)
+            return None, ip + str(e )
+        
         byte_index = 0
         bool_index = 0
         if '.' in offset:
@@ -71,22 +79,24 @@ class s7(object):
         value = 0.0
         #if self.debug:
           
-        #  print(offset, byte_index, len(data), data)
 
         if type=='bit':
-            return self.get_bool(data, 0, int(bool_index))
+            return self.get_bool(data, 0, int(bool_index)), None
         elif type == 'byte':
             # converts byte array to one uint
-            return int.from_bytes(data, "big")
+            return int.from_bytes(data, "big"), None
         elif type=='word':
-            return get_int(data, 0)
+            return get_int(data, 0), None
         elif type=='dint':
-            return self.get_dint(data, 0)
+            return self.get_dint(data, 0), None
         elif type=='real':
             value = get_real(data, 0)
-            return value if not (math.isnan(float(value)) or value == math.inf) else 'Error'
+            if (math.isnan(float(value)) or value == math.inf):
+                return None, 'S7 Reading Error'
+
+            return value, None
         else:
-            return -1
+            return -1, None
 
     def set(self, ip, db, offset, length, datatype, value, channel=1):
         

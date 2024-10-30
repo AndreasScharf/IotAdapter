@@ -28,6 +28,9 @@ if [ "$1" = "standalone" ]; then
 
     cp "$WORKING_DICT/Konfigs/configStandart2.json" "$WORKING_DICT/config.json"
     python3 "$WORKING_DICT/installer/changeMad.py" $MAD
+
+    echo -e "\nWEB_PORT=5002" >> /home/pi/Documents/IotAdapter/.env
+
     # Whole UPDATE
     sudo apt update -y
     sudo apt full-upgrade -y
@@ -109,6 +112,7 @@ pip3 install python-dotenv
 pip3 uninstall serial -y
 pip3 install pyserial
 
+pip3 install microdot
 
 # In Standalone Mode Start All processes
 if [ "$1" = "standalone" ]; then

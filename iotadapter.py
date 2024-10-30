@@ -2,7 +2,7 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.5.1'
+__version__ = '1.6.1'
 __author__ = 'Andreas Scharf'
 
 from dotenv import load_dotenv
@@ -42,6 +42,9 @@ import psutil
 import andiDB
 
 from s7 import s7  
+import webapi
+import threading
+
 
 
 
@@ -123,6 +126,11 @@ def main():
   except:
     print('File not correct')
     return
+
+
+  # call webserver in an lambda function thread
+  background_thread = threading.Thread(target=lambda: webapi.main(config))
+  background_thread.start()
 
   #
   #  Connections aufbauen
@@ -256,8 +264,12 @@ def main():
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
 
     #read inputs
-    
-    for index, row in enumerate(config['data']):
+    index = 0
+    for row in config['data']:
+      # error of value
+      error = False
+
+
       if 'not_active' in row:
           continue
       if 'active' in row and not row['active']:
@@ -273,16 +285,18 @@ def main():
 
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
         if 'channels' in config:
-          value = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
+          (value, error) = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
         else:
-          value = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
-          
+          (value, error) = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
+        row['readError'] = error
+
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
       elif row['type'] == 'gfs':
         value = get_from_gfs(row['sensor_id'], row['value_type'])
       elif row['type'] == 's7set' or row['type'] == 'andiDBWrite':
         continue
+
       elif row['type'] == 'andiDB':
         name_index = row['table'] + ' ' + row['name']
         if name_index in andidb_objects:
@@ -367,8 +381,7 @@ def main():
       if realTimeDataEnd > time.time():
         mqtt_con.set_realtime_value(row['name'], value=value)
 
-
-
+      row['value'] = value
 
       if not (row['type'] == 'static' or row['type'] == 'time'):
         # messurement is discarded if lastdata is undefined and equal
@@ -382,7 +395,7 @@ def main():
           row['lastdata'] = value
 
       
-      if not value == 'Error':
+      if (not value == 'Error') and not error:
         # append message
         message_line = { 'name':row['name'], 'unit': unit, 'value': value }
 
@@ -399,6 +412,9 @@ def main():
           # save data in local continues data safe
           lcds_safe_line(mad, row['name'], timestemp, value)
     
+    
+      index = index + 1
+
     # set outputs in sync with the s7 read part
     for item in outputs:
         if item['type'] == 's7set' and 'value' in item and 'execute' in item and item['execute']:
