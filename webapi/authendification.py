@@ -1,5 +1,6 @@
 from microdot import Response
 from crypt import crypt
+from passlib.hash import yescrypt
 import uuid
 import time
 import subprocess
@@ -64,6 +65,11 @@ def verify_login(username, password):
     if not stored_hash:
         return False
     
+    # check if this is yeacrypt
+    if stored_hash.startswith('$y'):
+        return yescrypt.verify(password, stored_hash)
+
+
     # Extract salt from the stored hash
     salt = "$".join(stored_hash.split("$")[:3])
     # Hash the provided password with the salt
