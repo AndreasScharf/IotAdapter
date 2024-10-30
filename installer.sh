@@ -109,6 +109,7 @@ pip3 install python-dotenv
 pip3 uninstall serial -y
 pip3 install pyserial
 
+pip3 install microdot
 
 # In Standalone Mode Start All processes
 if [ "$1" = "standalone" ]; then

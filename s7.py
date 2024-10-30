@@ -54,7 +54,6 @@ class s7(object):
     def get(self, ip, db, offset, length, type, channel=1):
 
         result = self.read_client.establish_connection(ip, channel)
-        print( ip, db, offset, length, type, result)
         if result:
             return None, result
         

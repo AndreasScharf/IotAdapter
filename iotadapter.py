@@ -290,7 +290,6 @@ def main():
           (value, error) = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
         row['readError'] = error
 
-        print(row['name'], value, error)
       elif row['type'] == 'analog':
         value = get_from_analog(row['channel'], row['multi'], row['offset'])
       elif row['type'] == 'gfs':
