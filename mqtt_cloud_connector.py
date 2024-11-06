@@ -153,9 +153,14 @@ class connector(object):
         except CertificateError:
             # request next valid certificates
             success = self.pki_request_certificates()
-
-            # allways load ssl chain !!!! oad this ssl chain
-            self.load_ssl_chain()
+            if success:
+                # allways load ssl chain !!!! oad this ssl chain
+                self.load_ssl_chain()
+            else:
+                print('[MQTT Client] async connection timer enabled')
+                t = threading.Timer(1 * 60, lambda : self.connect(self.host, self.port, self.mad) )
+                t.start()
+                return 
 
          
         
