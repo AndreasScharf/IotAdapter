@@ -10,7 +10,6 @@ import os
 # Load .env file
 load_dotenv()
 
-#from gpiozero import MCP3008
 from datetime import datetime
 import uuid
 #from gpiozero import MCP3008
@@ -103,15 +102,7 @@ REAL_TIME_DURATION = 5 * 60
 realTimeDataEnd = 0
 
 
-try:
-  f = open(totalizers_path, 'r')
-  totalizers = json.loads(f.read())
-  new_totalizers = False
-  f.close()
-except:
-  f = open(totalizers_path, 'w+')
-  f.write(json.dumps(totalizers))
-  f.close()
+
 
 def main():
   global last_send_time
@@ -176,26 +167,7 @@ def main():
         
       elif row['type'] == 'gpio_in':
         GPIO.setup(int(row['offset']), GPIO.IN)
-      elif row['type'] == 'totalizer':
-        if not row['name'] in totalizers:
-          totalizers[row['name']] = 0
-          print('new: ', row['name'])
-      elif row['type'] == 'rotator':
-        if not row['name'] in totalizers:
-          totalizers[row['name']] = float(row['start'])
 
-        rotor = rotator( 
-          pin=int(row['pin']),
-          value=float(row['impulse']),
-          start_totalizer=float(totalizers[row['name']]),
-          zero_time=float(row['zero_time'] if 'zero_time' in row else 50000),
-          name=row['name']
-        )
-        if debug:
-          print('new rotator')
-        rotators.append(rotor)
-        if debug:
-          print(rotators) 
       elif row['type'] == 'current_sensor':
         row['index'] = len(current_sensors)
         sensor = current_sensor(
@@ -282,7 +254,7 @@ def main():
         value = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         timestemp = datetime.now()
 
-
+      # read S7 values with ip and db, offset
       elif row['type'] == 's7' or row['type'] == 'S7' or row['type'] == 's7get':
         if 'channels' in config:
           (value, error) = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'], config['channels'][row['ip']])
@@ -290,8 +262,7 @@ def main():
           (value, error) = s7.get(row['ip'], row['db'], row['offset'], row['length'], row['datatype'])
         row['readError'] = error
 
-      elif row['type'] == 'analog':
-        value = get_from_analog(row['channel'], row['multi'], row['offset'])
+      
       elif row['type'] == 'gfs':
         value = get_from_gfs(row['sensor_id'], row['value_type'])
       elif row['type'] == 's7set' or row['type'] == 'andiDBWrite':
@@ -340,6 +311,7 @@ def main():
           if debug:
             print('read ina value', value)
       
+      # get raspberry messurements
       elif row['type'] == 'cpu_temp':
         value = cpu.temperature
       elif row['type'] == 'cpu_usage':
@@ -656,11 +628,6 @@ def mqtt_events(config):
     mqtt_con.on_shell_cmd = on_shell_cmd
 
 
-
-def get_from_analog(channel, multi, offset):
-    adc = MCP3008(channel=channel)
-    vol = adc.value * 3.3 * multi
-    return  vol + offset
 def get_from_gfs(sensor_id, value_type):
     global grundfossensors
     sensor = [elem for elem in grundfossensors if elem.sensor_id == int(sensor_id)][0]

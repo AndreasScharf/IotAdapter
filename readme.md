@@ -8,7 +8,7 @@
 git clone https://github.com/AndreasScharf/IotAdapter.git ~/Documents/IotAdapter
 
 # Installing Packages & Dependencies
-cd ~Documents/IotAdapter
+cd ~/Documents/IotAdapter
 sh installer.sh standalone
 ```
 

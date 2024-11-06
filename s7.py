@@ -6,10 +6,6 @@ import time
 import snap7
 from snap7.util import *
 
-if platform.python_version() <= '3.5':
-  from snap7.snap7types import *
-
-
 class PLCClient(snap7.client.Client):
     def __init__(self):
         super().__init__()
@@ -40,7 +36,6 @@ class PLCClient(snap7.client.Client):
                     print(e)
                 return f'Unreachable peer {ip}'
                 
-
 
 class s7(object):
     def __init__(self):

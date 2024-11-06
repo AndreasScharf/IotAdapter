@@ -19,3 +19,7 @@
 
 1.6.1
     - Add WEB Config Plattform for S7 PUT&GET, Network settings 
+
+1.6.2
+    - Fixed SSL Chain Loading Error
+    - Fixed WebPortal wrong adress error and 0 error
