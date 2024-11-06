@@ -2,7 +2,7 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.6.1'
+__version__ = '1.6.2'
 __author__ = 'Andreas Scharf'
 
 from dotenv import load_dotenv
