@@ -43,7 +43,9 @@ import andiDB
 from s7 import s7  
 import webapi
 import threading
+from DeviceControllerClient import DeviceControllerClient
 
+from utils import check_gateway_connection, check_internet_connection
 
 
 
@@ -101,10 +103,14 @@ ov = 0
 REAL_TIME_DURATION = 5 * 60
 realTimeDataEnd = 0
 
+DC = DeviceControllerClient()
 
 
 
 def main():
+  DC.set_color(0, 255, 255)
+  DC._update_LED()
+
   global last_send_time
   last_send_time = 0
 
@@ -118,9 +124,10 @@ def main():
     print('File not correct')
     return
 
+ 
 
   # call webserver in an lambda function thread
-  background_thread = threading.Thread(target=lambda: webapi.main(config))
+  background_thread = threading.Thread(target=lambda: webapi.main(config, DC))
   background_thread.start()
 
   #
@@ -231,9 +238,15 @@ def main():
   timestemp = datetime.now()
 
   while 1:
+    # update LED
+    DC._update_LED()
+
     message = []
     
     its_time_to_send = (current_milli_time() - last_send_time) > (sending_intervall * 1000)
+
+    LED_data_reading_error = False
+
 
     #read inputs
     index = 0
@@ -355,6 +368,10 @@ def main():
 
       row['value'] = value
 
+      # set LED color to yellow if error is in reading parameters
+      if (value == 'Error') or error:
+        LED_data_reading_error = True
+
       if not (row['type'] == 'static' or row['type'] == 'time'):
         # messurement is discarded if lastdata is undefined and equal
         # or if it is not sending_time and this value isnt on_tigger  
@@ -383,8 +400,7 @@ def main():
         if not (row['type'] == 'static' or row['type'] == 'time'):
           # save data in local continues data safe
           lcds_safe_line(mad, row['name'], timestemp, value)
-    
-    
+      
       index = index + 1
 
     # set outputs in sync with the s7 read part
@@ -403,47 +419,40 @@ def main():
     last_round = current_milli_time()
     
    
-
-    if len(message) <= 2:
-        continue
-
-
-    # system is connected to mqtt server
-    if mqtt_con.connected:
-      if(len(message) <= 2): #nicht sendend net genug daten
-        continue 
-
-      # print mqtt message in debug mode
-      if debug:
-        data = json.dumps(message).strip()
-        print('Message Size {} MB'.format(len(data) / 1000000))
+    # message sending block
+    if len(message) > 2:
+      # system is connected to mqtt server
+      if mqtt_con.connected:
       
+
+        # print mqtt message in debug mode
+        if debug:
+          data = json.dumps(message).strip()
+          print('Message Size {} MB'.format(len(data) / 1000000))
+        
+        
+        # call the send data block
+        mqtt_con.senddata(message)
+
+        DC.set_color(0, 255, 0)
+
+        # sending time set to current timestemp
+        if its_time_to_send:
+          last_send_time = current_milli_time()
       
-      # call the send data block
-      mqtt_con.senddata(message)
+      # system has no connection to mqtt server
+      else: 
+        # open offline data space
+        f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
+        for row in message:
+          f.write(json.dumps(row) + '\n')
 
-      # sending time set to current timestemp
-      if its_time_to_send:
-        last_send_time = current_milli_time()
-    
-    # system has no connection to mqtt server
-    else: 
-      # do not send / save
-      # message only contains out of two values
-      if(len(message) <= 2):  
-          continue
-        
-      # open offline data space
-      f = open(offline_data_path + '/' + datetime.today().strftime('%Y-%m-%d').replace('-', '_') + '.json', 'a')
-      for row in message:
-        f.write(json.dumps(row) + '\n')
-
-      f.close()
-      if its_time_to_send:
-        last_send_time = current_milli_time()
-        
-      if debug:
-        print('save file')
+        f.close()
+        if its_time_to_send:
+          last_send_time = current_milli_time()
+          
+        if debug:
+          print('save file')
     
     if len(totalizers):
       f = open(totalizers_path, 'w+')
@@ -454,12 +463,44 @@ def main():
     # rotate lcds folder
     rotate_lcds_folder()
 
+
+
     # terminate programm 
     # if mqtt thread is set and mqtt thread is no longer alive
     if not mqtt_con.thread_is_alive():
       sys.exit(1)
 
+
+    network = True
+    internet = True
+    # check if connection is lost
+    if not mqtt_con.connected:
+      network = check_gateway_connection()
+      internet = check_internet_connection()
+
+    # FATAL ERROR LED RED
+    #
+    if (not mqtt_con.connected) and (not network):
+      DC.set_color(255, 0, 0)
     
+    # Server Connection Error LED PURPLE
+    # Check FINGERPRINT and MAD
+    elif (not mqtt_con.connected) and (internet):
+      DC.set_color(255, 0, 255)
+
+    # Reading Error of some datapoint LED YELLOW
+    # check data page for error
+    elif LED_data_reading_error:
+      DC.set_color(255, 255, 0)
+    
+    # LED blue if no connection to mqtt server
+    # but data is read not connection to mqtt server
+    elif (not mqtt_con.connected) and (not internet) and (not LED_data_reading_error):
+      DC.set_color(0, 0, 255)
+    #
+    # LED green if everything is fine
+    else:
+      DC.set_color(0, 255, 0)
 
 
 shellCMDTread = None
@@ -486,7 +527,8 @@ def mqtt_events(config):
 
     def connected_handler():
       outputs.clear()
-         
+      # DC.set_color(0, 255, 0)
+
       for row in config['data']:
         if (row['type'] == 's7set') and row['from'] == 'cloud':
             row['key'] = str(uuid.uuid4()).replace('-', '_')
