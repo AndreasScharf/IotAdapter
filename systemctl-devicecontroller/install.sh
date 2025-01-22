@@ -11,6 +11,9 @@
 #  - pyinstaller --onefile index.py
 
 
+INSTALLATION_PATH="/home/pi"
+WORKING_DICT="$INSTALLATION_PATH/systemctl-devicecontroller/Documents/IotAdapter"
+
 # Install the devicecontroller service
 sudo cp dist/index /usr/bin/devicecontroller
 sudo chmod +x /usr/bin/devicecontroller
