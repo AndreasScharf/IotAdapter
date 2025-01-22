@@ -15,8 +15,8 @@ INSTALLATION_PATH="/home/pi"
 WORKING_DICT="$INSTALLATION_PATH/systemctl-devicecontroller/Documents/IotAdapter"
 
 # Install the devicecontroller service
-sudo cp dist/index /usr/bin/devicecontroller
-sudo chmod +x /usr/bin/devicecontroller
+sudo cp "$WORKING_DICT/dist/index" /usr/local/bin/devicecontroller
+sudo chmod +x /usr/local/bin/devicecontroller
 
 # Create Working Diconary
 sudo mkdir /etc/devicecontroller
