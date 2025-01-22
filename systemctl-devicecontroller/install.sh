@@ -21,7 +21,7 @@ sudo chmod +x /usr/local/bin/devicecontroller
 # Create Working Diconary
 sudo mkdir /etc/devicecontroller
 # set enviroment file
-echo -e "APN=internet.m2mportal.de" > /etc/devicecontroller/config.env
+echo "APN=internet.m2mportal.de" > /etc/devicecontroller/config.env
 
 
 # Install the devicecontroller service file
