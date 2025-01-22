@@ -12,7 +12,7 @@
 
 
 INSTALLATION_PATH="/home/pi"
-WORKING_DICT="$INSTALLATION_PATH/systemctl-devicecontroller/Documents/IotAdapter"
+WORKING_DICT="$INSTALLATION_PATH/Documents/IotAdapter/systemctl-devicecontroller"
 
 # Install the devicecontroller service
 sudo cp "$WORKING_DICT/dist/index" /usr/local/bin/devicecontroller
@@ -25,7 +25,7 @@ echo -e "APN=internet.m2mportal.de" > /etc/devicecontroller/config.env
 
 
 # Install the devicecontroller service file
-sudo cp devicecontroller.service /etc/systemd/system/devicecontroller.service
+sudo cp "$WORKING_DICT/devicecontroller.service" /etc/systemd/system/devicecontroller.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable devicecontroller --now
