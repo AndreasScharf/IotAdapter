@@ -45,20 +45,16 @@ class current_sensor(object):
                 print("Bus Voltage: %.3f V" % self.ina2.voltage(), format(self.address, '#04x'))
             
             value = round(value, 3)
-            if value < self.min:
-                if hasattr(self, 'debug') and self.debug:
-                    print("Verbindung unterbrochen")
-                return "Error"
-            else:
-                scaledValue = self.m * value + self.t
+       
+            scaledValue = self.m * value + self.t
+            
+            #Cut off Function if neccsesary
+            if scaledValue > self.max and self.cutoff:
+                scaledValue = self.max
+            elif scaledValue < self.min and self.cutoff:
+                scaledValue = self.min
                 
-                #Cut off Function if neccsesary
-                if scaledValue > self.max and self.cutoff:
-                    scaledValue = self.max
-                elif scaledValue < self.min and self.cutoff:
-                    scaledValue = self.min
-                    
-                return scaledValue
+            return scaledValue
 
            # return current,voltage, power
 

@@ -3,6 +3,7 @@ import os
 import json
 from .network import register_network_routes
 from .authendification import register_login_routes, is_session_valid
+from .devicecontroller import register_device_controller_routes
 
 
 app = Microdot()
@@ -20,7 +21,9 @@ STATIC_FOLDER = '/home/pi/Documents/IotAdapter/webapi/client'
 
 PORT = os.getenv('WEB_PORT', 0)
 
-def main(CONFIG_OBJECT):
+
+
+def main(CONFIG_OBJECT, device_controller):
 
     def add_cors_headers(response):
         # Allow requests from http://localhost:8080
@@ -81,6 +84,7 @@ def main(CONFIG_OBJECT):
 
         # exchange config by reference
         CONFIG_OBJECT['data'] = config['data']
+
         
         try:
             # save new config file
@@ -95,9 +99,11 @@ def main(CONFIG_OBJECT):
         response = Response({}, 200)
         return add_cors_headers(response)
     
+   
 
     register_network_routes(app)
     register_login_routes(app)
+    register_device_controller_routes(app, device_controller)
 
 
     @app.route('/img/<path:path>')
@@ -119,8 +125,10 @@ def main(CONFIG_OBJECT):
         # Serve nindex.html for unmatched paths (for Vue Router)
         return send_file(os.path.join(STATIC_FOLDER, 'index.html'))
 
+   
 
     if PORT:
         app.run(debug=True, port=PORT)
+
 
 #asyncio.run(main())

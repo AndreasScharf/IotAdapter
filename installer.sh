@@ -55,6 +55,7 @@ if [ "$1" = "standalone" ]; then
     sudo apt-get purge -y oracle-java*
     sudo apt-get purge -y scratch2
     sudo apt-get purge -y scratch
+    sudo apt-get purge -y modemmanager
 
     sudo apt-get autoremove -y
     sudo apt-get clean -y
@@ -116,6 +117,8 @@ pip3 install microdot
 
 # In Standalone Mode Start All processes
 if [ "$1" = "standalone" ]; then
+    sudo sh "$WORKING_DICT/systemctl-devicecontroller/install.sh"
+
     cd ~/Documents/IotAdapter
     pm2 start
     pm2 delete web

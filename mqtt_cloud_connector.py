@@ -219,6 +219,9 @@ class connector(object):
             self.client.subscribe(self.mad + "/reconfig_system")
             self.client.subscribe(self.mad + "/update_system")
 
+            self.client.subscribe(self.mad + "/ack-offlinedata")
+
+
             # subscripe to the shell cmd listener
             self.client.subscribe(self.mad + "/shell-cmd")
         
@@ -305,6 +308,15 @@ class connector(object):
                     print(e)
             else:
                 print('on_shell_cmd not linked')
+        elif '/ack-offlinedata' in msg.topic:
+            if hasattr(self, 'on_ack_offlinedata') and callable(getattr(self, 'on_ack_offlinedata')):
+                try:
+                    data = json.loads(msg.payload)
+                    self.on_ack_offlinedata(data)
+                except Exception as e:
+                    print(e)
+            else:
+                print('on_ack_offlinedata not linked')
         else:
             pass
 

@@ -1,0 +1,15 @@
+[Unit]
+Description=Device Controller
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/devicecontroller
+Restart=always
+User=root
+Group=root
+WorkingDirectory=/etc/devicecontroller
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+

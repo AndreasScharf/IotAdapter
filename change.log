@@ -23,3 +23,6 @@
 1.6.2
     - Fixed SSL Chain Loading Error
     - Fixed WebPortal wrong adress error and 0 error
+
+1.6.3
+    - Added MD5 Hash for ack-offlinedata mqtt topic
