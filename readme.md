@@ -70,3 +70,20 @@ YYYY_MM_DD.hex
 ```
 in the bucket data will be stored in the following format
 MD5Identifier (16Byte) + Timestemp (4 Bytes) + Value (4 Bytes) 
+
+
+## S7 Communication Parameters
+For the communication with the S7 CPU you need to have the following lines in your `config.json`. 
+
+### Using Channels
+To use a channel define at the end of the `data:Array` in the `config.json` a parameter, called `channels`. Where `ip-destination` is the IP address of the CPU, and the channel number is the channel you want to use.
+
+```
+{
+    ...
+    "channels": {
+        "ip-destination": <channel:Number>
+    }
+}
+```
+

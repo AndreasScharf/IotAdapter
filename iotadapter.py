@@ -2,7 +2,7 @@
 GENERAL INFORMATION about Module
 """
 __all__ = []
-__version__ = '1.6.2'
+__version__ = '1.6.3'
 __author__ = 'Andreas Scharf'
 
 from dotenv import load_dotenv
@@ -47,6 +47,12 @@ from DeviceControllerClient import DeviceControllerClient
 
 from utils import check_gateway_connection, check_internet_connection
 
+from hashlib import md5
+
+## VERSION
+if ('-v' in sys.argv or '--version' in sys.argv):
+  print('IotAdapter: ', __version__)
+  sys.exit()
 
 
 DEVICE_FINGERPRINT = os.getenv('FINGERPRINT', 0)
@@ -74,9 +80,8 @@ current_sensors = []
 
 reconnectingS7 = False
 cur_ip = ''
-config_path = '/home/pi/Documents/IotAdapter/config.json'
+CONFIG_PATH = os.getenv('CONFIG_PATH', '/home/pi/Documents/IotAdapter/config.json')
 totalizers_path = '/home/pi/Documents/IotAdapter/totalizers.json'
-#config_path = './config.json'
 
 offline_data_path = '/home/pi/Documents/IotAdapter/offlinedata'
 #offline_data_path = './offlinedata.json'
@@ -114,7 +119,7 @@ def main():
   global last_send_time
   last_send_time = 0
 
-  f = open(config_path, 'r')
+  f = open(CONFIG_PATH, 'r')
   config = f.read()
   f.close()
   try:
@@ -321,8 +326,8 @@ def main():
             print('no sensor with offset', int(row['offset']))
           
           
-          if debug:
-            print('read ina value', value)
+          #if debug:
+          #  print('read ina value', value)
       
       # get raspberry messurements
       elif row['type'] == 'cpu_temp':
@@ -670,6 +675,33 @@ def mqtt_events(config):
     mqtt_con.on_shell_cmd = on_shell_cmd
 
 
+    def on_ack_offlinedata(data):
+      md5_checksum = data['md5']
+
+      if debug: print(f"Looking for md5")
+
+      for file in os.listdir(offline_data_path):
+        if debug:
+          print('checking md5 file:', file)
+
+
+        messages = _build_offline_message_block(file)
+
+        # only if md5 of server and local file is the same delete it
+        if _build_md5_messages(messages) == md5_checksum:
+          try:
+            if debug: print(f"Delete offline file: {file}")
+            file_path = os.path.join(offline_data_path, file)
+            os.remove(file_path)
+          except:
+            pass
+
+
+    mqtt_con.on_ack_offlinedata = on_ack_offlinedata
+
+
+
+
 def get_from_gfs(sensor_id, value_type):
     global grundfossensors
     sensor = [elem for elem in grundfossensors if elem.sensor_id == int(sensor_id)][0]
@@ -682,16 +714,8 @@ def get_from_gfs(sensor_id, value_type):
         return sensor.get_flow()
 
 
-def interprete_offline_data():
-  if not os.path.isdir(offline_data_path):
-    return
 
-  for file in os.listdir(offline_data_path):
-    if debug:
-      print('interpreting file:', file)
-
-
-    success_sending_data = True
+def _build_offline_message_block(file):
 
     messages = []
     message = []
@@ -742,18 +766,34 @@ def interprete_offline_data():
     # append last message block to the whole message
     messages.append(message)
     
+    return messages
+
+
+# TODO: function for calculation of md5 hash of messages array
+def _build_md5_messages(messages):
+  return md5(json.dumps(messages).encode('utf-8')).hexdigest()
+
+
+def interprete_offline_data():
+  if not os.path.isdir(offline_data_path):
+    return
+
+  for file in os.listdir(offline_data_path):
+    if debug:
+      print('interpreting file:', file)
+
+
+    success_sending_data = True
+    messages = _build_offline_message_block(file)
     
+    if debug: print(f"Sending offline Data with {_build_md5_messages(messages)} ")
+
+
     # send to the message to the cloud
     if mqtt_con.connected:
         success_sending_data = mqtt_con.sendofflinedata(messages) and success_sending_data
     
-    
-    if success_sending_data:
-      try:
-        # Failes in some cases
-        os.remove(offline_data_path + '/' + file)
-      except:
-        pass
+   
 
 if __name__ == '__main__':
     main()
