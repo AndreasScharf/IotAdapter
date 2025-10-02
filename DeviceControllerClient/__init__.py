@@ -20,6 +20,8 @@ class DeviceControllerClient(object):
         self.block_client = 5
 
     def connect(self):
+        return 
+
         if self.block_client == 0:
             return
 
